@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./styles.css"; // Import your CSS file for styling
 
-const GrandAllegiances: React.FC = () => {
+const GrandAlliances: React.FC = () => {
   const [showSubButtons, setShowSubButtons] = useState<boolean>(false);
   const [selectedAllegiance, setSelectedAllegiance] = useState<string | null>(
     null
@@ -66,25 +66,25 @@ const GrandAllegiances: React.FC = () => {
             Destruction
           </button>
           {selectedAllegiance === "Order" && (
-            <div className="sub-sub-buttons">
+            <div className="sub-buttons">
               <button className="curved-button">Seraphon</button>
               <button className="curved-button">Cities of Sigmar</button>
             </div>
           )}
           {selectedAllegiance === "Death" && (
-            <div className="sub-sub-buttons">
+            <div className="sub-buttons">
               <button className="curved-button">Flesh Eater Courts</button>
               <button className="curved-button">Ossiarch Bone Reapers</button>
             </div>
           )}
           {selectedAllegiance === "Chaos" && (
-            <div className="sub-sub-buttons">
+            <div className="sub-buttons">
               <button className="curved-button">Skaven</button>
               <button className="curved-button">Blades of Khorne</button>
             </div>
           )}
           {selectedAllegiance === "Destruction" && (
-            <div className="sub-sub-buttons">
+            <div className="sub-buttons">
               <button className="curved-button">Ogor Mawtribes</button>
               <button className="curved-button">Sons of Behamet</button>
             </div>
@@ -95,4 +95,4 @@ const GrandAllegiances: React.FC = () => {
   );
 };
 
-export default GrandAllegiances;
+export default GrandAlliances;

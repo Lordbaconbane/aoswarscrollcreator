@@ -1,10 +1,18 @@
-import GrandAllegiances from "./components/GrandAllegiances";
+// import GrandAlliances from "./components/GrandAlliances";
+// import MuiButton from "./components/MuiButton";
+// import { Button } from "@mui/material/";
+import "./App.css";
+import { Box } from "@mui/material/";
+import { MuiNavbar } from "./components/MuiNavbar";
 
 function App() {
   return (
-    <div>
-      <GrandAllegiances /> ;
-    </div>
+    <Box sx={{ width: "100vm", display: "flex", justifyContent: "left" }}>
+      <MuiNavbar />
+      {/* <GrandAlliances />
+      <MuiButton />
+      <Button variant="contained">Hello World</Button>  */}
+    </Box>
   );
 }
 
