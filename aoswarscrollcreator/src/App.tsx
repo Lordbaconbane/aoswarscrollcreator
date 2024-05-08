@@ -7,8 +7,15 @@ import { MuiNavbar } from "./components/MuiNavbar";
 
 function App() {
   return (
-    <Box sx={{ width: "100vm", display: "flex", justifyContent: "left" }}>
+    <Box
+      sx={{
+        width: "10vm",
+        display: "flex",
+        justifyContent: "left",
+      }}
+    >
       <MuiNavbar />
+
       {/* <GrandAlliances />
       <MuiButton />
       <Button variant="contained">Hello World</Button>  */}

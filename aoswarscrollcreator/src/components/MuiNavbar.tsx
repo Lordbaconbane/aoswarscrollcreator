@@ -20,13 +20,20 @@ export const MenuIcon = () => {
  */
 export const MuiNavbar = () => {
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Toolbar>
         <IconButton size="large" edge="start" color="inherit" aria-label="logo">
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" component="div">
-          AoS Warscroll Creator by Lordbaconbane
+        <Typography variant="h5" component="div">
+          {"AoS Warscroll Creator "}
+        </Typography>
+        <Typography
+          variant="h6"
+          sx={{ fontStyle: "italic" }}
+          style={{ whiteSpace: "pre-wrap" }}
+        >
+          {" by Lordbaconbane"}
         </Typography>
       </Toolbar>
     </AppBar>
