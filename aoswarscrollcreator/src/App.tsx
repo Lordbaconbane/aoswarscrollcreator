@@ -5,21 +5,34 @@ import "./App.css";
 import { Box } from "@mui/material/";
 import { MuiNavbar } from "./components/MuiNavbar";
 
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
+
 function App() {
   return (
-    <Box
-      sx={{
-        width: "10vm",
-        display: "flex",
-        justifyContent: "left",
-      }}
-    >
-      <MuiNavbar />
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline>
+        <Box
+          sx={{
+            width: "10vm",
+            display: "flex",
+            justifyContent: "left",
+          }}
+        >
+          <MuiNavbar />
 
-      {/* <GrandAlliances />
+          {/* <GrandAlliances />
       <MuiButton />
       <Button variant="contained">Hello World</Button>  */}
-    </Box>
+        </Box>
+      </CssBaseline>
+    </ThemeProvider>
   );
 }
 
