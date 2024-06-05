@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./styles.css"; // Import your CSS file for styling
 import {
   AccordionDetails,
