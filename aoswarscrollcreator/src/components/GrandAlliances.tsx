@@ -1,98 +1,185 @@
 import React, { useState } from "react";
 import "./styles.css"; // Import your CSS file for styling
+import {
+  AccordionDetails,
+  Button,
+  ButtonGroup,
+  Typography,
+} from "@mui/material";
 
-const GrandAlliances: React.FC = () => {
-  const [showSubButtons, setShowSubButtons] = useState<boolean>(false);
-  const [selectedAllegiance, setSelectedAllegiance] = useState<string | null>(
-    null
-  );
+const buttonMargin = 0.5;
 
-  const toggleSubButtons = () => {
-    setShowSubButtons(!showSubButtons);
-    setSelectedAllegiance(null); // Reset selected allegiance when toggling sub buttons
-  };
+export default function GrandAlliances() {
+  const [selectedAlliance, setSelectedAlliance] = useState<string | null>(null);
 
-  const handleAllegianceSelection = (allegiance: string) => {
-    if (selectedAllegiance === allegiance) {
-      setSelectedAllegiance(null); // Deselect if already selected
-    } else {
-      setSelectedAllegiance(allegiance); // Select if not selected
+  const renderAllianceButtons = () => {
+    switch (selectedAlliance) {
+      case "Order":
+        return (
+          <ButtonGroup
+            variant="contained"
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              mt: 1,
+            }}
+          >
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Stormcast Eternals"}</Typography>
+            </Button>
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Cities of Sigmar"}</Typography>
+            </Button>
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Fyreslayers"}</Typography>
+            </Button>
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Daughters of Khaine"}</Typography>
+            </Button>
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Idoneth Deepkin"}</Typography>
+            </Button>
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Kharadron Overlords"}</Typography>
+            </Button>
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Lumineth Realmlords"}</Typography>
+            </Button>
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Sylvaneth"}</Typography>
+            </Button>
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Seraphon"}</Typography>
+            </Button>
+          </ButtonGroup>
+        );
+      case "Chaos":
+        return (
+          <ButtonGroup
+            variant="contained"
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              mt: 1,
+              border: "dashed green",
+            }}
+          >
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Blades of Khorne"}</Typography>
+            </Button>
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Disciples of Tzeench"}</Typography>
+            </Button>
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Hedonites of Slaanesh"}</Typography>
+            </Button>
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Maggotkin of Nurgle"}</Typography>
+            </Button>
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Skaven"}</Typography>
+            </Button>
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Slaves to Darkness"}</Typography>
+            </Button>
+          </ButtonGroup>
+        );
+      case "Death":
+        return (
+          <ButtonGroup
+            variant="contained"
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              mt: 1,
+              border: "dashed green",
+            }}
+          >
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Flesh-Eater Courts"}</Typography>
+            </Button>
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Nighthaunt"}</Typography>
+            </Button>
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Ossiarch Bonereapers"}</Typography>
+            </Button>
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Soulblight Gravelords"}</Typography>
+            </Button>
+          </ButtonGroup>
+        );
+      case "Destruction":
+        return (
+          <ButtonGroup
+            variant="contained"
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              mt: 1,
+              border: "dashed green",
+            }}
+          >
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Gloomspite Gitz"}</Typography>
+            </Button>
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Ogor Mawtribes"}</Typography>
+            </Button>
+            <Button color="primary" sx={{ m: buttonMargin }}>
+              <Typography variant="body2">{"Sons of Behemat"}</Typography>
+            </Button>
+          </ButtonGroup>
+        );
     }
   };
 
   return (
-    <div>
-      <button onClick={toggleSubButtons}>Grand Allegiances</button>
-      {showSubButtons && (
-        <div className="sub-buttons">
-          <button
-            className={
-              selectedAllegiance === "Order"
-                ? "curved-button selected"
-                : "curved-button"
-            }
-            onClick={() => handleAllegianceSelection("Order")}
-          >
-            Order
-          </button>
-          <button
-            className={
-              selectedAllegiance === "Death"
-                ? "curved-button selected"
-                : "curved-button"
-            }
-            onClick={() => handleAllegianceSelection("Death")}
-          >
-            Death
-          </button>
-          <button
-            className={
-              selectedAllegiance === "Chaos"
-                ? "curved-button selected"
-                : "curved-button"
-            }
-            onClick={() => handleAllegianceSelection("Chaos")}
-          >
-            Chaos
-          </button>
-          <button
-            className={
-              selectedAllegiance === "Destruction"
-                ? "curved-button selected"
-                : "curved-button"
-            }
-            onClick={() => handleAllegianceSelection("Destruction")}
-          >
-            Destruction
-          </button>
-          {selectedAllegiance === "Order" && (
-            <div className="sub-buttons">
-              <button className="curved-button">Seraphon</button>
-              <button className="curved-button">Cities of Sigmar</button>
-            </div>
-          )}
-          {selectedAllegiance === "Death" && (
-            <div className="sub-buttons">
-              <button className="curved-button">Flesh Eater Courts</button>
-              <button className="curved-button">Ossiarch Bone Reapers</button>
-            </div>
-          )}
-          {selectedAllegiance === "Chaos" && (
-            <div className="sub-buttons">
-              <button className="curved-button">Skaven</button>
-              <button className="curved-button">Blades of Khorne</button>
-            </div>
-          )}
-          {selectedAllegiance === "Destruction" && (
-            <div className="sub-buttons">
-              <button className="curved-button">Ogor Mawtribes</button>
-              <button className="curved-button">Sons of Behamet</button>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+    <AccordionDetails
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        maxWidth: "1.0",
+      }}
+    >
+      <ButtonGroup
+        variant="contained"
+        sx={{ display: "flex", flexWrap: "wrap" }}
+      >
+        <Button
+          sx={{ m: buttonMargin }}
+          onClick={() => setSelectedAlliance("Order")}
+        >
+          <Typography variant="body1" component="div">
+            {"Order"}
+          </Typography>
+        </Button>
+        <Button
+          sx={{ m: buttonMargin }}
+          onClick={() => setSelectedAlliance("Chaos")}
+        >
+          <Typography variant="body1" component="div">
+            {"Chaos"}
+          </Typography>
+        </Button>
+        <Button
+          sx={{ m: buttonMargin }}
+          onClick={() => setSelectedAlliance("Death")}
+        >
+          <Typography variant="body1" component="div">
+            {"Death"}
+          </Typography>
+        </Button>
+        <Button
+          sx={{ m: buttonMargin }}
+          onClick={() => setSelectedAlliance("Destruction")}
+        >
+          <Typography variant="body1" component="div">
+            {"Destruction"}
+          </Typography>
+        </Button>
+      </ButtonGroup>
+      {renderAllianceButtons()}
+    </AccordionDetails>
   );
-};
-
-export default GrandAlliances;
+}

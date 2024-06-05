@@ -1,12 +1,11 @@
-// import GrandAlliances from "./components/GrandAlliances";
-// import MuiButton from "./components/MuiButton";
-// import { Button } from "@mui/material/";
 import "./App.css";
-import { Box } from "@mui/material/";
-import { MuiNavbar } from "./components/MuiNavbar";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import ResponsiveDrawer from "./components/ResponsiveDrawer";
+import ButtonLayout from "./components/ButtonLayout";
+
+import "./fonts/MinionPro.css";
 
 const darkTheme = createTheme({
   palette: {
@@ -18,19 +17,8 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline>
-        <Box
-          sx={{
-            width: "10vm",
-            display: "flex",
-            justifyContent: "left",
-          }}
-        >
-          <MuiNavbar />
-
-          {/* <GrandAlliances />
-      <MuiButton />
-      <Button variant="contained">Hello World</Button>  */}
-        </Box>
+        <ResponsiveDrawer />
+        <ButtonLayout />
       </CssBaseline>
     </ThemeProvider>
   );

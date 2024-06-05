@@ -1,0 +1,13 @@
+/* src/fonts/MinionPro.css */
+@font-face {
+  font-family: "Minion Pro";
+  src: url("/fonts/Minion Pro Regular.ttf") format("ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Minion Pro";
+  src: url("/fonts/Minion Pro Bold.ttf") format("ttf");
+  font-weight: bold;
+  font-style: normal;
+}
