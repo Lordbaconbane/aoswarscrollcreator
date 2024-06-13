@@ -61,7 +61,6 @@ export default function GrandAlliances() {
               display: "flex",
               flexWrap: "wrap",
               mt: 1,
-              border: "dashed green",
             }}
           >
             <Button color="primary" sx={{ m: buttonMargin }}>
@@ -92,7 +91,6 @@ export default function GrandAlliances() {
               display: "flex",
               flexWrap: "wrap",
               mt: 1,
-              border: "dashed green",
             }}
           >
             <Button color="primary" sx={{ m: buttonMargin }}>
@@ -117,7 +115,6 @@ export default function GrandAlliances() {
               display: "flex",
               flexWrap: "wrap",
               mt: 1,
-              border: "dashed green",
             }}
           >
             <Button color="primary" sx={{ m: buttonMargin }}>

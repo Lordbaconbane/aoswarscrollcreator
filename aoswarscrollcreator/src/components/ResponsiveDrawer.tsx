@@ -18,8 +18,8 @@ import Typography from "@mui/material/Typography";
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer() {
-  const [mobileOpen, setMobileOpen] = React.useState(true);
-  const [isClosing, setIsClosing] = React.useState(true);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [isClosing, setIsClosing] = React.useState(false);
 
   const handleToggleDrawer = () => {
     console.log("toggle Drawer Selected");
