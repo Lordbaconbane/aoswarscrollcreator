@@ -15,16 +15,18 @@ const theme = createTheme({
   },
 });
 
-const accordianWidth = 0.45;
+const accordianWidth = 1;
 
 export default function ButtonLayout() {
   return (
     <Box
       component="main"
       sx={{
-        flexGrow: 1,
+        flexGrow: 0,
         p: 2,
         marginTop: 7,
+        border: "dashed red",
+        width: 1,
       }}
     >
       <Accordion sx={{ maxWidth: accordianWidth }}>
@@ -56,8 +58,6 @@ export default function ButtonLayout() {
           </ThemeProvider>
         </AccordionSummary>
       </Accordion>
-      <Typography paragraph>Lorem</Typography>
-      <Typography paragraph>Consequat</Typography>
     </Box>
   );
 }
