@@ -1,6 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Button, TextField, Container, Box } from "@mui/material";
 
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+
 const imageUrl = "src/assets/FactionBackgrounds/AoS4DefaultTemplate.png"; // Replace with your image URL
 
 const drawImageOnCanvas = (
@@ -32,6 +35,10 @@ const UnitCard: React.FC = () => {
   const [text, setText] = useState("");
   const imageRef = useRef<HTMLImageElement>(new Image());
 
+  const factionName = useSelector(
+    (state: RootState) => state.faction.factionName
+  );
+  //
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas?.getContext("2d");
@@ -93,7 +100,7 @@ const UnitCard: React.FC = () => {
         <TextField
           value={text}
           onChange={handleTextChange}
-          label="Text to Add"
+          label={factionName}
           variant="outlined"
         />
         <TextField

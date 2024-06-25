@@ -9,6 +9,8 @@ import { Box } from "@mui/material";
 
 import "./fonts/MinionPro.css";
 import UnitCard from "./components/UnitCard";
+import { store } from "./store/store";
+import { Provider } from "react-redux";
 
 const darkTheme = createTheme({
   palette: {
@@ -20,17 +22,19 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline>
-        <ResponsiveDrawer />
-        <Box sx={{ flexGrow: 1, width: "100%" }}>
-          <Grid container spacing={1}>
-            <Grid xs={6}>
-              <ButtonLayout />
+        <Provider store={store}>
+          <ResponsiveDrawer />
+          <Box sx={{ flexGrow: 1, width: "100%" }}>
+            <Grid container spacing={1}>
+              <Grid xs={6}>
+                <ButtonLayout />
+              </Grid>
+              <Grid xs={6}>
+                <UnitCard />
+              </Grid>
             </Grid>
-            <Grid xs={6}>
-              <UnitCard />
-            </Grid>
-          </Grid>
-        </Box>
+          </Box>
+        </Provider>
       </CssBaseline>
     </ThemeProvider>
   );

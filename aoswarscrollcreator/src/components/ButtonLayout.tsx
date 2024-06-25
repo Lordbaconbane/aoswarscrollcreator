@@ -3,10 +3,8 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import GrandAlliances from "./GrandAlliances";
-
+import GrandAlliances from "./GrandAlliances/GrandAlliances";
 import { createTheme, ThemeProvider } from "@mui/material";
-
 import HandshakeIcon from "@mui/icons-material/Handshake";
 
 const theme = createTheme({
@@ -29,6 +27,7 @@ export default function ButtonLayout() {
         width: 1,
       }}
     >
+      {/*Faction Select*/}
       <Accordion sx={{ maxWidth: accordianWidth }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}

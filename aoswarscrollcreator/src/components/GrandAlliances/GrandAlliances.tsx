@@ -1,17 +1,18 @@
 import { useState } from "react";
-import "./styles.css"; // Import your CSS file for styling
 import {
   AccordionDetails,
   Button,
   ButtonGroup,
   Typography,
 } from "@mui/material";
+import { setFactionName } from "./GrandAlliancsSlice";
+import { useDispatch } from "react-redux";
 
 const buttonMargin = 0.5;
 
 export default function GrandAlliances() {
   const [selectedAlliance, setSelectedAlliance] = useState<string | null>(null);
-
+  const dispatch = useDispatch();
   const renderAllianceButtons = () => {
     switch (selectedAlliance) {
       case "Order":
@@ -24,10 +25,18 @@ export default function GrandAlliances() {
               mt: 1,
             }}
           >
-            <Button color="primary" sx={{ m: buttonMargin }}>
+            <Button
+              color="primary"
+              sx={{ m: buttonMargin }}
+              onClick={() => dispatch(setFactionName("Stormcast Eternals"))}
+            >
               <Typography variant="body2">{"Stormcast Eternals"}</Typography>
             </Button>
-            <Button color="primary" sx={{ m: buttonMargin }}>
+            <Button
+              color="primary"
+              sx={{ m: buttonMargin }}
+              onClick={() => dispatch(setFactionName("Cities of Sigmar"))}
+            >
               <Typography variant="body2">{"Cities of Sigmar"}</Typography>
             </Button>
             <Button color="primary" sx={{ m: buttonMargin }}>
@@ -48,7 +57,11 @@ export default function GrandAlliances() {
             <Button color="primary" sx={{ m: buttonMargin }}>
               <Typography variant="body2">{"Sylvaneth"}</Typography>
             </Button>
-            <Button color="primary" sx={{ m: buttonMargin }}>
+            <Button
+              color="primary"
+              sx={{ m: buttonMargin }}
+              onClick={() => dispatch(setFactionName("Seraphon"))}
+            >
               <Typography variant="body2">{"Seraphon"}</Typography>
             </Button>
           </ButtonGroup>
