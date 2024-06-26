@@ -5,8 +5,9 @@ import {
   ButtonGroup,
   Typography,
 } from "@mui/material";
-import { setFactionName } from "./GrandAlliancsSlice";
+import { setFactionName, setFactionTemplate } from "./GrandAlliancsSlice";
 import { useDispatch } from "react-redux";
+import { FactionTemplates } from "./FactionTemplateLinks";
 
 const buttonMargin = 0.5;
 
@@ -28,7 +29,12 @@ export default function GrandAlliances() {
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Stormcast Eternals"))}
+              onClick={() => {
+                dispatch(setFactionName("Stormcast Eternals"));
+                dispatch(
+                  setFactionTemplate(FactionTemplates.StormcastEternals)
+                );
+              }}
             >
               <Typography variant="body2">{"Stormcast Eternals"}</Typography>
             </Button>
@@ -60,7 +66,10 @@ export default function GrandAlliances() {
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Seraphon"))}
+              onClick={() => {
+                dispatch(setFactionName("Seraphon"));
+                dispatch(setFactionTemplate(FactionTemplates.Seraphon));
+              }}
             >
               <Typography variant="body2">{"Seraphon"}</Typography>
             </Button>

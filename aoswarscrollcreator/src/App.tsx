@@ -8,7 +8,7 @@ import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { Box } from "@mui/material";
 
 import "./fonts/MinionPro.css";
-import UnitCard from "./components/UnitCard";
+import UnitCard from "./components/UnitCard/UnitCard";
 import { store } from "./store/store";
 import { Provider } from "react-redux";
 

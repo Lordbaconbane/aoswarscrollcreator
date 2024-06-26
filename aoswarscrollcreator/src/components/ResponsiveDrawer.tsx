@@ -15,11 +15,20 @@ import { Shield, Home, RestartAlt, Download } from "@mui/icons-material";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
+import { downloadImage } from "./UnitCard/UnitCardSlice";
+import { useDispatch } from "react-redux";
+
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
+
+  const dispatch = useDispatch();
+
+  const handleDownload = () => {
+    dispatch(downloadImage()); // Dispatch the downloadImage action
+  };
 
   const handleToggleDrawer = () => {
     console.log("toggle Drawer Selected");
@@ -125,6 +134,7 @@ export default function ResponsiveDrawer() {
             aria-label="open drawer"
             size="large"
             sx={{ justifyContent: "right" }}
+            onClick={handleDownload}
           >
             <Download />
           </IconButton>

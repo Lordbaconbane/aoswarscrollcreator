@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { factionSlice } from "../components/GrandAlliances/GrandAlliancsSlice";
+import { unitCardSlice } from "../components/UnitCard/UnitCardSlice";
 
 // We created a Redux store
 export const store = configureStore({
   reducer: {
     faction: factionSlice.reducer,
+    warscroll: unitCardSlice.reducer,
   },
 });
 
