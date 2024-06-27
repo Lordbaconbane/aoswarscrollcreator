@@ -15,7 +15,7 @@ import { Shield, Home, RestartAlt, Download } from "@mui/icons-material";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
-import { downloadImage } from "./UnitCard/UnitCardSlice";
+import { initDownload } from "./WarscrollCard/WarscrollCardSlice";
 import { useDispatch } from "react-redux";
 
 const drawerWidth = 240;
@@ -27,7 +27,7 @@ export default function ResponsiveDrawer() {
   const dispatch = useDispatch();
 
   const handleDownload = () => {
-    dispatch(downloadImage()); // Dispatch the downloadImage action
+    dispatch(initDownload()); // Dispatch the downloadImage action
   };
 
   const handleToggleDrawer = () => {

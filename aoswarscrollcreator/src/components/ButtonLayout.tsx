@@ -6,7 +6,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import GrandAlliances from "./GrandAlliances/GrandAlliances";
 import { createTheme, ThemeProvider } from "@mui/material";
 import HandshakeIcon from "@mui/icons-material/Handshake";
-
+import Characteristics from "./Characteristics/Characteristics";
 const theme = createTheme({
   typography: {
     fontFamily: "Minion Pro, Arial, sans-serif",
@@ -56,6 +56,7 @@ export default function ButtonLayout() {
             </Typography>
           </ThemeProvider>
         </AccordionSummary>
+        <Characteristics />
       </Accordion>
     </Box>
   );

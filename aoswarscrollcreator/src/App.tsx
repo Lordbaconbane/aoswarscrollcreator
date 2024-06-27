@@ -8,7 +8,7 @@ import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { Box } from "@mui/material";
 
 import "./fonts/MinionPro.css";
-import UnitCard from "./components/UnitCard/UnitCard";
+import WarscrollCard from "./components/WarscrollCard/WarscrollCard";
 import { store } from "./store/store";
 import { Provider } from "react-redux";
 
@@ -30,7 +30,7 @@ function App() {
                 <ButtonLayout />
               </Grid>
               <Grid xs={6}>
-                <UnitCard />
+                <WarscrollCard />
               </Grid>
             </Grid>
           </Box>

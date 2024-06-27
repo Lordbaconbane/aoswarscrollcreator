@@ -1,11 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import { Container, Box } from "@mui/material";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/store";
-import { setCanvasRef } from "./UnitCardSlice";
-
-import { useDispatch } from "react-redux";
+import { resetDownload } from "./WarscrollCardSlice";
 
 const drawImageOnCanvas = (
   context: CanvasRenderingContext2D,
@@ -42,18 +40,22 @@ const drawImageOnCanvas = (
 //   }
 // };
 //
-const UnitCard: React.FC = () => {
+
+const WarscrollCard: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement>(new Image());
-
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setCanvasRef(canvasRef.current));
-  }, [dispatch]);
+  const triggerDownload = useSelector(
+    (state: RootState) => state.warscroll.triggerDownload
+  );
 
   const factionName = useSelector(
     (state: RootState) => state.faction.factionTemplate
+  );
+
+  const warscrollName = useSelector(
+    (state: RootState) => state.characteristics.warscrollName
   );
 
   // Runs on initial render but will rerun if you fill the dependency.
@@ -69,6 +71,19 @@ const UnitCard: React.FC = () => {
       }
     };
   }, [factionName]); // This is your dependency. If you want useEffect to rerun, add stuff to this!!
+
+  useEffect(() => {
+    if (triggerDownload) {
+      const canvas = canvasRef.current;
+      if (canvas) {
+        const link = document.createElement("a");
+        link.href = canvas.toDataURL("image/png");
+        link.download = warscrollName + "_Warscroll.png";
+        link.click();
+      }
+      dispatch(resetDownload());
+    }
+  }, [triggerDownload, dispatch, warscrollName]);
 
   //useEffect(() => {
   //  const canvas = canvasRef.current;
@@ -106,4 +121,4 @@ const UnitCard: React.FC = () => {
   );
 };
 
-export default UnitCard;
+export default WarscrollCard;
