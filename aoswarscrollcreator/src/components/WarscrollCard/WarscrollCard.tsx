@@ -10,36 +10,41 @@ const drawImageOnCanvas = (
   image: HTMLImageElement,
   canvas: HTMLCanvasElement
 ) => {
-  context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
   context.drawImage(image, 0, 0, canvas.width, canvas.height);
 };
 
-// const drawTextOnCanvas = (context: CanvasRenderingContext2D, text: string) => {
-//   context.font = "28px Arial";
-//   context.fillStyle = "red";
-//   context.fillText(text, 88, 70); // Change the coordinates as needed
-// };
-//
-// const drawTextOnCanvasSave = (
-//   context: CanvasRenderingContext2D,
-//   text: string
-// ) => {
-//   context.font = "28px Arial";
-//   context.fillStyle = "red";
-//   context.fillText(text, 110, 100); // Change the coordinates as needed
-// };
-//
-// export const HandleDownloadImage = (canvas: HTMLCanvasElement | null): void => {
-//   if (canvas) {
-//     const context = canvas.getContext("2d");
-//     if (context) {
-//       const link = document.createElement("a");
-//       link.href = canvas.toDataURL("image/png");
-//       link.download = "image-with-text.png";
-//     }
-//   }
-// };
-//
+const drawTextOnCanvas = (
+  context: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  fontSize: number
+) => {
+  context.font = fontSize.toString() + "px Minion Pro";
+  context.fillStyle = "white";
+  context.fillText(text, x, y); // Change the coordinates as needed
+};
+
+const drawWarscrollTitleTextOnCanvas = (
+  context: CanvasRenderingContext2D,
+  text: string,
+  y: number,
+  fontSize: number
+) => {
+  //const offset = 150;
+  const textWidth = context.measureText(text).width;
+  console.log("Text width: " + textWidth);
+  const canvasCenterX = context.canvas.width / 2;
+  console.log("Canvas width: " + canvasCenterX);
+  const textCenter = canvasCenterX - textWidth / 2;
+
+  context.font = fontSize.toString() + "px Minion Pro";
+  context.fillStyle = "white";
+
+  context.fillText(text, textCenter - 10, y); // Change the coordinates as needed
+};
+
+const charFontSize = 26;
 
 const WarscrollCard: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -50,27 +55,35 @@ const WarscrollCard: React.FC = () => {
     (state: RootState) => state.warscroll.triggerDownload
   );
 
-  const factionName = useSelector(
+  const factionTemplate = useSelector(
     (state: RootState) => state.faction.factionTemplate
+  );
+
+  // Warscroll Characteristics
+
+  const factionName = useSelector(
+    (state: RootState) => state.faction.factionName
   );
 
   const warscrollName = useSelector(
     (state: RootState) => state.characteristics.warscrollName
   );
 
-  // Runs on initial render but will rerun if you fill the dependency.
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const context = canvas?.getContext("2d");
-    const image = imageRef.current;
+  const moveChar = useSelector(
+    (state: RootState) => state.characteristics.warscrollMove
+  );
 
-    image.src = factionName;
-    image.onload = () => {
-      if (context && canvas) {
-        drawImageOnCanvas(context, image, canvas);
-      }
-    };
-  }, [factionName]); // This is your dependency. If you want useEffect to rerun, add stuff to this!!
+  const healthChar = useSelector(
+    (state: RootState) => state.characteristics.warscrollHealth
+  );
+
+  const saveChar = useSelector(
+    (state: RootState) => state.characteristics.warscrollSave
+  );
+
+  const controlChar = useSelector(
+    (state: RootState) => state.characteristics.warscrollControl
+  );
 
   useEffect(() => {
     if (triggerDownload) {
@@ -85,19 +98,44 @@ const WarscrollCard: React.FC = () => {
     }
   }, [triggerDownload, dispatch, warscrollName]);
 
-  //useEffect(() => {
-  //  const canvas = canvasRef.current;
-  //  const context = canvas?.getContext("2d");
-  //  const image = imageRef.current;
-  //
-  //  if (context && canvas) {
-  //    drawImageOnCanvas(context, image, canvas);
-  //    if (text) {
-  //      drawTextOnCanvas(context, text);
-  //      drawTextOnCanvasSave(context, text);
-  //    }
-  //  }
-  //}, [text]);
+  // Runs on initial render but will rerun if you fill the dependency.
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const context = canvas?.getContext("2d");
+    const image = imageRef.current;
+
+    image.src = factionTemplate;
+    image.onload = () => {
+      if (context && canvas) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        drawImageOnCanvas(context, image, canvas);
+        drawWarscrollTitleTextOnCanvas(
+          context,
+          "• " + factionName.toUpperCase() + " WARSCROLL •",
+          77,
+          16
+        );
+        drawWarscrollTitleTextOnCanvas(
+          context,
+          warscrollName.toUpperCase(),
+          115,
+          40
+        );
+        drawTextOnCanvas(context, moveChar, 97, 84, charFontSize);
+        drawTextOnCanvas(context, controlChar, 97, 145, charFontSize);
+        drawTextOnCanvas(context, healthChar, 65, 115, charFontSize);
+        drawTextOnCanvas(context, saveChar, 130, 115, charFontSize);
+      }
+    };
+  }, [
+    factionName,
+    factionTemplate,
+    warscrollName,
+    moveChar,
+    healthChar,
+    controlChar,
+    saveChar,
+  ]); // This is your dependency. If you want useEffect to rerun, add stuff to this!!
 
   return (
     <Box
@@ -112,8 +150,8 @@ const WarscrollCard: React.FC = () => {
       <Container>
         <canvas
           ref={canvasRef}
-          width={600}
-          height={800}
+          width={658}
+          height={995}
           style={{ border: "1px solid #000" }}
         />
       </Container>
