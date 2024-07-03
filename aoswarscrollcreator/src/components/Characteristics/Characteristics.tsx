@@ -1,5 +1,6 @@
 import { AccordionDetails, MenuItem, TextField } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 import {
   setWarscrollControl,
   setWarscrollHealth,
@@ -10,6 +11,10 @@ import {
 
 export default function Characteristics() {
   const dispatch = useDispatch();
+
+  const saveChar = useSelector(
+    (state: RootState) => state.characteristics.warscrollSave
+  );
 
   const handleNameChange = (event) => {
     const value = event.target.value;
@@ -79,7 +84,7 @@ export default function Characteristics() {
         onChange={handleSaveChange}
         sx={{ m: 1, width: "10ch" }}
         select
-        value="-"
+        value={saveChar}
         id="save"
         label="Save"
       >

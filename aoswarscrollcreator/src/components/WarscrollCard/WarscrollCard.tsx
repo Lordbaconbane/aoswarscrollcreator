@@ -18,11 +18,15 @@ const drawTextOnCanvas = (
   text: string,
   x: number,
   y: number,
-  fontSize: number
+  fontSize: number,
+  centerFont: boolean
 ) => {
   context.font = fontSize.toString() + "px Minion Pro";
   context.fillStyle = "white";
-  context.fillText(text, x, y); // Change the coordinates as needed
+  if (centerFont) {
+    const textWidth = context.measureText(text).width / 2;
+    context.fillText(text, x - textWidth, y); // Change the coordinates as needed
+  } else context.fillText(text, x, y); // Change the coordinates as needed
 };
 
 const drawWarscrollTitleTextOnCanvas = (
@@ -109,22 +113,22 @@ const WarscrollCard: React.FC = () => {
       if (context && canvas) {
         context.clearRect(0, 0, canvas.width, canvas.height);
         drawImageOnCanvas(context, image, canvas);
-        drawWarscrollTitleTextOnCanvas(
-          context,
-          "• " + factionName.toUpperCase() + " WARSCROLL •",
-          77,
-          16
-        );
+        // drawWarscrollTitleTextOnCanvas(
+        //   context,
+        //   "• " + factionName.toUpperCase() + " WARSCROLL •",
+        //   77,
+        //   16
+        // );
         drawWarscrollTitleTextOnCanvas(
           context,
           warscrollName.toUpperCase(),
           115,
           40
         );
-        drawTextOnCanvas(context, moveChar, 97, 84, charFontSize);
-        drawTextOnCanvas(context, controlChar, 97, 145, charFontSize);
-        drawTextOnCanvas(context, healthChar, 65, 115, charFontSize);
-        drawTextOnCanvas(context, saveChar, 130, 115, charFontSize);
+        drawTextOnCanvas(context, moveChar, 104, 82, charFontSize, true);
+        drawTextOnCanvas(context, controlChar, 104, 145, charFontSize, true);
+        drawTextOnCanvas(context, healthChar, 74, 115, charFontSize, true);
+        drawTextOnCanvas(context, saveChar, 130, 115, charFontSize, false);
       }
     };
   }, [
