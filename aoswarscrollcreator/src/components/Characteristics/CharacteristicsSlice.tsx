@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface CharacteristicState {
   warscrollName: string;
+  warscrollSubtype: string;
   warscrollMove: string;
   warscrollHealth: string;
   warscrollControl: string;
@@ -9,6 +10,7 @@ export interface CharacteristicState {
 
 const initialState: CharacteristicState = {
   warscrollName: " ",
+  warscrollSubtype: " ",
   warscrollMove: " ",
   warscrollHealth: " ",
   warscrollControl: " ",
@@ -24,6 +26,9 @@ export const characteristicSlice = createSlice({
     setWarscrollName: (state, action: PayloadAction<string>) => {
       state.warscrollName = action.payload;
     },
+    setWarscrollSubtype: (state, action: PayloadAction<string>) => {
+      state.warscrollSubtype = action.payload;
+    },
     setWarscrollMove: (state, action: PayloadAction<string>) => {
       state.warscrollMove = action.payload;
     },
@@ -35,7 +40,6 @@ export const characteristicSlice = createSlice({
     },
     setWarscrollSave: (state, action: PayloadAction<string>) => {
       state.warscrollSave = action.payload;
-      console.log("Save: ", state.warscrollSave);
     },
   },
   // "Create slice will infer the state tupe from the initialState argument"
@@ -43,6 +47,7 @@ export const characteristicSlice = createSlice({
 
 export const {
   setWarscrollName,
+  setWarscrollSubtype,
   setWarscrollControl,
   setWarscrollHealth,
   setWarscrollMove,

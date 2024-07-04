@@ -23,7 +23,6 @@ export default function ButtonLayout() {
         flexGrow: 0,
         p: 2,
         marginTop: 7,
-        border: "dashed red",
         width: 1,
       }}
     >

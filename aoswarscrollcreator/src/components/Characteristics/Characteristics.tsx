@@ -6,6 +6,7 @@ import {
   setWarscrollHealth,
   setWarscrollMove,
   setWarscrollName,
+  setWarscrollSubtype,
   setWarscrollSave,
 } from "./CharacteristicsSlice";
 
@@ -19,6 +20,11 @@ export default function Characteristics() {
   const handleNameChange = (event) => {
     const value = event.target.value;
     dispatch(setWarscrollName(value));
+  };
+
+  const handleSubtypeChange = (event) => {
+    const value = event.target.value;
+    dispatch(setWarscrollSubtype(value));
   };
 
   const handleMoveChange = (event) => {
@@ -53,11 +59,20 @@ export default function Characteristics() {
       <TextField
         sx={{ m: 1 }}
         id="warscroll-name"
-        label="Name"
+        label="Warscroll Name"
         multiline
         maxRows={2}
         fullWidth
         onChange={handleNameChange}
+      ></TextField>
+      <TextField
+        sx={{ m: 1 }}
+        id="warscroll-subtype"
+        label="Subtype (ie, on horse)"
+        multiline
+        maxRows={2}
+        fullWidth
+        onChange={handleSubtypeChange}
       ></TextField>
       <TextField
         sx={{ m: 1 }}

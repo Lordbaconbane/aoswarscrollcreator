@@ -5,6 +5,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/store";
 import { resetDownload } from "./WarscrollCardSlice";
 
+const charFontSize = 26;
+const factionTitleFontSize = 12;
+const warscrollNameFontSize = 32;
+
 const drawImageOnCanvas = (
   context: CanvasRenderingContext2D,
   image: HTMLImageElement,
@@ -18,37 +22,32 @@ const drawTextOnCanvas = (
   text: string,
   x: number,
   y: number,
-  fontSize: number,
-  centerFont: boolean
+  fontSize: number
 ) => {
   context.font = fontSize.toString() + "px Minion Pro";
   context.fillStyle = "white";
-  if (centerFont) {
-    const textWidth = context.measureText(text).width / 2;
-    context.fillText(text, x - textWidth, y); // Change the coordinates as needed
-  } else context.fillText(text, x, y); // Change the coordinates as needed
+  context.textAlign = "center";
+  context.fillText(text, x, y); // Change the coordinates as needed
 };
 
 const drawWarscrollTitleTextOnCanvas = (
   context: CanvasRenderingContext2D,
-  text: string,
-  y: number,
-  fontSize: number
+  factionText: string,
+  warscrollName: string,
+  subtitle: string,
+  y: number
 ) => {
-  //const offset = 150;
-  const textWidth = context.measureText(text).width;
-  console.log("Text width: " + textWidth);
-  const canvasCenterX = context.canvas.width / 2;
-  console.log("Canvas width: " + canvasCenterX);
-  const textCenter = canvasCenterX - textWidth / 2;
+  const offset = 75;
+  const x = context.canvas.width / 2 + offset;
+  context.textAlign = "center";
 
-  context.font = fontSize.toString() + "px Minion Pro";
+  context.font = warscrollNameFontSize.toString() + "px Minion Pro";
   context.fillStyle = "white";
-
-  context.fillText(text, textCenter - 10, y); // Change the coordinates as needed
+  context.fillText(warscrollName, x, y);
+  context.font = factionTitleFontSize.toString() + "px Minion Pro Bold";
+  context.fillText(subtitle, x, y + 20);
+  context.fillText(factionText, x, y - 35);
 };
-
-const charFontSize = 26;
 
 const WarscrollCard: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -63,14 +62,16 @@ const WarscrollCard: React.FC = () => {
     (state: RootState) => state.faction.factionTemplate
   );
 
-  // Warscroll Characteristics
-
   const factionName = useSelector(
     (state: RootState) => state.faction.factionName
   );
 
   const warscrollName = useSelector(
     (state: RootState) => state.characteristics.warscrollName
+  );
+
+  const warscrollSubtype = useSelector(
+    (state: RootState) => state.characteristics.warscrollSubtype
   );
 
   const moveChar = useSelector(
@@ -113,22 +114,17 @@ const WarscrollCard: React.FC = () => {
       if (context && canvas) {
         context.clearRect(0, 0, canvas.width, canvas.height);
         drawImageOnCanvas(context, image, canvas);
-        // drawWarscrollTitleTextOnCanvas(
-        //   context,
-        //   "• " + factionName.toUpperCase() + " WARSCROLL •",
-        //   77,
-        //   16
-        // );
         drawWarscrollTitleTextOnCanvas(
           context,
+          "• " + factionName.toUpperCase() + " WARSCROLL •",
           warscrollName.toUpperCase(),
-          115,
-          40
+          warscrollSubtype.toUpperCase(),
+          115
         );
-        drawTextOnCanvas(context, moveChar, 104, 82, charFontSize, true);
-        drawTextOnCanvas(context, controlChar, 104, 145, charFontSize, true);
-        drawTextOnCanvas(context, healthChar, 74, 115, charFontSize, true);
-        drawTextOnCanvas(context, saveChar, 130, 115, charFontSize, false);
+        drawTextOnCanvas(context, moveChar, 104, 80, charFontSize);
+        drawTextOnCanvas(context, controlChar, 104, 147, charFontSize);
+        drawTextOnCanvas(context, healthChar, 74, 115, charFontSize);
+        drawTextOnCanvas(context, saveChar, 137, 115, charFontSize);
       }
     };
   }, [
@@ -139,6 +135,7 @@ const WarscrollCard: React.FC = () => {
     healthChar,
     controlChar,
     saveChar,
+    warscrollSubtype,
   ]); // This is your dependency. If you want useEffect to rerun, add stuff to this!!
 
   return (
@@ -146,7 +143,6 @@ const WarscrollCard: React.FC = () => {
       component="main"
       sx={{
         flexGrow: 2,
-        border: "dashed purple",
         width: 1,
         marginTop: 8,
       }}
