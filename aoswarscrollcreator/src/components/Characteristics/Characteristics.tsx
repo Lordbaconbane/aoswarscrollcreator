@@ -78,8 +78,11 @@ export default function Characteristics() {
         sx={{ m: 1 }}
         id="move"
         label="Move"
-        type="number"
-        inputProps={{ maxLength: 2 }}
+        inputProps={{
+          maxLength: 2,
+          inputMode: "numeric",
+          pattern: "[0-9]*",
+        }}
         onKeyDown={(e) => {
           if (["e", "E", "-", ".", "+"].includes(e.key)) {
             e.preventDefault();
@@ -91,8 +94,11 @@ export default function Characteristics() {
         sx={{ m: 1 }}
         id="health"
         label="Health"
-        type="number"
-        inputProps={{ maxLength: 2 }}
+        inputProps={{
+          maxLength: 2,
+          inputMode: "numeric",
+          pattern: "[0-9]*",
+        }}
         onKeyDown={(e) => {
           if (["e", "E", "-", ".", "+"].includes(e.key)) {
             e.preventDefault();
@@ -104,8 +110,11 @@ export default function Characteristics() {
         sx={{ m: 1 }}
         id="control"
         label="Control"
-        type="number"
-        inputProps={{ maxLength: 2 }}
+        inputProps={{
+          maxLength: 2,
+          inputMode: "numeric",
+          pattern: "[0-9]*",
+        }}
         onKeyDown={(e) => {
           if (["e", "E", "-", ".", "+"].includes(e.key)) {
             e.preventDefault();
