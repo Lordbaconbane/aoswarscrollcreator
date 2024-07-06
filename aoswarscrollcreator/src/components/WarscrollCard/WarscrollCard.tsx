@@ -7,7 +7,7 @@ import { resetDownload } from "./WarscrollCardSlice";
 
 const charFontSize = 26;
 const factionTitleFontSize = 12;
-const warscrollNameFontSize = 32;
+const warscrollNameFontSize = 30;
 
 const drawImageOnCanvas = (
   context: CanvasRenderingContext2D,
@@ -43,10 +43,39 @@ const drawWarscrollTitleTextOnCanvas = (
 
   context.font = warscrollNameFontSize.toString() + "px Minion Pro";
   context.fillStyle = "white";
-  context.fillText(warscrollName, x, y);
-  context.font = factionTitleFontSize.toString() + "px Minion Pro Bold";
-  context.fillText(subtitle, x, y + 20);
-  context.fillText(factionText, x, y - 35);
+
+  if (warscrollName.length >= 20) {
+    const words = warscrollName.split(" ");
+    const lines: string[] = [];
+    let currentLine = "";
+
+    for (let i = 0; i < words.length; i++) {
+      const word = words[i];
+      if ((currentLine + word).length <= 20) {
+        currentLine += " " + word;
+      } else {
+        lines.push(currentLine);
+        currentLine = word;
+      }
+    }
+    lines.push(currentLine);
+    console.log(lines);
+    // Draw each line of warscrollName
+    for (let i = 0; i < lines.length; i++) {
+      console.log("here");
+      context.fillText(lines[i], x, y - 10 + i * warscrollNameFontSize);
+    }
+    context.font = factionTitleFontSize.toString() + "px Minion Pro Bold";
+    context.fillText(subtitle, x, y + 40);
+    context.fillText(factionText, x, y - 45);
+  }
+  // If there is only one line, default to this.
+  else {
+    context.fillText(warscrollName, x, y);
+    context.font = factionTitleFontSize.toString() + "px Minion Pro Bold";
+    context.fillText(subtitle, x, y + 20);
+    context.fillText(factionText, x, y - 35);
+  }
 };
 
 const WarscrollCard: React.FC = () => {

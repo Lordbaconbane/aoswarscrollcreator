@@ -7,6 +7,7 @@ import GrandAlliances from "./GrandAlliances/GrandAlliances";
 import { createTheme, ThemeProvider } from "@mui/material";
 import HandshakeIcon from "@mui/icons-material/Handshake";
 import Characteristics from "./Characteristics/Characteristics";
+import Keywords from "./Keywords/Keywords";
 const theme = createTheme({
   typography: {
     fontFamily: "Minion Pro, Arial, sans-serif",
@@ -15,7 +16,7 @@ const theme = createTheme({
 
 const accordianWidth = 1;
 
-export default function ButtonLayout() {
+export default function AccordianLayout() {
   return (
     <Box
       component="main"
@@ -56,6 +57,21 @@ export default function ButtonLayout() {
           </ThemeProvider>
         </AccordionSummary>
         <Characteristics />
+      </Accordion>
+      {/*Keywords*/}
+      <Accordion sx={{ maxWidth: accordianWidth }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel3-content"
+          id="panel3-header"
+        >
+          <ThemeProvider theme={theme}>
+            <Typography variant="h6" component="div">
+              {"Keywords"}
+            </Typography>
+          </ThemeProvider>
+        </AccordionSummary>
+        <Keywords />
       </Accordion>
     </Box>
   );

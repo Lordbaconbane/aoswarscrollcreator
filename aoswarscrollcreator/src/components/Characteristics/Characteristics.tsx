@@ -60,8 +60,10 @@ export default function Characteristics() {
         sx={{ m: 1 }}
         id="warscroll-name"
         label="Warscroll Name"
-        multiline
-        maxRows={2}
+        maxRows={1}
+        inputProps={{
+          maxLength: 39,
+        }}
         fullWidth
         onChange={handleNameChange}
       ></TextField>
@@ -69,8 +71,10 @@ export default function Characteristics() {
         sx={{ m: 1 }}
         id="warscroll-subtype"
         label="Subtype (ie, on horse)"
-        multiline
-        maxRows={2}
+        maxRows={1}
+        inputProps={{
+          maxLength: 40,
+        }}
         fullWidth
         onChange={handleSubtypeChange}
       ></TextField>
