@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { factionSlice } from "../components/GrandAlliances/GrandAlliancsSlice";
 import { warscrollCardSlice } from "../components/WarscrollCard/WarscrollCardSlice";
 import { characteristicSlice } from "../components/Characteristics/CharacteristicsSlice";
+import { keywordsSlice } from "../components/Keywords/KeywordsSlice";
 
 // We created a Redux store
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
     faction: factionSlice.reducer,
     warscroll: warscrollCardSlice.reducer,
     characteristics: characteristicSlice.reducer,
+    keywords: keywordsSlice.reducer,
   },
 });
 

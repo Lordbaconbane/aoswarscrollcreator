@@ -22,11 +22,13 @@ const drawTextOnCanvas = (
   text: string,
   x: number,
   y: number,
-  fontSize: number
+  fontSize: number,
+  alignment: CanvasTextAlign,
+  fontColor: string
 ) => {
   context.font = fontSize.toString() + "px Minion Pro";
-  context.fillStyle = "white";
-  context.textAlign = "center";
+  context.fillStyle = fontColor;
+  context.textAlign = alignment;
   context.fillText(text, x, y); // Change the coordinates as needed
 };
 
@@ -119,6 +121,14 @@ const WarscrollCard: React.FC = () => {
     (state: RootState) => state.characteristics.warscrollControl
   );
 
+  const keywordIdentities = useSelector(
+    (state: RootState) => state.keywords.keywordIdentities
+  );
+
+  const keywordAbilities = useSelector(
+    (state: RootState) => state.keywords.keywordAbilities
+  );
+
   useEffect(() => {
     if (triggerDownload) {
       const canvas = canvasRef.current;
@@ -143,6 +153,7 @@ const WarscrollCard: React.FC = () => {
       if (context && canvas) {
         context.clearRect(0, 0, canvas.width, canvas.height);
         drawImageOnCanvas(context, image, canvas);
+        // Draw title
         drawWarscrollTitleTextOnCanvas(
           context,
           "• " + factionName.toUpperCase() + " WARSCROLL •",
@@ -150,10 +161,62 @@ const WarscrollCard: React.FC = () => {
           warscrollSubtype.toUpperCase(),
           115
         );
-        drawTextOnCanvas(context, moveChar, 104, 80, charFontSize);
-        drawTextOnCanvas(context, controlChar, 104, 147, charFontSize);
-        drawTextOnCanvas(context, healthChar, 74, 115, charFontSize);
-        drawTextOnCanvas(context, saveChar, 137, 115, charFontSize);
+        // Draw characteristics
+        drawTextOnCanvas(
+          context,
+          moveChar,
+          104,
+          80,
+          charFontSize,
+          "center",
+          "white"
+        );
+        drawTextOnCanvas(
+          context,
+          controlChar,
+          104,
+          147,
+          charFontSize,
+          "center",
+          "white"
+        );
+        drawTextOnCanvas(
+          context,
+          healthChar,
+          74,
+          115,
+          charFontSize,
+          "center",
+          "white"
+        );
+        drawTextOnCanvas(
+          context,
+          saveChar,
+          137,
+          115,
+          charFontSize,
+          "center",
+          "white"
+        );
+        // Draw Keywords
+        drawTextOnCanvas(
+          context,
+          keywordAbilities.join(", ").toUpperCase(),
+          context.canvas.width / 2,
+          932,
+          11,
+          "center",
+          "black"
+        );
+        drawTextOnCanvas(
+          context,
+          keywordIdentities.join(", ").toUpperCase(),
+          context.canvas.width / 2,
+          960,
+          11,
+          "center",
+          "black"
+        );
       }
     };
   }, [
@@ -165,6 +228,8 @@ const WarscrollCard: React.FC = () => {
     controlChar,
     saveChar,
     warscrollSubtype,
+    keywordIdentities,
+    keywordAbilities,
   ]); // This is your dependency. If you want useEffect to rerun, add stuff to this!!
 
   return (

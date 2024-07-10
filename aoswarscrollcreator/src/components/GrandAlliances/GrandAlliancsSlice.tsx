@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface FactionState {
+  grandAlliance: string;
   factionName: string;
   factionTemplate: string;
 }
 
 const initialState: FactionState = {
+  grandAlliance: "",
   factionName: "Default",
   factionTemplate: "src/assets/FactionBackgrounds/AoS4DefaultTemplate.png",
 };
@@ -15,6 +17,10 @@ export const factionSlice = createSlice({
   initialState,
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
+    setGrandAlliance: (state, action: PayloadAction<string>) => {
+      state.grandAlliance = action.payload;
+      console.log("Grand Alliance: ", state.factionName);
+    },
     setFactionName: (state, action: PayloadAction<string>) => {
       state.factionName = action.payload;
       console.log("Faction name: ", state.factionName);
@@ -27,6 +33,7 @@ export const factionSlice = createSlice({
   // "Create slice will infer the state tupe from the initialState argument"
 });
 
-export const { setFactionName, setFactionTemplate } = factionSlice.actions;
+export const { setFactionName, setFactionTemplate, setGrandAlliance } =
+  factionSlice.actions;
 
 export default factionSlice.reducer;

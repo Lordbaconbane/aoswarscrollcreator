@@ -1,97 +1,108 @@
-import {
-  AccordionDetails,
-  FormControl,
-  FormLabel,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
-  Box,
-  TextField,
-  MenuItem,
-} from "@mui/material";
-import React from "react";
+import { Autocomplete, TextField, Chip, AccordionDetails } from "@mui/material";
+import { setKeywordAbility, setKeywordIdentity } from "./KeywordsSlice";
+import { useDispatch } from "react-redux";
+
+const keywordAbilities = [
+  "Hero",
+  "Monster",
+  "Infantry",
+  "Cavalry",
+  "Warmachine",
+  "Beast",
+  "Warmaster",
+  "Unique",
+  "Manifestation",
+  "Endless Spell",
+  "Invocation",
+  "Faction Terrain",
+  "Fly",
+  "Champion",
+];
+
+const keywordIdentities = [
+  "Order",
+  "Chaos",
+  "Death",
+  "Destruction",
+  "Blades Of Khorne",
+  "Cities Of Sigmar",
+  "Daughters Of Khaine",
+  "Disciples Of Tzeench",
+  "Flesh Eater Courts",
+  "Fyreslayers",
+  "Gloomspite Gitz",
+  "Hedonites Of Slaanesh",
+  "Idoneth Deepkin",
+  "Kharadron Overlords",
+  "Lumineth RealmLords",
+  "Maggotkin Of Nurgle",
+  "Nighthaunt",
+  "Ogor Mawtribes",
+  "Orruk Ironjawz",
+  "Orruk KruleBoyz",
+  "Ossiarch Bonereapers",
+  "Seraphon",
+  "Skaven",
+  "Slaves To Darkness",
+  "Sons Of Behemat",
+  "Soulblight Gravelords",
+  "Stormcast Eternals",
+  "Sylvaneth",
+];
 
 export default function Keywords() {
-  const [isWard, setWard] = React.useState(false);
-  const handleWardChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setWard(event.target.checked);
-  };
+  const dispatch = useDispatch();
 
   return (
     <AccordionDetails
       sx={{ display: "flex", flexWrap: "wrap", maxWidth: "1.0" }}
     >
-      <Box sx={{ display: "flex" }}>
-        <FormControl component="fieldset" variant="standard">
-          <FormLabel component="legend">Keyword Roles</FormLabel>
-          <FormGroup>
-            <FormControlLabel
-              sx={{ mb: -1 }}
-              control={<Checkbox name="hero" />}
-              label="Hero"
-            />
-            <FormControlLabel
-              sx={{ mb: -1 }}
-              control={<Checkbox name="unique" />}
-              label="Unique"
-            />
-            <FormControlLabel
-              sx={{ mb: -1 }}
-              control={<Checkbox name="wizard" />}
-              label="Wizard"
-            />
-          </FormGroup>
-        </FormControl>
-        <FormControl sx={{ ml: 2 }}>
-          <FormLabel component="legend">Keyword Abilities</FormLabel>
-          <FormGroup>
-            <FormControlLabel
-              sx={{ mb: -1 }}
-              control={<Checkbox name="fly" />}
-              label="Fly"
-            />
-            <FormControlLabel
-              sx={{ mb: -1 }}
-              control={
-                <Checkbox
-                  name="ward"
-                  checked={isWard}
-                  onChange={handleWardChange}
-                />
-              }
-              label="Ward"
-            />
-            {isWard && (
-              <TextField
-                sx={{ m: 1, width: "10ch" }}
-                select
-                id="ward"
-                label="Ward"
-              >
-                {["2", "3", "4", "5", "6"].map((num) => (
-                  <MenuItem key={num} value={num}>
-                    {num}
-                  </MenuItem>
-                ))}
-              </TextField>
-            )}
-            <FormControlLabel
-              sx={{ mb: -1 }}
-              control={<Checkbox name="champion" />}
-              label="Champion"
-            />
-            <FormControlLabel
-              sx={{ mb: -1 }}
-              control={<Checkbox name="standard" />}
-              label="Standard"
-            />
-            <FormControlLabel
-              control={<Checkbox name="musician" />}
-              label="Musician"
-            />
-          </FormGroup>
-        </FormControl>
-      </Box>
+      <Autocomplete
+        clearIcon={false}
+        options={keywordAbilities}
+        freeSolo
+        fullWidth
+        multiple
+        onChange={(event, value) => {
+          dispatch(setKeywordAbility(value));
+        }}
+        renderTags={(value, props) =>
+          value.map((option, index) => (
+            <Chip label={option} {...props({ index })} />
+          ))
+        }
+        renderInput={(params) => (
+          <TextField
+            label="Keyword-abilities (Ward (6+), Fly, Infantry, Champion, Musician (1/10), etc"
+            {...params}
+            id="keyword-abilities"
+          />
+        )}
+      />
+
+      <Autocomplete
+        clearIcon={false}
+        options={keywordIdentities}
+        freeSolo
+        sx={{ mt: 2 }}
+        fullWidth
+        multiple
+        onChange={(event, value) => {
+          dispatch(setKeywordIdentity(value));
+        }}
+        renderTags={(value, props) =>
+          value.map((option, index) => (
+            <Chip label={option} {...props({ index })} />
+          ))
+        }
+        renderInput={(params) => (
+          <TextField
+            label="Keyword Identities (Grand Alliance, Faction, faction specific unit)"
+            {...params}
+            id="keyword-identities"
+          />
+        )}
+      />
     </AccordionDetails>
   );
 }

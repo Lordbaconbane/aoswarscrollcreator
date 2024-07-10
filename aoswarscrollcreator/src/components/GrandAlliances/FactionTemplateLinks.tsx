@@ -4,7 +4,7 @@ export enum FactionTemplates {
   DaughtersOfKhaine = "3",
   DisciplesOfTzeench = "4",
   FleshEaterCourts = "5",
-  Fyreflayers = "6",
+  Fyreslayers = "6",
   GloomspiteGitz = "7",
   HedonitesOfSlaanesh = "8",
   IdonethDeepkin = "9",
