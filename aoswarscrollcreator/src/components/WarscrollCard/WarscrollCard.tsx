@@ -129,6 +129,10 @@ const WarscrollCard: React.FC = () => {
     (state: RootState) => state.keywords.keywordAbilities
   );
 
+  const meleeWeapons = useSelector(
+    (state: RootState) => state.weapons.meleeWeaponStats
+  );
+
   useEffect(() => {
     if (triggerDownload) {
       const canvas = canvasRef.current;
@@ -217,6 +221,19 @@ const WarscrollCard: React.FC = () => {
           "center",
           "black"
         );
+        // Draw Melee Weapons
+        for (let i = 0; i < meleeWeapons.length; i++) {
+          console.log(meleeWeapons[i]);
+          drawTextOnCanvas(
+            context,
+            meleeWeapons[i].ability,
+            200,
+            500,
+            11,
+            "center",
+            "black"
+          );
+        }
       }
     };
   }, [
@@ -230,6 +247,7 @@ const WarscrollCard: React.FC = () => {
     warscrollSubtype,
     keywordIdentities,
     keywordAbilities,
+    meleeWeapons,
   ]); // This is your dependency. If you want useEffect to rerun, add stuff to this!!
 
   return (

@@ -8,7 +8,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import HandshakeIcon from "@mui/icons-material/Handshake";
 import Characteristics from "./Characteristics/Characteristics";
 import Keywords from "./Keywords/Keywords";
-import Weapons from "./Weapons/Weapons";
+import MeleeWeapons from "./Weapons/MeleeWeapons";
 const theme = createTheme({
   typography: {
     fontFamily: "Minion Pro, Arial, sans-serif",
@@ -68,11 +68,11 @@ export default function AccordianLayout() {
         >
           <ThemeProvider theme={theme}>
             <Typography variant="h6" component="div">
-              {"Weapons"}
+              {"Melee Weapons"}
             </Typography>
           </ThemeProvider>
         </AccordionSummary>
-        <Weapons />
+        <MeleeWeapons />
       </Accordion>
       {/*Keywords*/}
       <Accordion sx={{ maxWidth: accordianWidth }}>

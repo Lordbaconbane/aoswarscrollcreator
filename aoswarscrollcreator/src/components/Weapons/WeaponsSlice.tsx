@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { MeleeWeaponStats, RangedWeaponStats } from "./Weapons";
+import { MeleeWeaponStats } from "./MeleeWeapons";
+import { RangedWeaponStats } from "./RangedWeapons";
 
 export interface WeaponsState {
   meleeWeaponStats: MeleeWeaponStats[];
@@ -19,7 +20,6 @@ export const weaponsSlice = createSlice({
     setMeleeWeapons: (state, action: PayloadAction<MeleeWeaponStats[]>) => {
       state.meleeWeaponStats = action.payload;
     },
-
     setRangedWeapons: (
       state,
       action: PayloadAction<Array<RangedWeaponStats>>

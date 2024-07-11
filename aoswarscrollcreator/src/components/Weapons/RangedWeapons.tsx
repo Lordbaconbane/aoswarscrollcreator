@@ -1,7 +1,7 @@
 import { WeaponAbilities } from "./WeaponAbilities";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { setMeleeWeapons /*setRangedWeapons*/ } from "./WeaponsSlice";
+import { setRangedWeapons } from "./WeaponsSlice";
 
 import {
   AccordionDetails,
@@ -10,19 +10,12 @@ import {
   TextField,
   MenuItem,
   Autocomplete,
+  Chip,
 } from "@mui/material";
-
-export interface MeleeWeaponStats {
-  name: string;
-  toHit: string;
-  toWound: string;
-  rend: string;
-  damage: string;
-  ability: string;
-}
 
 export interface RangedWeaponStats {
   name: string;
+  range: string;
   toHit: string;
   toWound: string;
   rend: string;
@@ -30,24 +23,21 @@ export interface RangedWeaponStats {
   ability: string;
 }
 
-export default function Weapons() {
+export default function RangedWeapons() {
   const dispatch = useDispatch();
 
-  const meleeWeapons = useSelector(
-    (state: RootState) => state.weapons.meleeWeaponStats
+  const rangedWeapons = useSelector(
+    (state: RootState) => state.weapons.rangedWeaponsStats
   );
 
-  // const rangedWeapons = useSelector(
-  //   (state: RootState) => state.weapons.rangedWeaponsStats
-  // );
-
-  const handleAddMeleeWeapon = () => {
-    if (meleeWeapons.length < 5) {
+  const handleAddRangedWeapon = () => {
+    if (rangedWeapons.length < 5) {
       dispatch(
-        setMeleeWeapons([
-          ...meleeWeapons,
+        setRangedWeapons([
+          ...rangedWeapons,
           {
             name: "",
+            range: "",
             toHit: "",
             toWound: "",
             rend: "",
@@ -59,20 +49,24 @@ export default function Weapons() {
     }
   };
 
-  const handleRemoveMeleeWeapon = (index: number) => {
-    dispatch(setMeleeWeapons(meleeWeapons.filter((_, i) => i !== index)));
+  const handleRemoveRangedWeapon = (index: number) => {
+    dispatch(
+      setRangedWeapons(
+        rangedWeapons.filter((_RangedWaponStats, i) => i !== index)
+      )
+    );
   };
 
-  const handleInputMeleeChange = (
+  const handleInputRangedChange = (
     index: number,
-    field: keyof (typeof meleeWeapons)[0],
+    field: keyof (typeof rangedWeapons)[0],
     value: string
   ) => {
     // Create a copy of the array and the object at the specific index
-    const newMeleeWeapons = meleeWeapons.map((weapon, i) =>
+    const newRangedWeapons = rangedWeapons.map((weapon, i) =>
       i === index ? { ...weapon, [field]: value } : weapon
     );
-    dispatch(setMeleeWeapons(newMeleeWeapons));
+    dispatch(setRangedWeapons(newRangedWeapons));
   };
 
   return (
@@ -88,11 +82,11 @@ export default function Weapons() {
         variant="contained"
         color="primary"
         sx={{ mb: 2 }}
-        onClick={handleAddMeleeWeapon}
+        onClick={handleAddRangedWeapon}
       >
-        <Typography variant="body1">{"Add Melee Weapon"}</Typography>
+        <Typography variant="body1">{"Add Ranged Weapon"}</Typography>
       </Button>
-      {meleeWeapons.map((weapon, index) => (
+      {rangedWeapons.map((weapon, index) => (
         <div
           key={index}
           style={{
@@ -106,7 +100,7 @@ export default function Weapons() {
             fullWidth
             value={weapon.name}
             onChange={(e) =>
-              handleInputMeleeChange(index, "name", e.target.value)
+              handleInputRangedChange(index, "name", e.target.value)
             }
             sx={{ mb: 1 }}
           />
@@ -115,7 +109,7 @@ export default function Weapons() {
             select
             value={weapon.toHit}
             onChange={(e) =>
-              handleInputMeleeChange(index, "toHit", e.target.value)
+              handleInputRangedChange(index, "toHit", e.target.value)
             }
             sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
           >
@@ -130,7 +124,7 @@ export default function Weapons() {
             select
             value={weapon.toWound}
             onChange={(e) =>
-              handleInputMeleeChange(index, "toWound", e.target.value)
+              handleInputRangedChange(index, "toWound", e.target.value)
             }
             sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
           >
@@ -145,7 +139,7 @@ export default function Weapons() {
             value={weapon.rend}
             select
             onChange={(e) =>
-              handleInputMeleeChange(index, "rend", e.target.value)
+              handleInputRangedChange(index, "rend", e.target.value)
             }
             sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
           >
@@ -160,7 +154,7 @@ export default function Weapons() {
             select
             value={weapon.damage}
             onChange={(e) =>
-              handleInputMeleeChange(index, "damage", e.target.value)
+              handleInputRangedChange(index, "damage", e.target.value)
             }
             sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
           >
@@ -172,11 +166,17 @@ export default function Weapons() {
           </TextField>
           <Autocomplete
             options={WeaponAbilities}
+            clearIcon={false}
             fullWidth
             freeSolo
-            value={weapon.ability}
+            multiple
             onChange={(_e, newValue) =>
-              handleInputMeleeChange(index, "ability", newValue ?? "")
+              handleInputRangedChange(index, "ability", newValue.join(", "))
+            }
+            renderTags={(value, props) =>
+              value.map((option, index) => (
+                <Chip label={option} {...props({ index })} />
+              ))
             }
             renderInput={(params) => (
               <TextField
@@ -189,10 +189,10 @@ export default function Weapons() {
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => handleRemoveMeleeWeapon(index)}
+            onClick={() => handleRemoveRangedWeapon(index)}
             sx={{ mr: 1, mt: 1 }}
           >
-            <Typography variant="body1">{"Remove Melee Weapon"}</Typography>
+            <Typography variant="body1">{"Remove Ranged Weapon"}</Typography>
           </Button>
         </div>
       ))}
