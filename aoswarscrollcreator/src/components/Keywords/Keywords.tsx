@@ -64,6 +64,7 @@ export default function Keywords() {
         fullWidth
         multiple
         onChange={(event, value) => {
+          console.log(event);
           dispatch(setKeywordAbility(value));
         }}
         renderTags={(value, props) =>
@@ -88,6 +89,7 @@ export default function Keywords() {
         fullWidth
         multiple
         onChange={(event, value) => {
+          console.log(event);
           dispatch(setKeywordIdentity(value));
         }}
         renderTags={(value, props) =>
