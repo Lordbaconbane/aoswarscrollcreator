@@ -105,6 +105,14 @@ export default function RangedWeapons() {
             sx={{ mb: 1 }}
           />
           <TextField
+            label="Range"
+            value={weapon.range}
+            onChange={(e) =>
+              handleInputRangedChange(index, "range", e.target.value)
+            }
+            sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
+          ></TextField>
+          <TextField
             label="To Hit"
             select
             value={weapon.toHit}

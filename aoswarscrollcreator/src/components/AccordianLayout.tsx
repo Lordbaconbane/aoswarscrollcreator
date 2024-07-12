@@ -9,6 +9,7 @@ import HandshakeIcon from "@mui/icons-material/Handshake";
 import Characteristics from "./Characteristics/Characteristics";
 import Keywords from "./Keywords/Keywords";
 import MeleeWeapons from "./Weapons/MeleeWeapons";
+import RangedWeapons from "./Weapons/RangedWeapons";
 const theme = createTheme({
   typography: {
     fontFamily: "Minion Pro, Arial, sans-serif",
@@ -59,7 +60,7 @@ export default function AccordianLayout() {
         </AccordionSummary>
         <Characteristics />
       </Accordion>
-      {/*Weapons*/}
+      {/*Melee Weapons*/}
       <Accordion sx={{ maxWidth: accordianWidth }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -73,6 +74,21 @@ export default function AccordianLayout() {
           </ThemeProvider>
         </AccordionSummary>
         <MeleeWeapons />
+      </Accordion>
+      {/*Ranged Weapons*/}
+      <Accordion sx={{ maxWidth: accordianWidth }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel3-content"
+          id="panel3-header"
+        >
+          <ThemeProvider theme={theme}>
+            <Typography variant="h6" component="div">
+              {"Ranged Weapons"}
+            </Typography>
+          </ThemeProvider>
+        </AccordionSummary>
+        <RangedWeapons />
       </Accordion>
       {/*Keywords*/}
       <Accordion sx={{ maxWidth: accordianWidth }}>
