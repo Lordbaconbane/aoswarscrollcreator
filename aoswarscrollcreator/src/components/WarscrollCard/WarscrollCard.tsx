@@ -8,13 +8,32 @@ import { resetDownload } from "./WarscrollCardSlice";
 const charFontSize = 26;
 const factionTitleFontSize = 12;
 const warscrollNameFontSize = 30;
+const weaponPositionAnchorX = 30;
+const weaponPositionAnchorY = 200;
 
 const drawImageOnCanvas = (
   context: CanvasRenderingContext2D,
   image: HTMLImageElement,
   canvas: HTMLCanvasElement
 ) => {
+  context.globalAlpha = 1;
   context.drawImage(image, 0, 0, canvas.width, canvas.height);
+};
+
+const drawBannerImageOnCanvas = (
+  context: CanvasRenderingContext2D,
+  image: HTMLImageElement
+) => {
+  const width = 600;
+  const height = 20;
+  context.globalAlpha = 0.25;
+  context.drawImage(
+    image,
+    weaponPositionAnchorX,
+    weaponPositionAnchorY,
+    width,
+    height
+  );
 };
 
 const drawTextOnCanvas = (
@@ -29,6 +48,7 @@ const drawTextOnCanvas = (
   context.font = fontSize.toString() + "px Minion Pro";
   context.fillStyle = fontColor;
   context.textAlign = alignment;
+  context.globalAlpha = 1;
   context.fillText(text, x, y); // Change the coordinates as needed
 };
 
@@ -42,7 +62,7 @@ const drawWarscrollTitleTextOnCanvas = (
   const offset = 75;
   const x = context.canvas.width / 2 + offset;
   context.textAlign = "center";
-
+  context.globalAlpha = 1;
   context.font = warscrollNameFontSize.toString() + "px Minion Pro";
   context.fillStyle = "white";
 
@@ -83,6 +103,7 @@ const drawWarscrollTitleTextOnCanvas = (
 const WarscrollCard: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement>(new Image());
+  const weaponBannerImageRef = useRef<HTMLImageElement>(new Image());
   const dispatch = useDispatch();
 
   const triggerDownload = useSelector(
@@ -91,6 +112,10 @@ const WarscrollCard: React.FC = () => {
 
   const factionTemplate = useSelector(
     (state: RootState) => state.faction.factionTemplate
+  );
+
+  const factionWeaponBanner = useSelector(
+    (state: RootState) => state.faction.factionWeaponBanner
   );
 
   const factionName = useSelector(
@@ -151,12 +176,15 @@ const WarscrollCard: React.FC = () => {
     const canvas = canvasRef.current;
     const context = canvas?.getContext("2d");
     const image = imageRef.current;
+    const weaponBannerImage = weaponBannerImageRef.current;
 
     image.src = factionTemplate;
+    weaponBannerImage.src = factionWeaponBanner;
     image.onload = () => {
       if (context && canvas) {
         context.clearRect(0, 0, canvas.width, canvas.height);
         drawImageOnCanvas(context, image, canvas);
+        drawBannerImageOnCanvas(context, weaponBannerImage);
         // Draw title
         drawWarscrollTitleTextOnCanvas(
           context,
@@ -248,6 +276,7 @@ const WarscrollCard: React.FC = () => {
     keywordIdentities,
     keywordAbilities,
     meleeWeapons,
+    factionWeaponBanner,
   ]); // This is your dependency. If you want useEffect to rerun, add stuff to this!!
 
   return (
