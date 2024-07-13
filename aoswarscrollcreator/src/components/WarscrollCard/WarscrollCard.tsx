@@ -4,12 +4,16 @@ import { Container, Box } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/store";
 import { resetDownload } from "./WarscrollCardSlice";
+import { RangedWeaponStats } from "../Weapons/RangedWeapons";
+import { MeleeWeaponStats } from "../Weapons/MeleeWeapons";
 
 const charFontSize = 26;
+const warscrollTitleCharPerLine = 20;
 const factionTitleFontSize = 12;
 const warscrollNameFontSize = 30;
-const weaponPositionAnchorX = 30;
-const weaponPositionAnchorY = 200;
+const weaponPosAnchorX = 10;
+const weaponPosAnchorY = 200;
+const textPosAnchorY = 232;
 
 const drawImageOnCanvas = (
   context: CanvasRenderingContext2D,
@@ -20,20 +24,193 @@ const drawImageOnCanvas = (
   context.drawImage(image, 0, 0, canvas.width, canvas.height);
 };
 
-const drawBannerImageOnCanvas = (
+const drawWeaponsOnCanvas = (
   context: CanvasRenderingContext2D,
-  image: HTMLImageElement
+  image: HTMLImageElement,
+  rangedWeapons: RangedWeaponStats[],
+  meleeWeapons: MeleeWeaponStats[]
 ) => {
-  const width = 600;
-  const height = 20;
-  context.globalAlpha = 0.25;
-  context.drawImage(
-    image,
-    weaponPositionAnchorX,
-    weaponPositionAnchorY,
-    width,
-    height
-  );
+  const width = 640;
+  let height = 20;
+  context.globalAlpha = 1;
+
+  /* Draw out ranged weapon text */
+  if (rangedWeapons.length > 0 || meleeWeapons.length > 0) {
+    context.drawImage(image, weaponPosAnchorX, weaponPosAnchorY, width, height);
+
+    if (rangedWeapons.length > 0) {
+      drawTextOnCanvas(
+        context,
+        "RANGED WEAPONS",
+        110,
+        215,
+        12,
+        "center",
+        "white"
+      );
+      drawTextOnCanvas(context, "Rng", 240, 215, 12, "center", "white");
+      drawTextOnCanvas(context, "Atk", 280, 215, 12, "center", "white");
+      drawTextOnCanvas(context, "Hit", 320, 215, 12, "center", "white");
+      drawTextOnCanvas(context, "Wnd", 360, 215, 12, "center", "white");
+      drawTextOnCanvas(context, "Rnd", 400, 215, 12, "center", "white");
+      drawTextOnCanvas(context, "Dmg", 440, 215, 12, "center", "white");
+      drawTextOnCanvas(context, "Ability", 550, 215, 12, "center", "white");
+      let textOffset = 1;
+      let imageOffset = 20;
+      for (let i = 0; i < rangedWeapons.length; i++) {
+        let isDoubleSpaced = false;
+        // Check if the Name is long enough to be double spaced/
+        if (rangedWeapons[i].name.length > 28) {
+          isDoubleSpaced = true;
+          height += 20;
+          const lines = splitTextToLines(27, rangedWeapons[i].name);
+          // If they are, draw them double spaced. .
+          let tempOffset = textOffset;
+          for (let i = 0; i < lines.length; i++) {
+            drawTextOnCanvas(
+              context,
+              lines[i],
+              111,
+              textPosAnchorY + (i + 2) + tempOffset,
+              14,
+              "center",
+              "black"
+            );
+            tempOffset += 16.5;
+            console.log(textPosAnchorY + (i + 1) + textOffset);
+          }
+          //
+        } else {
+          drawTextOnCanvas(
+            context,
+            rangedWeapons[i].name,
+            111,
+            textPosAnchorY + (i + 1) + textOffset,
+            14,
+            "center",
+            "black"
+          );
+          console.log(textPosAnchorY + (i + 1) + textOffset);
+        }
+        drawTextOnCanvas(
+          context,
+          rangedWeapons[i].range,
+          240,
+          textPosAnchorY + (i + 1) + textOffset,
+          12,
+          "center",
+          "black"
+        );
+        drawTextOnCanvas(
+          context,
+          rangedWeapons[i].atk,
+          280,
+          textPosAnchorY + (i + 1) + textOffset,
+          12,
+          "center",
+          "black"
+        );
+        drawTextOnCanvas(
+          context,
+          rangedWeapons[i].toHit,
+          320,
+          textPosAnchorY + (i + 1) + textOffset,
+          12,
+          "center",
+          "black"
+        );
+        drawTextOnCanvas(
+          context,
+          rangedWeapons[i].toWound,
+          360,
+          textPosAnchorY + (i + 1) + textOffset,
+          12,
+          "center",
+          "black"
+        );
+        drawTextOnCanvas(
+          context,
+          rangedWeapons[i].rend,
+          400,
+          textPosAnchorY + (i + 1) + textOffset,
+          12,
+          "center",
+          "black"
+        );
+        drawTextOnCanvas(
+          context,
+          rangedWeapons[i].damage,
+          440,
+          textPosAnchorY + (i + 1) + textOffset,
+          12,
+          "center",
+          "black"
+        );
+
+        // Check if the Abilities are double long enough to be double spaced/
+        if (rangedWeapons[i].ability.length > 28) {
+          // Check if we're already double spaced. If we are, we don't need to change the offset.
+          if (!isDoubleSpaced) {
+            isDoubleSpaced = true;
+            height += 20;
+          }
+
+          const lines = splitTextToLines(29, rangedWeapons[i].ability);
+          let tempOffset = textOffset;
+          // If they are, draw them double spaced. .
+          for (let i = 0; i < lines.length; i++) {
+            drawTextOnCanvas(
+              context,
+              lines[i],
+              550,
+              textPosAnchorY + (i + 1) + tempOffset,
+              14,
+              "center",
+              "black"
+            );
+            console.log(textPosAnchorY + (i + 1) + textOffset);
+            tempOffset += 17;
+          }
+          //
+        } else {
+          drawTextOnCanvas(
+            context,
+            rangedWeapons[i].ability,
+            550,
+            textPosAnchorY + (i + 1) + textOffset,
+            14,
+            "center",
+            "black"
+          );
+        }
+        // Check if odd or even. Odd means fully transparent, even means partially
+        if (i % 2 === 0) {
+          context.globalAlpha = 0.1;
+        } else {
+          context.globalAlpha = 0.3;
+        }
+
+        // Finally, draw our image
+        context.drawImage(
+          image,
+          weaponPosAnchorX,
+          weaponPosAnchorY + imageOffset,
+          width,
+          height
+        );
+
+        /* If we're double spacd, add extra offset, but reduce the height as the next 
+        line is assumed to be single space. */
+        if (isDoubleSpaced) {
+          height -= 20;
+          textOffset += 20;
+          imageOffset += 20;
+        }
+        textOffset += 20;
+        imageOffset += 20;
+      }
+    }
+  }
 };
 
 const drawTextOnCanvas = (
@@ -50,6 +227,25 @@ const drawTextOnCanvas = (
   context.textAlign = alignment;
   context.globalAlpha = 1;
   context.fillText(text, x, y); // Change the coordinates as needed
+  context.strokeText;
+};
+
+const splitTextToLines = (charLimit: number, text: string): string[] => {
+  const words = text.split(" ");
+  const lines: string[] = [];
+  let currentLine = "";
+
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i];
+    if ((currentLine + word).length <= charLimit) {
+      currentLine += " " + word;
+    } else {
+      lines.push(currentLine);
+      currentLine = word;
+    }
+  }
+  lines.push(currentLine);
+  return lines;
 };
 
 const drawWarscrollTitleTextOnCanvas = (
@@ -66,25 +262,10 @@ const drawWarscrollTitleTextOnCanvas = (
   context.font = warscrollNameFontSize.toString() + "px Minion Pro";
   context.fillStyle = "white";
 
-  if (warscrollName.length >= 20) {
-    const words = warscrollName.split(" ");
-    const lines: string[] = [];
-    let currentLine = "";
-
-    for (let i = 0; i < words.length; i++) {
-      const word = words[i];
-      if ((currentLine + word).length <= 20) {
-        currentLine += " " + word;
-      } else {
-        lines.push(currentLine);
-        currentLine = word;
-      }
-    }
-    lines.push(currentLine);
-    console.log(lines);
+  if (warscrollName.length >= warscrollTitleCharPerLine) {
+    const lines = splitTextToLines(warscrollTitleCharPerLine, warscrollName);
     // Draw each line of warscrollName
     for (let i = 0; i < lines.length; i++) {
-      console.log("here");
       context.fillText(lines[i], x, y - 10 + i * warscrollNameFontSize);
     }
     context.font = factionTitleFontSize.toString() + "px Minion Pro Bold";
@@ -158,6 +339,10 @@ const WarscrollCard: React.FC = () => {
     (state: RootState) => state.weapons.meleeWeaponStats
   );
 
+  const rangedWeapons = useSelector(
+    (state: RootState) => state.weapons.rangedWeaponsStats
+  );
+
   useEffect(() => {
     if (triggerDownload) {
       const canvas = canvasRef.current;
@@ -184,7 +369,12 @@ const WarscrollCard: React.FC = () => {
       if (context && canvas) {
         context.clearRect(0, 0, canvas.width, canvas.height);
         drawImageOnCanvas(context, image, canvas);
-        drawBannerImageOnCanvas(context, weaponBannerImage);
+        drawWeaponsOnCanvas(
+          context,
+          weaponBannerImage,
+          rangedWeapons,
+          meleeWeapons
+        );
         // Draw title
         drawWarscrollTitleTextOnCanvas(
           context,
@@ -249,19 +439,6 @@ const WarscrollCard: React.FC = () => {
           "center",
           "black"
         );
-        // Draw Melee Weapons
-        for (let i = 0; i < meleeWeapons.length; i++) {
-          console.log(meleeWeapons[i]);
-          drawTextOnCanvas(
-            context,
-            meleeWeapons[i].ability,
-            200,
-            500,
-            11,
-            "center",
-            "black"
-          );
-        }
       }
     };
   }, [
@@ -276,6 +453,7 @@ const WarscrollCard: React.FC = () => {
     keywordIdentities,
     keywordAbilities,
     meleeWeapons,
+    rangedWeapons,
     factionWeaponBanner,
   ]); // This is your dependency. If you want useEffect to rerun, add stuff to this!!
 

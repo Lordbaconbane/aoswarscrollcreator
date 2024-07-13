@@ -15,6 +15,7 @@ import {
 
 export interface MeleeWeaponStats {
   name: string;
+  atk: string;
   toHit: string;
   toWound: string;
   rend: string;
@@ -36,6 +37,7 @@ export default function MeleeWeapons() {
           ...meleeWeapons,
           {
             name: "",
+            atk: "",
             toHit: "",
             toWound: "",
             rend: "",
@@ -97,6 +99,16 @@ export default function MeleeWeapons() {
             value={weapon.name}
             onChange={(e) =>
               handleInputMeleeChange(index, "name", e.target.value)
+            }
+            sx={{ mb: 1 }}
+          />
+          <TextField
+            label="Attacks"
+            fullWidth
+            inputProps={{ maxLength: 2 }}
+            value={weapon.atk}
+            onChange={(e) =>
+              handleInputMeleeChange(index, "atk", e.target.value)
             }
             sx={{ mb: 1 }}
           />

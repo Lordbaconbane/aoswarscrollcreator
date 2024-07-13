@@ -16,6 +16,7 @@ import {
 export interface RangedWeaponStats {
   name: string;
   range: string;
+  atk: string;
   toHit: string;
   toWound: string;
   rend: string;
@@ -38,6 +39,7 @@ export default function RangedWeapons() {
           {
             name: "",
             range: "",
+            atk: "",
             toHit: "",
             toWound: "",
             rend: "",
@@ -112,6 +114,16 @@ export default function RangedWeapons() {
             }
             sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
           ></TextField>
+          <TextField
+            label="Attacks"
+            fullWidth
+            inputProps={{ maxLength: 2 }}
+            value={weapon.atk}
+            onChange={(e) =>
+              handleInputRangedChange(index, "atk", e.target.value)
+            }
+            sx={{ mb: 1 }}
+          />
           <TextField
             label="To Hit"
             select
