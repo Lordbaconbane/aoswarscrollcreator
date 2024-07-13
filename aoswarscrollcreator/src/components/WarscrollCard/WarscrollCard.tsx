@@ -33,7 +33,8 @@ const drawWeaponsOnCanvas = (
   const width = 640;
   let height = 20;
   context.globalAlpha = 1;
-
+  let textOffset = 1;
+  let imageOffset = 20;
   /* Draw out ranged weapon text */
   if (rangedWeapons.length > 0 || meleeWeapons.length > 0) {
     context.drawImage(image, weaponPosAnchorX, weaponPosAnchorY, width, height);
@@ -55,8 +56,7 @@ const drawWeaponsOnCanvas = (
       drawTextOnCanvas(context, "Rnd", 400, 215, 12, "center", "white");
       drawTextOnCanvas(context, "Dmg", 440, 215, 12, "center", "white");
       drawTextOnCanvas(context, "Ability", 550, 215, 12, "center", "white");
-      let textOffset = 1;
-      let imageOffset = 20;
+
       for (let i = 0; i < rangedWeapons.length; i++) {
         let isDoubleSpaced = false;
         // Check if the Name is long enough to be double spaced/
