@@ -62,6 +62,7 @@ const drawWeaponsOnCanvas = (
         if (rangedWeapons[i].name.length > 28) {
           isDoubleSpaced = true;
           height += 20;
+          console.log("Ranged Weapon Height: " + height);
           const lines = splitTextToLines(27, rangedWeapons[i].name);
           // If they are, draw them double spaced.
           let tempOffset = textOffset;
@@ -207,12 +208,13 @@ const drawWeaponsOnCanvas = (
       let mBannerTextPos = wpnHeaderYPos;
       let mTextPos = wpnHeaderYPos;
       textOffset = 0;
-
+      console.log("Height at Start: " + height);
       // If we have ranged weapon, increment the text by the current line count.
       if (rangedWeapons.length > 0) {
         mWpnBannerYPos += 20 * lineCount;
         mBannerTextPos += 20 * lineCount;
         mTextPos += 20 * lineCount;
+        imageOffset += 20;
       }
       mTextPos += 20;
       context.globalAlpha = 1;
@@ -233,7 +235,8 @@ const drawWeaponsOnCanvas = (
         if (meleeWeapons[i].name.length > 28) {
           isDoubleSpaced = true;
           height += 20;
-          const lines = splitTextToLines(27, meleeWeapons[i].name);
+          console.log("Melee Weapon Height: " + height);
+          const lines = splitTextToLines(28, meleeWeapons[i].name);
           // If they are, draw them double spaced.
           let tempOffset = textOffset;
           for (let i = 0; i < lines.length; i++) {
@@ -346,7 +349,7 @@ const drawWeaponsOnCanvas = (
         } else {
           context.globalAlpha = 0.3;
         }
-
+        console.log("Height before draw: " + height);
         // Finally, draw our image
         context.drawImage(image, wpnBannerPosX, wpnBannerPosY + imageOffset, width, height);
 
