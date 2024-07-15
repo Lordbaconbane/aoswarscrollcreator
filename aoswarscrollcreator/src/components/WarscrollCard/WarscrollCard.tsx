@@ -7,6 +7,7 @@ import { resetDownload } from "./WarscrollCardSlice";
 import { RangedWeaponStats } from "../Weapons/RangedWeapons";
 import { MeleeWeaponStats } from "../Weapons/MeleeWeapons";
 
+import "../styles.css";
 const charFontSize = 26;
 const warscrollTitleCharPerLine = 20;
 const factionTitleFontSize = 12;
@@ -553,14 +554,23 @@ const WarscrollCard: React.FC = () => {
   return (
     <Box
       component="main"
+      className="sticky-canvas"
       sx={{
         flexGrow: 2,
         width: 1,
         marginTop: 8,
       }}
     >
-      <Container>
-        <canvas ref={canvasRef} width={658} height={995} style={{ border: "1px solid #000" }} />
+      <Container style={{ overflowY: "auto", display: "flex" }}>
+        <div style={{ flex: "none", position: "relative" }}>
+          <canvas
+            ref={canvasRef}
+            className="sticky-canvas"
+            width={658}
+            height={995}
+            style={{ height: "90vh", border: "1px solid #000", position: "sticky", top: "10" }}
+          />
+        </div>
       </Container>
     </Box>
   );

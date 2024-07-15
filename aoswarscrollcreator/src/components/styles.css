@@ -1,0 +1,6 @@
+.sticky-canvas {
+  position: -webkit-sticky; /* For Safari */
+  position: sticky;
+  top: 0; /* Stick to the top of the viewport */
+  height: 90vh; /* Make the canvas full height of the viewport */
+}
