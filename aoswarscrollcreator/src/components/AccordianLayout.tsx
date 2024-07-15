@@ -60,21 +60,6 @@ export default function AccordianLayout() {
         </AccordionSummary>
         <Characteristics />
       </Accordion>
-      {/*Melee Weapons*/}
-      <Accordion sx={{ maxWidth: accordianWidth }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3-content"
-          id="panel3-header"
-        >
-          <ThemeProvider theme={theme}>
-            <Typography variant="h6" component="div">
-              {"Melee Weapons"}
-            </Typography>
-          </ThemeProvider>
-        </AccordionSummary>
-        <MeleeWeapons />
-      </Accordion>
       {/*Ranged Weapons*/}
       <Accordion sx={{ maxWidth: accordianWidth }}>
         <AccordionSummary
@@ -89,6 +74,21 @@ export default function AccordianLayout() {
           </ThemeProvider>
         </AccordionSummary>
         <RangedWeapons />
+      </Accordion>
+      {/*Melee Weapons*/}
+      <Accordion sx={{ maxWidth: accordianWidth }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel3-content"
+          id="panel3-header"
+        >
+          <ThemeProvider theme={theme}>
+            <Typography variant="h6" component="div">
+              {"Melee Weapons"}
+            </Typography>
+          </ThemeProvider>
+        </AccordionSummary>
+        <MeleeWeapons />
       </Accordion>
       {/*Keywords*/}
       <Accordion sx={{ maxWidth: accordianWidth }}>
