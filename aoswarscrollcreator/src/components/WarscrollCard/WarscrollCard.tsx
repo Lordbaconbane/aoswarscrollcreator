@@ -39,7 +39,6 @@ const drawWeaponsOnCanvas = (
   let imageOffset = 20;
   let mWpnBannerYPos = wpnBannerPosY;
   let lineCount = 1;
-
   /* Draw out ranged weapon text */
   if (rangedWeapons.length > 0 || meleeWeapons.length > 0) {
     context.drawImage(image, wpnBannerPosX, wpnBannerPosY, width, height);
@@ -499,8 +498,13 @@ const WarscrollCard: React.FC = () => {
     image.onload = () => {
       if (context && canvas) {
         context.clearRect(0, 0, canvas.width, canvas.height);
+
         drawImageOnCanvas(context, image, canvas);
+        //context.strokeStyle = "indigo";
+        //context.lineWidth = 2;
+        //context.strokeRect(100, 250, 100, 100);
         drawWeaponsOnCanvas(context, weaponBannerImage, rangedWeapons, meleeWeapons);
+
         // Draw title
         drawWarscrollTitleTextOnCanvas(
           context,
@@ -568,7 +572,12 @@ const WarscrollCard: React.FC = () => {
             className="sticky-canvas"
             width={658}
             height={995}
-            style={{ height: "90vh", border: "1px solid #000", position: "sticky", top: "10" }}
+            style={{
+              height: "90vh",
+              border: "1px solid #000",
+              position: "sticky",
+              top: "10",
+            }}
           />
         </div>
       </Container>

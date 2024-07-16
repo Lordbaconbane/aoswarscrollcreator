@@ -4,6 +4,7 @@ import { warscrollCardSlice } from "../components/WarscrollCard/WarscrollCardSli
 import { characteristicSlice } from "../components/Characteristics/CharacteristicsSlice";
 import { keywordsSlice } from "../components/Keywords/KeywordsSlice";
 import { weaponsSlice } from "../components/Weapons/WeaponsSlice";
+import { abilitiesSlice } from "../components/Abilities/AbilitiesSlice";
 
 // We created a Redux store
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     characteristics: characteristicSlice.reducer,
     keywords: keywordsSlice.reducer,
     weapons: weaponsSlice.reducer,
+    abilities: abilitiesSlice.reducer,
   },
 });
 
