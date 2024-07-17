@@ -26,9 +26,7 @@ export interface MeleeWeaponStats {
 export default function MeleeWeapons() {
   const dispatch = useDispatch();
 
-  const meleeWeapons = useSelector(
-    (state: RootState) => state.weapons.meleeWeaponStats
-  );
+  const meleeWeapons = useSelector((state: RootState) => state.weapons.meleeWeaponStats);
 
   const handleAddMeleeWeapon = () => {
     if (meleeWeapons.length < 5) {
@@ -50,9 +48,7 @@ export default function MeleeWeapons() {
   };
 
   const handleRemoveMeleeWeapon = (index: number) => {
-    dispatch(
-      setMeleeWeapons(meleeWeapons.filter((_MeleeWaponStats, i) => i !== index))
-    );
+    dispatch(setMeleeWeapons(meleeWeapons.filter((_MeleeWaponStats, i) => i !== index)));
   };
 
   const handleInputMeleeChange = (
@@ -76,12 +72,7 @@ export default function MeleeWeapons() {
         maxWidth: "100%",
       }}
     >
-      <Button
-        variant="contained"
-        color="primary"
-        sx={{ mb: 2 }}
-        onClick={handleAddMeleeWeapon}
-      >
+      <Button variant="contained" color="primary" sx={{ mb: 2 }} onClick={handleAddMeleeWeapon}>
         <Typography variant="body1">{"Add Melee Weapon"}</Typography>
       </Button>
       {meleeWeapons.map((weapon, index) => (
@@ -97,9 +88,7 @@ export default function MeleeWeapons() {
             label="Weapon Name"
             fullWidth
             value={weapon.name}
-            onChange={(e) =>
-              handleInputMeleeChange(index, "name", e.target.value)
-            }
+            onChange={(e) => handleInputMeleeChange(index, "name", e.target.value)}
             sx={{ mb: 1 }}
           />
           <TextField
@@ -107,18 +96,14 @@ export default function MeleeWeapons() {
             fullWidth
             inputProps={{ maxLength: 2 }}
             value={weapon.atk}
-            onChange={(e) =>
-              handleInputMeleeChange(index, "atk", e.target.value)
-            }
+            onChange={(e) => handleInputMeleeChange(index, "atk", e.target.value)}
             sx={{ mb: 1 }}
           />
           <TextField
             label="To Hit"
             select
             value={weapon.toHit}
-            onChange={(e) =>
-              handleInputMeleeChange(index, "toHit", e.target.value)
-            }
+            onChange={(e) => handleInputMeleeChange(index, "toHit", e.target.value)}
             sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
           >
             {["1", "2", "3", "4", "5", "6"].map((num) => (
@@ -131,9 +116,7 @@ export default function MeleeWeapons() {
             label="To Wound"
             select
             value={weapon.toWound}
-            onChange={(e) =>
-              handleInputMeleeChange(index, "toWound", e.target.value)
-            }
+            onChange={(e) => handleInputMeleeChange(index, "toWound", e.target.value)}
             sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
           >
             {["1", "2", "3", "4", "5", "6"].map((num) => (
@@ -146,9 +129,7 @@ export default function MeleeWeapons() {
             label="Rend"
             value={weapon.rend}
             select
-            onChange={(e) =>
-              handleInputMeleeChange(index, "rend", e.target.value)
-            }
+            onChange={(e) => handleInputMeleeChange(index, "rend", e.target.value)}
             sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
           >
             {["1", "2", "3", "4", "5", "6"].map((num) => (
@@ -161,9 +142,7 @@ export default function MeleeWeapons() {
             label="Damage"
             select
             value={weapon.damage}
-            onChange={(e) =>
-              handleInputMeleeChange(index, "damage", e.target.value)
-            }
+            onChange={(e) => handleInputMeleeChange(index, "damage", e.target.value)}
             sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
           >
             {["1", "2", "3", "4", "5", "6"].map((num) => (
@@ -182,16 +161,10 @@ export default function MeleeWeapons() {
               handleInputMeleeChange(index, "ability", newValue.join(", "))
             }
             renderTags={(value, props) =>
-              value.map((option, index) => (
-                <Chip label={option} {...props({ index })} />
-              ))
+              value.map((option, index) => <Chip label={option} {...props({ index })} />)
             }
             renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Ability"
-                sx={{ mb: 1, mr: 1, mt: 1 }}
-              />
+              <TextField {...params} label="Ability" sx={{ mb: 1, mr: 1, mt: 1 }} />
             )}
           />
           <Button
@@ -200,7 +173,9 @@ export default function MeleeWeapons() {
             onClick={() => handleRemoveMeleeWeapon(index)}
             sx={{ mr: 1, mt: 1 }}
           >
-            <Typography variant="body1">{"Remove Melee Weapon"}</Typography>
+            <Typography variant="body1">
+              {"Remove Melee Weapon: " + meleeWeapons[index].name}
+            </Typography>
           </Button>
         </div>
       ))}

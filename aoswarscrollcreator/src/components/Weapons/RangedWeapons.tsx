@@ -27,9 +27,7 @@ export interface RangedWeaponStats {
 export default function RangedWeapons() {
   const dispatch = useDispatch();
 
-  const rangedWeapons = useSelector(
-    (state: RootState) => state.weapons.rangedWeaponsStats
-  );
+  const rangedWeapons = useSelector((state: RootState) => state.weapons.rangedWeaponsStats);
 
   const handleAddRangedWeapon = () => {
     if (rangedWeapons.length < 5) {
@@ -52,11 +50,7 @@ export default function RangedWeapons() {
   };
 
   const handleRemoveRangedWeapon = (index: number) => {
-    dispatch(
-      setRangedWeapons(
-        rangedWeapons.filter((_RangedWaponStats, i) => i !== index)
-      )
-    );
+    dispatch(setRangedWeapons(rangedWeapons.filter((_RangedWaponStats, i) => i !== index)));
   };
 
   const handleInputRangedChange = (
@@ -80,12 +74,7 @@ export default function RangedWeapons() {
         maxWidth: "100%",
       }}
     >
-      <Button
-        variant="contained"
-        color="primary"
-        sx={{ mb: 2 }}
-        onClick={handleAddRangedWeapon}
-      >
+      <Button variant="contained" color="primary" sx={{ mb: 2 }} onClick={handleAddRangedWeapon}>
         <Typography variant="body1">{"Add Ranged Weapon"}</Typography>
       </Button>
       {rangedWeapons.map((weapon, index) => (
@@ -101,17 +90,13 @@ export default function RangedWeapons() {
             label="Weapon Name"
             fullWidth
             value={weapon.name}
-            onChange={(e) =>
-              handleInputRangedChange(index, "name", e.target.value)
-            }
+            onChange={(e) => handleInputRangedChange(index, "name", e.target.value)}
             sx={{ mb: 1 }}
           />
           <TextField
             label="Range"
             value={weapon.range}
-            onChange={(e) =>
-              handleInputRangedChange(index, "range", e.target.value)
-            }
+            onChange={(e) => handleInputRangedChange(index, "range", e.target.value)}
             sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
           ></TextField>
           <TextField
@@ -119,18 +104,14 @@ export default function RangedWeapons() {
             fullWidth
             inputProps={{ maxLength: 2 }}
             value={weapon.atk}
-            onChange={(e) =>
-              handleInputRangedChange(index, "atk", e.target.value)
-            }
+            onChange={(e) => handleInputRangedChange(index, "atk", e.target.value)}
             sx={{ mb: 1 }}
           />
           <TextField
             label="To Hit"
             select
             value={weapon.toHit}
-            onChange={(e) =>
-              handleInputRangedChange(index, "toHit", e.target.value)
-            }
+            onChange={(e) => handleInputRangedChange(index, "toHit", e.target.value)}
             sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
           >
             {["1", "2", "3", "4", "5", "6"].map((num) => (
@@ -143,9 +124,7 @@ export default function RangedWeapons() {
             label="To Wound"
             select
             value={weapon.toWound}
-            onChange={(e) =>
-              handleInputRangedChange(index, "toWound", e.target.value)
-            }
+            onChange={(e) => handleInputRangedChange(index, "toWound", e.target.value)}
             sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
           >
             {["1", "2", "3", "4", "5", "6"].map((num) => (
@@ -158,9 +137,7 @@ export default function RangedWeapons() {
             label="Rend"
             value={weapon.rend}
             select
-            onChange={(e) =>
-              handleInputRangedChange(index, "rend", e.target.value)
-            }
+            onChange={(e) => handleInputRangedChange(index, "rend", e.target.value)}
             sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
           >
             {["1", "2", "3", "4", "5", "6"].map((num) => (
@@ -173,9 +150,7 @@ export default function RangedWeapons() {
             label="Damage"
             select
             value={weapon.damage}
-            onChange={(e) =>
-              handleInputRangedChange(index, "damage", e.target.value)
-            }
+            onChange={(e) => handleInputRangedChange(index, "damage", e.target.value)}
             sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
           >
             {["1", "2", "3", "4", "5", "6"].map((num) => (
@@ -194,16 +169,10 @@ export default function RangedWeapons() {
               handleInputRangedChange(index, "ability", newValue.join(", "))
             }
             renderTags={(value, props) =>
-              value.map((option, index) => (
-                <Chip label={option} {...props({ index })} />
-              ))
+              value.map((option, index) => <Chip label={option} {...props({ index })} />)
             }
             renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Ability"
-                sx={{ mb: 1, mr: 1, mt: 1 }}
-              />
+              <TextField {...params} label="Ability" sx={{ mb: 1, mr: 1, mt: 1 }} />
             )}
           />
           <Button
@@ -212,7 +181,9 @@ export default function RangedWeapons() {
             onClick={() => handleRemoveRangedWeapon(index)}
             sx={{ mr: 1, mt: 1 }}
           >
-            <Typography variant="body1">{"Remove Ranged Weapon"}</Typography>
+            <Typography variant="body1">
+              {"Remove Ranged Weapon: " + rangedWeapons[index].name}
+            </Typography>
           </Button>
         </div>
       ))}
