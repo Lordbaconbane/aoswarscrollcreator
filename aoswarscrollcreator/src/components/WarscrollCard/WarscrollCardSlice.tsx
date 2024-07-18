@@ -1,9 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+export interface warscrollState {
+  yAnchor: number;
+}
 
 export const warscrollCardSlice = createSlice({
   name: "warscrollDownload",
   initialState: {
     triggerDownload: false,
+    yAnchor: 0,
   },
   reducers: {
     initDownload: (state) => {
@@ -11,6 +16,9 @@ export const warscrollCardSlice = createSlice({
     },
     resetDownload: (state) => {
       state.triggerDownload = false;
+    },
+    setAnchor: (state, action: PayloadAction<number>) => {
+      state.yAnchor = action.payload;
     },
   },
 });

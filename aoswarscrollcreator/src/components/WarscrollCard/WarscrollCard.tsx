@@ -526,6 +526,8 @@ const WarscrollCard: React.FC = () => {
 
   const abilities = useSelector((state: RootState) => state.abilities.abilities);
 
+  const loadoutBody = useSelector((state: RootState) => state.loadout.body);
+
   useEffect(() => {
     if (triggerDownload) {
       const canvas = canvasRef.current;
@@ -572,6 +574,9 @@ const WarscrollCard: React.FC = () => {
         // Draw Weapons
         drawWeaponsOnCanvas(context, weaponBannerImage, rangedWeapons, meleeWeapons);
 
+        // Draw Loadout
+        drawTextOnCanvas(context, loadoutBody, 200, 200, 24, "center", "black");
+
         // Draw abilities.
         drawAbilityOnCanvas(context, canvas, abilities);
 
@@ -610,6 +615,7 @@ const WarscrollCard: React.FC = () => {
     meleeWeapons,
     rangedWeapons,
     factionWeaponBanner,
+    loadoutBody,
     abilities,
   ]); // This is your dependency. If you want useEffect to rerun, add stuff to this!!
 
