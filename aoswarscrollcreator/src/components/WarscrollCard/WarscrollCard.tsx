@@ -8,6 +8,7 @@ import { RangedWeaponStats } from "../Weapons/RangedWeapons";
 import { MeleeWeaponStats } from "../Weapons/MeleeWeapons";
 
 import "../styles.css";
+import { Ability } from "../Abilities/Abilities";
 const charFontSize = 26;
 const warscrollTitleCharPerLine = 20;
 const factionTitleFontSize = 12;
@@ -25,6 +26,59 @@ const drawImageOnCanvas = (
   context.globalAlpha = 1;
   context.drawImage(image, 0, 0, canvas.width, canvas.height);
 };
+
+const drawAbilityOnCanvas = (
+  ctx: CanvasRenderingContext2D,
+  canvas: HTMLCanvasElement,
+  abilities: Ability[]
+) => {
+  const xAnchorL = 25;
+  //const xAnchorR = 350;
+  const yAnchor = 400;
+  const canvasWidth = canvas.width / 2 - 50;
+  ctx.globalAlpha = 1;
+
+  for (let i = 0; i < abilities.length; i++) {
+    const img = new Image();
+    img.src = abilities[i].ability_banner;
+
+    img.onload = () => {
+      ctx.strokeStyle = abilities[i].ability_line_color;
+      ctx.lineWidth = 2;
+      ctx.strokeRect(
+        xAnchorL + 5 + (i + 1) * 10,
+        yAnchor + 5 + (i + 1) * 10,
+        canvasWidth - 10,
+        100
+      );
+      ctx.drawImage(img, xAnchorL + (i + 1) * 10, yAnchor + (i + 1) * 10, canvasWidth, 20);
+    };
+
+    // if (i % 2 === 0) {
+    //
+    // } else {
+    //
+    // }
+  }
+};
+
+// for (let i = 0; i < abilities.length; i++) {
+//
+//   img.src = abilities[i].abilitiesBanner;
+// }
+// image.onload = () => {
+//   ctx.drawImage(image, xAnchorL, yAnchor, canvasWidth, 20);
+//   ctx.strokeStyle = "darkgreen";
+//   ctx.lineWidth = 2;
+//   ctx.strokeRect(xAnchorL + 5, yAnchor + 5, canvasWidth - 10, 100);
+// };
+// }
+// image.onload = () => {
+// ctx.drawImage(image, xAnchorR, yAnchor, canvasWidth, 20);
+// ctx.strokeStyle = "darkgreen";
+// ctx.lineWidth = 2;
+// ctx.strokeRect(xAnchorR + 5, yAnchor + 5, canvasWidth - 10, 100);
+// };
 
 const drawWeaponsOnCanvas = (
   context: CanvasRenderingContext2D,
@@ -235,7 +289,6 @@ const drawWeaponsOnCanvas = (
         if (meleeWeapons[i].name.length > 28) {
           isDoubleSpaced = true;
           height += 20;
-          console.log("Melee Weapon Height: " + height);
           const lines = splitTextToLines(28, meleeWeapons[i].name);
           // If they are, draw them double spaced.
           let tempOffset = textOffset;
@@ -312,7 +365,6 @@ const drawWeaponsOnCanvas = (
         // Check if the Abilities are double long enough to be double spaced/
         if (meleeWeapons[i].ability.length > 28) {
           // Check if we're already double spaced. If we are, we don't need to change the offset.
-          console.log("Double spaced?? " + isDoubleSpaced);
           if (!isDoubleSpaced) {
             isDoubleSpaced = true;
             height += 20;
@@ -349,7 +401,6 @@ const drawWeaponsOnCanvas = (
         } else {
           context.globalAlpha = 0.3;
         }
-        console.log("Height before draw: " + height);
         // Finally, draw our image
         context.drawImage(image, wpnBannerPosX, wpnBannerPosY + imageOffset, width, height);
 
@@ -473,6 +524,8 @@ const WarscrollCard: React.FC = () => {
 
   const rangedWeapons = useSelector((state: RootState) => state.weapons.rangedWeaponsStats);
 
+  const abilities = useSelector((state: RootState) => state.abilities.abilities);
+
   useEffect(() => {
     if (triggerDownload) {
       const canvas = canvasRef.current;
@@ -495,15 +548,12 @@ const WarscrollCard: React.FC = () => {
 
     image.src = factionTemplate;
     weaponBannerImage.src = factionWeaponBanner;
+
     image.onload = () => {
       if (context && canvas) {
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         drawImageOnCanvas(context, image, canvas);
-        //context.strokeStyle = "indigo";
-        //context.lineWidth = 2;
-        //context.strokeRect(100, 250, 100, 100);
-        drawWeaponsOnCanvas(context, weaponBannerImage, rangedWeapons, meleeWeapons);
 
         // Draw title
         drawWarscrollTitleTextOnCanvas(
@@ -518,6 +568,13 @@ const WarscrollCard: React.FC = () => {
         drawTextOnCanvas(context, controlChar, 104, 147, charFontSize, "center", "white");
         drawTextOnCanvas(context, healthChar, 74, 115, charFontSize, "center", "white");
         drawTextOnCanvas(context, saveChar, 137, 115, charFontSize, "center", "white");
+
+        // Draw Weapons
+        drawWeaponsOnCanvas(context, weaponBannerImage, rangedWeapons, meleeWeapons);
+
+        // Draw abilities.
+        drawAbilityOnCanvas(context, canvas, abilities);
+
         // Draw Keywords
         drawTextOnCanvas(
           context,
@@ -553,6 +610,7 @@ const WarscrollCard: React.FC = () => {
     meleeWeapons,
     rangedWeapons,
     factionWeaponBanner,
+    abilities,
   ]); // This is your dependency. If you want useEffect to rerun, add stuff to this!!
 
   return (

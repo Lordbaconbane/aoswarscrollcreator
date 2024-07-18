@@ -10,8 +10,7 @@ const initialState: FactionState = {
   grandAlliance: "",
   factionName: "Default",
   factionTemplate: "src/assets/FactionBackgrounds/AoS4DefaultTemplate.png",
-  factionWeaponBanner:
-    "src/assets/FactionBackgrounds/Order/Seraphon/Seraphon_Weapon_Banner.png",
+  factionWeaponBanner: "",
 };
 
 // Our slice!
@@ -40,11 +39,7 @@ export const factionSlice = createSlice({
   // "Create slice will infer the state tupe from the initialState argument"
 });
 
-export const {
-  setFactionName,
-  setFactionTemplate,
-  setGrandAlliance,
-  setFactionWeaponBanner,
-} = factionSlice.actions;
+export const { setFactionName, setFactionTemplate, setGrandAlliance, setFactionWeaponBanner } =
+  factionSlice.actions;
 
 export default factionSlice.reducer;

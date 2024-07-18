@@ -16,10 +16,11 @@ import {
 import {
   AbilityIcon,
   AbilityKeywords,
-  AbilityPhase,
+  AbilityBanner,
   AbilityTimingText,
   AbilityType,
   AbilityUsageRestrictions,
+  AbilityLineColor,
 } from "./AbilitiesInfo";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
@@ -32,6 +33,8 @@ export interface Ability {
   declare_desc: string;
   effect_desc: string;
   keywords: string;
+  ability_banner: string;
+  ability_line_color: string;
   ability_icon: string;
   ability_phase: string;
   ability_timing: string;
@@ -76,6 +79,8 @@ export default function Abilities() {
           declare_desc: "",
           effect_desc: "",
           keywords: "",
+          ability_banner: "",
+          ability_line_color: "",
           ability_icon: "",
           ability_phase: "",
           ability_timing: "",
@@ -94,12 +99,22 @@ export default function Abilities() {
   const handleInputAbilityChange = (
     index: number,
     field: keyof (typeof abilities)[0],
-    value: string
+    value: string,
+    secondField?: keyof (typeof abilities)[0],
+    secondValue?: string
   ) => {
     // Create a copy of the array and the object at the specific index
-    const newAbilities = abilities.map((ability, i) =>
-      i === index ? { ...ability, [field]: value } : ability
-    );
+    const newAbilities = abilities.map((ability, i) => {
+      if (i === index) {
+        const updatedAbility = { ...ability, [field]: value };
+        if (secondField && secondValue) {
+          updatedAbility[secondField] = secondValue;
+        }
+        return updatedAbility;
+      }
+      return ability;
+    });
+
     dispatch(setAbilities(newAbilities));
     console.log(newAbilities);
   };
@@ -136,32 +151,156 @@ export default function Abilities() {
           ></TextField>
 
           {/* Ability phase/special */}
-          <Typography variant="body1" component="div">
-            {"Ability phase/special (determines color)"}
-          </Typography>
-
-          <Autocomplete
-            clearIcon={false}
-            options={AbilityPhase}
-            fullWidth
-            freeSolo
-            onChange={(_event, value) => {
-              if (value !== null) {
-                handleInputAbilityChange(index, "ability_phase", value);
-              }
-            }}
-            renderTags={(value, props) =>
-              value.map((option, index) => <Chip label={option} {...props({ index })} />)
-            }
-            renderInput={(params) => (
-              <TextField
-                sx={{ mt: 2, mb: 2 }}
-                label="Ability phase/special (Click info for color info)"
-                {...params}
-                id="ability-keywords"
-              />
-            )}
-          />
+          <FormControl>
+            <Typography variant="body1" component="div">
+              {"Ability phase/special (determines color)"}
+            </Typography>
+            <FormLabel id="ability-phase/special">
+              <RadioGroup
+                row
+                aria-label="ability-phase/special-radio-button-group"
+                name="ability-phase/special-radio-buttons-group"
+                sx={{ mb: 1 }}
+              >
+                <FormControlLabel
+                  value={AbilityBanner.start_deployment}
+                  control={
+                    <Radio
+                      onChange={() =>
+                        handleInputAbilityChange(
+                          index,
+                          "ability_banner",
+                          AbilityBanner.start_deployment,
+                          "ability_line_color",
+                          AbilityLineColor.start_deployment
+                        )
+                      }
+                    />
+                  }
+                  label="Start of Turn/Deployment"
+                />
+                <FormControlLabel
+                  value={AbilityBanner.hero}
+                  control={
+                    <Radio
+                      onChange={() =>
+                        handleInputAbilityChange(
+                          index,
+                          "ability_banner",
+                          AbilityBanner.hero,
+                          "ability_line_color",
+                          AbilityLineColor.hero
+                        )
+                      }
+                    />
+                  }
+                  label="Hero"
+                />
+                <FormControlLabel
+                  value={AbilityBanner.move}
+                  control={
+                    <Radio
+                      onChange={() =>
+                        handleInputAbilityChange(
+                          index,
+                          "ability_banner",
+                          AbilityBanner.move,
+                          "ability_line_color",
+                          AbilityLineColor.move
+                        )
+                      }
+                    />
+                  }
+                  label="Movement"
+                />
+                <FormControlLabel
+                  value={AbilityBanner.shoot}
+                  control={
+                    <Radio
+                      onChange={() =>
+                        handleInputAbilityChange(
+                          index,
+                          "ability_banner",
+                          AbilityBanner.shoot,
+                          "ability_line_color",
+                          AbilityLineColor.shoot
+                        )
+                      }
+                    />
+                  }
+                  label="Shooting"
+                />
+                <FormControlLabel
+                  value={AbilityBanner.charge}
+                  control={
+                    <Radio
+                      onChange={() =>
+                        handleInputAbilityChange(
+                          index,
+                          "ability_banner",
+                          AbilityBanner.charge,
+                          "ability_line_color",
+                          AbilityLineColor.charge
+                        )
+                      }
+                    />
+                  }
+                  label="Charge"
+                />
+                <FormControlLabel
+                  value={AbilityBanner.combat}
+                  control={
+                    <Radio
+                      onChange={() =>
+                        handleInputAbilityChange(
+                          index,
+                          "ability_banner",
+                          AbilityBanner.combat,
+                          "ability_line_color",
+                          AbilityLineColor.combat
+                        )
+                      }
+                    />
+                  }
+                  label="Combat"
+                />
+                <FormControlLabel
+                  value={AbilityBanner.end}
+                  control={
+                    <Radio
+                      onChange={() =>
+                        handleInputAbilityChange(
+                          index,
+                          "ability_banner",
+                          AbilityBanner.end,
+                          "ability_line_color",
+                          AbilityLineColor.end
+                        )
+                      }
+                    />
+                  }
+                  label="End of Turn"
+                />
+                <FormControlLabel
+                  value={AbilityBanner.defensive}
+                  control={
+                    <Radio
+                      onChange={() =>
+                        handleInputAbilityChange(
+                          index,
+                          "ability_banner",
+                          AbilityBanner.defensive,
+                          "ability_line_color",
+                          AbilityLineColor.defensive
+                        )
+                      }
+                    />
+                  }
+                  label="Defensive"
+                />
+              </RadioGroup>
+            </FormLabel>
+          </FormControl>
 
           {/* Ability icon */}
           <Typography variant="body1" component="div">

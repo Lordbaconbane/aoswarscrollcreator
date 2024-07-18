@@ -5,15 +5,26 @@ export enum AbilityType {
   spell = "spell",
 }
 
-export enum AbilityPhaseColor {
+export enum AbilityLineColor {
   start_deployment = "black",
   hero = "darkGoldenRod",
   move = "gray",
   shoot = "darkblue",
-  charge = "darkorange",
+  charge = "#A36303",
   combat = "darkred",
   end = "indigo",
   defensive = "darkgreen",
+}
+
+export enum AbilityBanner {
+  start_deployment = "src/assets/Banners/Ability_Banner_StartDeploy.png",
+  hero = "src/assets/Banners/Ability_Banner_Hero.png",
+  move = "src/assets/Banners/Ability_Banner_Movement.png",
+  shoot = "src/assets/Banners/Ability_Banner_Shooting.png",
+  charge = "src/assets/Banners/Ability_Banner_Charge.png",
+  combat = "src/assets/Banners/Ability_Banner_Combat.png",
+  end = "src/assets/Banners/Ability_Banner_EndOfTurn.png",
+  defensive = "src/assets/Banners/Ability_Banner_Defensive.png",
 }
 
 export const AbilityIcon = [
@@ -33,7 +44,6 @@ export const AbilityPhase = [
   "Movement Phase",
   "Shooting Phase",
   "Charge Phase",
-  "Combat Phase",
   "Combat Phase",
   "End of Turn",
   "Defensive",
@@ -63,7 +73,6 @@ export const AbilityTimingText = [
   "Your Charge Phase",
   "Your Hero Phase",
   "Your Movement Phase",
-  "Your Shooting Phase",
   "Your Shooting Phase",
 ];
 

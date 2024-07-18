@@ -1,13 +1,8 @@
 import { useState } from "react";
-import {
-  AccordionDetails,
-  Button,
-  ButtonGroup,
-  Typography,
-} from "@mui/material";
-import { setFactionName, setFactionTemplate } from "./GrandAlliancsSlice";
+import { AccordionDetails, Button, ButtonGroup, Typography } from "@mui/material";
+import { setFactionName, setFactionTemplate, setFactionWeaponBanner } from "./GrandAlliancsSlice";
 import { useDispatch } from "react-redux";
-import { FactionTemplates } from "./FactionTemplateLinks";
+import { FactionBanners, FactionTemplates } from "./FactionTemplateLinks";
 
 const buttonMargin = 0.5;
 
@@ -31,9 +26,7 @@ export default function GrandAlliances() {
               sx={{ m: buttonMargin }}
               onClick={() => {
                 dispatch(setFactionName("Stormcast Eternals"));
-                dispatch(
-                  setFactionTemplate(FactionTemplates.StormcastEternals)
-                );
+                dispatch(setFactionTemplate(FactionTemplates.StormcastEternals));
               }}
             >
               <Typography variant="body2">{"Stormcast Eternals"}</Typography>
@@ -93,6 +86,7 @@ export default function GrandAlliances() {
               onClick={() => {
                 dispatch(setFactionName("Seraphon"));
                 dispatch(setFactionTemplate(FactionTemplates.Seraphon));
+                dispatch(setFactionWeaponBanner(FactionBanners.Seraphon));
               }}
             >
               <Typography variant="body2">{"Seraphon"}</Typography>
@@ -237,38 +231,23 @@ export default function GrandAlliances() {
         maxWidth: "1.0",
       }}
     >
-      <ButtonGroup
-        variant="contained"
-        sx={{ display: "flex", flexWrap: "wrap" }}
-      >
-        <Button
-          sx={{ m: buttonMargin }}
-          onClick={() => setSelectedAlliance("Order")}
-        >
+      <ButtonGroup variant="contained" sx={{ display: "flex", flexWrap: "wrap" }}>
+        <Button sx={{ m: buttonMargin }} onClick={() => setSelectedAlliance("Order")}>
           <Typography variant="body1" component="div">
             {"Order"}
           </Typography>
         </Button>
-        <Button
-          sx={{ m: buttonMargin }}
-          onClick={() => setSelectedAlliance("Chaos")}
-        >
+        <Button sx={{ m: buttonMargin }} onClick={() => setSelectedAlliance("Chaos")}>
           <Typography variant="body1" component="div">
             {"Chaos"}
           </Typography>
         </Button>
-        <Button
-          sx={{ m: buttonMargin }}
-          onClick={() => setSelectedAlliance("Death")}
-        >
+        <Button sx={{ m: buttonMargin }} onClick={() => setSelectedAlliance("Death")}>
           <Typography variant="body1" component="div">
             {"Death"}
           </Typography>
         </Button>
-        <Button
-          sx={{ m: buttonMargin }}
-          onClick={() => setSelectedAlliance("Destruction")}
-        >
+        <Button sx={{ m: buttonMargin }} onClick={() => setSelectedAlliance("Destruction")}>
           <Typography variant="body1" component="div">
             {"Destruction"}
           </Typography>
