@@ -11,6 +11,7 @@ import Keywords from "./Keywords/Keywords";
 import MeleeWeapons from "./Weapons/MeleeWeapons";
 import RangedWeapons from "./Weapons/RangedWeapons";
 import Abilities from "./Abilities/Abilities";
+import Loadout from "./Loadouts/Loadouts";
 const theme = createTheme({
   typography: {
     fontFamily: "Minion Pro, Arial, sans-serif",
@@ -91,6 +92,36 @@ export default function AccordianLayout() {
         </AccordionSummary>
         <MeleeWeapons />
       </Accordion>
+      {/*Loadout*/}
+      <Accordion sx={{ maxWidth: accordianWidth }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel3-content"
+          id="panel3-header"
+        >
+          <ThemeProvider theme={theme}>
+            <Typography variant="h6" component="div">
+              {"Unit Loadout & Info"}
+            </Typography>
+          </ThemeProvider>
+        </AccordionSummary>
+        <Loadout />
+      </Accordion>
+      {/*Abilities*/}
+      <Accordion sx={{ maxWidth: accordianWidth }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel3-content"
+          id="panel3-header"
+        >
+          <ThemeProvider theme={theme}>
+            <Typography variant="h6" component="div">
+              {"Abilities"}
+            </Typography>
+          </ThemeProvider>
+        </AccordionSummary>
+        <Abilities />
+      </Accordion>
       {/*Keywords*/}
       <Accordion sx={{ maxWidth: accordianWidth }}>
         <AccordionSummary
@@ -106,21 +137,6 @@ export default function AccordianLayout() {
         </AccordionSummary>
         <Keywords />
       </Accordion>
-      <Accordion sx={{ maxWidth: accordianWidth }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3-content"
-          id="panel3-header"
-        >
-          <ThemeProvider theme={theme}>
-            <Typography variant="h6" component="div">
-              {"Abilities"}
-            </Typography>
-          </ThemeProvider>
-        </AccordionSummary>
-        <Abilities />
-      </Accordion>
-      {/*Abilities*/}
     </Box>
   );
 }

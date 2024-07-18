@@ -1,10 +1,11 @@
+import { abilitiesSlice } from "../components/Abilities/AbilitiesSlice";
+import { characteristicSlice } from "../components/Characteristics/CharacteristicsSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import { factionSlice } from "../components/GrandAlliances/GrandAlliancsSlice";
-import { warscrollCardSlice } from "../components/WarscrollCard/WarscrollCardSlice";
-import { characteristicSlice } from "../components/Characteristics/CharacteristicsSlice";
 import { keywordsSlice } from "../components/Keywords/KeywordsSlice";
+import { loadoutSlice } from "../components/Loadouts/LoadoutSlice";
+import { warscrollCardSlice } from "../components/WarscrollCard/WarscrollCardSlice";
 import { weaponsSlice } from "../components/Weapons/WeaponsSlice";
-import { abilitiesSlice } from "../components/Abilities/AbilitiesSlice";
 
 // We created a Redux store
 export const store = configureStore({
@@ -15,6 +16,7 @@ export const store = configureStore({
     keywords: keywordsSlice.reducer,
     weapons: weaponsSlice.reducer,
     abilities: abilitiesSlice.reducer,
+    loadout: loadoutSlice.reducer,
   },
 });
 
