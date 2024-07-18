@@ -1,7 +1,7 @@
 import { WeaponAbilities } from "./WeaponAbilities";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { setMeleeWeapons /*setRangedWeapons*/ } from "./WeaponsSlice";
+import { setMeleeWeapons } from "./WeaponsSlice";
 
 import {
   AccordionDetails,

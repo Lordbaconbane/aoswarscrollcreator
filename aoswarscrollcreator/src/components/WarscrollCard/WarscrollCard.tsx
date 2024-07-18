@@ -631,7 +631,8 @@ const WarscrollCard: React.FC = () => {
             width={658}
             height={995}
             style={{
-              height: "90vh",
+              height: "100vh",
+              width: "70vh",
               border: "1px solid #000",
               position: "sticky",
               top: "10",
