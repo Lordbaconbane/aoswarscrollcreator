@@ -2,7 +2,11 @@ import { RangedWeaponStats } from "../Weapons/RangedWeapons";
 import { MeleeWeaponStats } from "../Weapons/MeleeWeapons";
 import { Ability } from "../Abilities/Abilities";
 
+import "../styles.css";
+
 const warscrollTitleCharPerLine = 20;
+const loadoutBodyCharPerLine = 42;
+const loadoutBodyFontSize = 16;
 const factionTitleFontSize = 12;
 const warscrollNameFontSize = 30;
 const wpnBannerPosX = 10;
@@ -19,6 +23,41 @@ export const drawImageOnCanvas = (
   ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 };
 
+export const drawTextOnCanvas = (
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  fontSize: number,
+  alignment: CanvasTextAlign,
+  fontColor: string
+) => {
+  ctx.font = fontSize.toString() + "px Minion Pro";
+  ctx.fillStyle = fontColor;
+  ctx.textAlign = alignment;
+  ctx.globalAlpha = 1;
+  ctx.fillText(text, x, y); // Change the coordinates as needed
+  ctx.strokeText;
+};
+
+const splitTextToLines = (charLimit: number, text: string): string[] => {
+  const words = text.split(" ");
+  const lines: string[] = [];
+  let currentLine = "";
+
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i];
+    if ((currentLine + word).length <= charLimit) {
+      currentLine += " " + word;
+    } else {
+      lines.push(currentLine);
+      currentLine = word;
+    }
+  }
+  lines.push(currentLine);
+  return lines;
+};
+
 export const drawAbilityOnCanvas = (
   ctx: CanvasRenderingContext2D,
   canvas: HTMLCanvasElement,
@@ -27,15 +66,50 @@ export const drawAbilityOnCanvas = (
   loadoutPoints: string[],
   yAnchor: number
 ) => {
-  //const xAnchorL = 25;
+  const xAnchorL = 25;
   const xAnchorR = canvas.width / 2 + 5;
   //const yAnchord = 400;
   const canvasWidth = canvas.width / 2 - 50;
   ctx.globalAlpha = 1;
+  yAnchor += 20;
 
   for (let i = 0; i < abilities.length; i++) {
     const img = new Image();
     img.src = abilities[i].ability_banner;
+
+    console.log("loadoutBody: " + loadoutBody);
+    // Draw this first.
+    if (loadoutBody.length > 0) {
+      if (loadoutBody.length >= loadoutBodyCharPerLine) {
+        const lines = splitTextToLines(loadoutBodyCharPerLine, loadoutBody);
+        // Draw each line of loadout body
+        for (let i = 0; i < lines.length; i++) {
+          ctx.font = factionTitleFontSize.toString() + "px Minion Pro Bold";
+          yAnchor += 20;
+          drawTextOnCanvas(ctx, lines[i], xAnchorL, yAnchor, loadoutBodyFontSize, "left", "black");
+        }
+      }
+      // If there is only one line, default to this.
+      else {
+        yAnchor += 20;
+        drawTextOnCanvas(ctx, loadoutBody, xAnchorL, yAnchor, loadoutBodyFontSize, "left", "black");
+      }
+
+      if (loadoutPoints.length > 0) {
+        for (let i = 0; i < loadoutPoints.length; i++) {
+          yAnchor += 20;
+          drawTextOnCanvas(
+            ctx,
+            "   •  " + loadoutPoints[i],
+            xAnchorL,
+            yAnchor,
+            loadoutBodyFontSize,
+            "left",
+            "black"
+          );
+        }
+      }
+    }
 
     img.onload = () => {
       // Draw any loadout info first
@@ -258,41 +332,6 @@ export const drawWeaponsOnCanvas = (
     yAnchor = imageOffset + wpnBannerPosY;
   }
   return yAnchor; // Return the updated yAnchor
-};
-
-export const drawTextOnCanvas = (
-  ctx: CanvasRenderingContext2D,
-  text: string,
-  x: number,
-  y: number,
-  fontSize: number,
-  alignment: CanvasTextAlign,
-  fontColor: string
-) => {
-  ctx.font = fontSize.toString() + "px Minion Pro";
-  ctx.fillStyle = fontColor;
-  ctx.textAlign = alignment;
-  ctx.globalAlpha = 1;
-  ctx.fillText(text, x, y); // Change the coordinates as needed
-  ctx.strokeText;
-};
-
-const splitTextToLines = (charLimit: number, text: string): string[] => {
-  const words = text.split(" ");
-  const lines: string[] = [];
-  let currentLine = "";
-
-  for (let i = 0; i < words.length; i++) {
-    const word = words[i];
-    if ((currentLine + word).length <= charLimit) {
-      currentLine += " " + word;
-    } else {
-      lines.push(currentLine);
-      currentLine = word;
-    }
-  }
-  lines.push(currentLine);
-  return lines;
 };
 
 export const drawWarscrollTitleTextOnCanvas = (

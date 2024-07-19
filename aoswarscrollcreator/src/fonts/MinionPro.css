@@ -11,3 +11,10 @@
   font-weight: bold;
   font-style: normal;
 }
+
+@font-face {
+  font-family: "Minion Pro";
+  src: url("/fonts/Minion Pro Italic.ttf") format("ttf");
+  font-weight: normal;
+  font-style: italic;
+}
