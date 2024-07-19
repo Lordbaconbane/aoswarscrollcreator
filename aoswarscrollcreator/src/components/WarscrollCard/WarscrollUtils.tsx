@@ -5,8 +5,8 @@ import { Ability } from "../Abilities/Abilities";
 import "../styles.css";
 
 const warscrollTitleCharPerLine = 20;
-const loadoutBodyCharPerLine = 42;
-const loadoutBodyFontSize = 16;
+const loadoutCharPerLine = 42;
+const loadoutFontSize = 16;
 const factionTitleFontSize = 12;
 const warscrollNameFontSize = 30;
 const wpnBannerPosX = 10;
@@ -80,33 +80,36 @@ export const drawAbilityOnCanvas = (
     console.log("loadoutBody: " + loadoutBody);
     // Draw this first.
     if (loadoutBody.length > 0) {
-      if (loadoutBody.length >= loadoutBodyCharPerLine) {
-        const lines = splitTextToLines(loadoutBodyCharPerLine, loadoutBody);
+      if (loadoutBody.length >= loadoutCharPerLine) {
+        const lines = splitTextToLines(loadoutCharPerLine, loadoutBody);
         // Draw each line of loadout body
         for (let i = 0; i < lines.length; i++) {
           ctx.font = factionTitleFontSize.toString() + "px Minion Pro Bold";
           yAnchor += 20;
-          drawTextOnCanvas(ctx, lines[i], xAnchorL, yAnchor, loadoutBodyFontSize, "left", "black");
+          drawTextOnCanvas(ctx, lines[i], xAnchorL, yAnchor, loadoutFontSize, "left", "black");
         }
       }
       // If there is only one line, default to this.
       else {
         yAnchor += 20;
-        drawTextOnCanvas(ctx, loadoutBody, xAnchorL, yAnchor, loadoutBodyFontSize, "left", "black");
+        drawTextOnCanvas(ctx, loadoutBody, xAnchorL, yAnchor, loadoutFontSize, "left", "black");
       }
 
       if (loadoutPoints.length > 0) {
         for (let i = 0; i < loadoutPoints.length; i++) {
-          yAnchor += 20;
-          drawTextOnCanvas(
-            ctx,
-            "   •  " + loadoutPoints[i],
-            xAnchorL,
-            yAnchor,
-            loadoutBodyFontSize,
-            "left",
-            "black"
-          );
+          // Only draw the text if there is text to the loadout point
+          if (loadoutPoints[i].length > 0) {
+            yAnchor += 20;
+            drawTextOnCanvas(
+              ctx,
+              "   •  " + loadoutPoints[i],
+              xAnchorL,
+              yAnchor,
+              loadoutFontSize,
+              "left",
+              "black"
+            );
+          }
         }
       }
     }
