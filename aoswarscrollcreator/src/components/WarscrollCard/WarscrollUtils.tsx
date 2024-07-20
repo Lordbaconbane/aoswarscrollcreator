@@ -70,15 +70,11 @@ const splitTextToLines = (charLimit: number, text: string): string[] => {
 
 export const drawLoadoutOnCanvas = (
   ctx: CanvasRenderingContext2D,
-  canvas: HTMLCanvasElement,
   loadoutBody: string,
   loadoutPoints: string[],
   yAnchor: number
 ) => {
   const xAnchorL = 25;
-  //const xAnchorR = canvas.width / 2 + 5;
-  //const yAnchord = 400;
-  //const canvasWidth = canvas.width / 2 - 50;
   ctx.globalAlpha = 1;
   yAnchor += 20;
 
@@ -96,6 +92,7 @@ export const drawLoadoutOnCanvas = (
       yAnchor += 20;
       drawTextOnCanvas(ctx, loadoutBody, xAnchorL, yAnchor, loadoutFontSize, "left", "black", "italic");
     }
+    // Draw the loadout points
     for (let k = 0; k < loadoutPoints.length; k++) {
       yAnchor += 20;
       drawTextOnCanvas(
@@ -110,15 +107,6 @@ export const drawLoadoutOnCanvas = (
       );
     }
   }
-
-  //const font = new FontFace("Minion Pro", "url(./src/fonts/Minion%20Pro%20Regular.ttf)");
-  //await font.load();
-  //document.fonts.add(font);
-  //
-  //font.load().then(() => {
-  //  // Draw Loadout
-  //
-  //});
 
   return yAnchor; // Return the updated yAnchor
 };

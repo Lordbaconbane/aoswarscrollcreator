@@ -102,7 +102,7 @@ const WarscrollCard: React.FC = () => {
         yAnchor = drawWeaponsOnCanvas(ctx, weaponBannerImage, rangedWeapons, meleeWeapons);
 
         // Draw loadout and abilities
-        yAnchor = drawLoadoutOnCanvas(ctx, canvas, loadoutBody, loadoutPoints, yAnchor);
+        yAnchor = drawLoadoutOnCanvas(ctx, loadoutBody, loadoutPoints, yAnchor);
         drawAbilitiesOnCanvas(ctx, canvas, abilities, yAnchor);
 
         // Draw Keywords
