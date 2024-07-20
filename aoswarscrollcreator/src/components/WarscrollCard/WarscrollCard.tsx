@@ -8,12 +8,11 @@ import { resetDownload } from "./WarscrollCardSlice";
 import {
   drawImageOnCanvas,
   drawTextOnCanvas,
-  drawAbilityOnCanvas,
+  drawAbilitiesOnCanvas,
   drawWarscrollTitleTextOnCanvas,
   drawWeaponsOnCanvas,
+  drawLoadoutOnCanvas,
 } from "./WarscrollUtils";
-
-import "../styles.css";
 
 const charFontSize = 26;
 
@@ -100,11 +99,11 @@ const WarscrollCard: React.FC = () => {
         drawTextOnCanvas(ctx, saveChar, 137, 115, charFontSize, "center", "white");
 
         // Draw Weapons
-        //console.log("Yanchor Before: " + yAnchor);
         yAnchor = drawWeaponsOnCanvas(ctx, weaponBannerImage, rangedWeapons, meleeWeapons);
-        //console.log("Yanchor After: " + yAnchor);
+
         // Draw loadout and abilities
-        drawAbilityOnCanvas(ctx, canvas, abilities, loadoutBody, loadoutPoints, yAnchor);
+        yAnchor = drawLoadoutOnCanvas(ctx, canvas, loadoutBody, loadoutPoints, yAnchor);
+        drawAbilitiesOnCanvas(ctx, canvas, abilities, yAnchor);
 
         // Draw Keywords
         drawTextOnCanvas(

@@ -33,14 +33,10 @@ export default function AccordianLayout() {
     >
       {/*Faction Select*/}
       <Accordion sx={{ maxWidth: accordianWidth }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3-content"
-          id="panel3-header"
-        >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel3-content" id="panel3-header">
           <HandshakeIcon sx={{ mr: 1 }}> </HandshakeIcon>
           <ThemeProvider theme={theme}>
-            <Typography variant="h6" component="div">
+            <Typography variant="h6" component="div" fontFamily={"Minion Pro"}>
               {"Faction Selection"}
             </Typography>
           </ThemeProvider>
@@ -49,13 +45,9 @@ export default function AccordianLayout() {
       </Accordion>
       {/*Characteristics*/}
       <Accordion sx={{ maxWidth: accordianWidth }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3-content"
-          id="panel3-header"
-        >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel3-content" id="panel3-header">
           <ThemeProvider theme={theme}>
-            <Typography variant="h6" component="div">
+            <Typography variant="h6" component="div" fontFamily={"Minion Pro"}>
               {"Characteristics"}
             </Typography>
           </ThemeProvider>
@@ -64,13 +56,9 @@ export default function AccordianLayout() {
       </Accordion>
       {/*Ranged Weapons*/}
       <Accordion sx={{ maxWidth: accordianWidth }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3-content"
-          id="panel3-header"
-        >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel3-content" id="panel3-header">
           <ThemeProvider theme={theme}>
-            <Typography variant="h6" component="div">
+            <Typography variant="h6" component="div" fontFamily={"Minion Pro"}>
               {"Ranged Weapons"}
             </Typography>
           </ThemeProvider>
@@ -79,13 +67,9 @@ export default function AccordianLayout() {
       </Accordion>
       {/*Melee Weapons*/}
       <Accordion sx={{ maxWidth: accordianWidth }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3-content"
-          id="panel3-header"
-        >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel3-content" id="panel3-header">
           <ThemeProvider theme={theme}>
-            <Typography variant="h6" component="div">
+            <Typography variant="h6" component="div" fontFamily={"Minion Pro"}>
               {"Melee Weapons"}
             </Typography>
           </ThemeProvider>
@@ -94,13 +78,9 @@ export default function AccordianLayout() {
       </Accordion>
       {/*Loadout*/}
       <Accordion sx={{ maxWidth: accordianWidth }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3-content"
-          id="panel3-header"
-        >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel3-content" id="panel3-header">
           <ThemeProvider theme={theme}>
-            <Typography variant="h6" component="div">
+            <Typography variant="h6" component="div" fontFamily={"Minion Pro"}>
               {"Unit Loadout & Info"}
             </Typography>
           </ThemeProvider>
@@ -109,13 +89,9 @@ export default function AccordianLayout() {
       </Accordion>
       {/*Abilities*/}
       <Accordion sx={{ maxWidth: accordianWidth }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3-content"
-          id="panel3-header"
-        >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel3-content" id="panel3-header">
           <ThemeProvider theme={theme}>
-            <Typography variant="h6" component="div">
+            <Typography variant="h6" component="div" fontFamily={"Minion Pro"}>
               {"Abilities"}
             </Typography>
           </ThemeProvider>
@@ -124,13 +100,9 @@ export default function AccordianLayout() {
       </Accordion>
       {/*Keywords*/}
       <Accordion sx={{ maxWidth: accordianWidth }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3-content"
-          id="panel3-header"
-        >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel3-content" id="panel3-header">
           <ThemeProvider theme={theme}>
-            <Typography variant="h6" component="div">
+            <Typography variant="h6" component="div" fontFamily={"Minion Pro"}>
               {"Keywords"}
             </Typography>
           </ThemeProvider>
