@@ -76,7 +76,6 @@ export const drawLoadoutOnCanvas = (
 ) => {
   const xAnchorL = 25;
   ctx.globalAlpha = 1;
-  yAnchor += 20;
 
   if (loadoutBody.length > 0) {
     if (loadoutBody.length >= loadoutCharPerLine) {
@@ -117,28 +116,29 @@ export const drawAbilitiesOnCanvas = (
   abilities: Ability[],
   yAnchor: number
 ) => {
-  //const xAnchorL = 25;
+  const xAnchorL = 25;
   const xAnchorR = canvas.width / 2 + 5;
   //const yAnchord = 400;
   const canvasWidth = canvas.width / 2 - 50;
   ctx.globalAlpha = 1;
+  console;
   yAnchor += 20;
-  //let yAnchorR = yAnchor;
+  //let yAnchorR = textPosY;
 
   // Now draw abilities.
   for (let i = 0; i < abilities.length; i++) {
+    let xAnchor = xAnchorL;
+    if (i % 2 === 1) {
+      xAnchor = xAnchorR;
+    }
     const img = new Image();
     img.src = abilities[i].ability_banner;
 
     img.onload = () => {
-      // Draw any loadout info first
-
-      // Determine anchor position
-
       ctx.strokeStyle = abilities[i].ability_line_color;
       ctx.lineWidth = 2;
-      ctx.strokeRect(xAnchorR + 5 + (i + 1) * 10, yAnchor + 5 + (i + 1) * 10, canvasWidth - 10, 100);
-      ctx.drawImage(img, xAnchorR + (i + 1) * 10, yAnchor + (i + 1) * 10, canvasWidth, 20);
+      ctx.strokeRect(xAnchor + 5, yAnchor, canvasWidth - 10, 100);
+      ctx.drawImage(img, xAnchor, yAnchor - 5, canvasWidth, 20);
     };
   }
 };
