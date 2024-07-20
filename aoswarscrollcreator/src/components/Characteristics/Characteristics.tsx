@@ -13,9 +13,7 @@ import {
 export default function Characteristics() {
   const dispatch = useDispatch();
 
-  const saveChar = useSelector(
-    (state: RootState) => state.characteristics.warscrollSave
-  );
+  const saveChar = useSelector((state: RootState) => state.characteristics.warscrollSave);
 
   const handleNameChange = (event) => {
     const value = event.target.value;
@@ -28,7 +26,7 @@ export default function Characteristics() {
   };
 
   const handleMoveChange = (event) => {
-    const value = event.target.value;
+    const value = event.target.value + '"';
     dispatch(setWarscrollMove(value));
   };
 
@@ -43,7 +41,7 @@ export default function Characteristics() {
   };
 
   const handleSaveChange = (event) => {
-    const value = event.target.value;
+    const value = event.target.value + "+";
     dispatch(setWarscrollSave(value));
   };
 
