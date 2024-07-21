@@ -114,22 +114,28 @@ export const drawAbilitiesOnCanvas = (
   ctx: CanvasRenderingContext2D,
   canvas: HTMLCanvasElement,
   abilities: Ability[],
-  yAnchor: number
+  yAnchor: number,
+  isLoadout: boolean
 ) => {
   const xAnchorL = 25;
   const xAnchorR = canvas.width / 2 + 5;
-  //const yAnchord = 400;
+
   const canvasWidth = canvas.width / 2 - 50;
   ctx.globalAlpha = 1;
   console;
   yAnchor += 20;
-  //let yAnchorR = textPosY;
+  //let yAnchorL = yAnchor;
+  console.log("yAnchor: " + yAnchor);
 
-  // Now draw abilities.
   for (let i = 0; i < abilities.length; i++) {
     let xAnchor = xAnchorL;
-    if (i % 2 === 1) {
+
+    if (i % 2 == 0) {
+      xAnchor = xAnchorL;
+      yAnchor = yAnchorL;
+    } else {
       xAnchor = xAnchorR;
+      //yAnchor = yAnchorR;
     }
     const img = new Image();
     img.src = abilities[i].ability_banner;
