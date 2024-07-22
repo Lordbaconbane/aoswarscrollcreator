@@ -358,6 +358,9 @@ export default function Abilities() {
             renderInput={(params) => (
               <TextField
                 sx={{ mt: 1, mb: 1 }}
+                onChange={(e) => {
+                  handleInputAbilityChange(index, "ability_restriction", e.target.value);
+                }}
                 label="Ability Restrictions (Once Per Turn (Army), etc)"
                 {...params}
                 id="ability-keywords"
@@ -381,6 +384,9 @@ export default function Abilities() {
             renderInput={(params) => (
               <TextField
                 sx={{ mb: 2 }}
+                onChange={(e) => {
+                  handleInputAbilityChange(index, "ability_timing", e.target.value);
+                }}
                 label="Ability Timing (Passive, End of Any Turn, Any Combat Phase, etc))"
                 {...params}
                 id="ability-keywords"
@@ -464,7 +470,6 @@ export default function Abilities() {
               />
             )}
           />
-
           <Button
             variant="contained"
             color="secondary"

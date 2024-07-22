@@ -145,7 +145,6 @@ export const drawAbilitiesOnCanvas = (
       ctx.strokeStyle = abilities[i].ability_line_color;
       ctx.lineWidth = 2;
       const k = i + loadoutOffset;
-      i += loadoutOffset;
 
       // Draw box interior
       ctx.globalAlpha = rectTransparency;
@@ -156,8 +155,27 @@ export const drawAbilitiesOnCanvas = (
       ctx.globalAlpha = 1;
       ctx.strokeRect(coords[k].x, coords[k].y + 1, canvasWidth - 10, 100);
 
-      // Draw top banner
-      ctx.drawImage(img, coords[k].x - 5, coords[k].y, canvasWidth, 20);
+      // Draw ability top banner
+
+      const abilityTitle = abilities[i].ability_restriction + ", " + abilities[i].ability_timing;
+      // Draw top banner. We go in order of banner->text for laying purposes.
+      if (abilityTitle.length > 0) {
+        if (abilityTitle.length >= loadoutCharPerLine) {
+          const lines = splitTextToLines(loadoutCharPerLine, abilityTitle);
+          // Draw each line of loadout body
+          let tempY = 0;
+          ctx.drawImage(img, coords[k].x - 5, coords[k].y - 10, canvasWidth, 20 * lines.length);
+          for (let i = 0; i < lines.length; i++) {
+            tempY += 20;
+            drawTextOnCanvas(ctx, lines[i], coords[k].x, coords[k].y - tempY, loadoutFontSize, "left", "red");
+          }
+        }
+        // If there is only one line, default to this.
+        else {
+          ctx.drawImage(img, coords[k].x - 5, coords[k].y, canvasWidth, 20);
+          drawTextOnCanvas(ctx, abilityTitle, xAnchorL, coords[k].y, loadoutFontSize, "left", "white");
+        }
+      }
 
       // Draw keyword banners if we have them.
       if (hasKeywords) {
@@ -188,53 +206,6 @@ export const drawAbilitiesOnCanvas = (
     };
   }
 };
-
-//for (let i = 0; i < abilities.length; i++) {
-//  const img = new Image();
-//  img.src = abilities[i].ability_banner;
-//
-//  img.onload = () => {
-//    ctx.strokeStyle = abilities[i].ability_line_color;
-//    ctx.lineWidth = 2;
-//    ctx.strokeRect(coords[i].x, coords[i].y + 1, canvasWidth - 10, 100);
-//    ctx.drawImage(img, coords[i].x - 5, coords[i].y, canvasWidth, 20);
-//  };}
-
-// const newElement: number[][] = [[0, 0]]; // Example new element
-// if (isLoadout) {
-//   newElement[0][0] = xAnchorL;
-//   newElement[0][1] = display[i][i + 1];
-// } else {
-//   newElement[0][0] = xAnchorR;
-//   newElement[0][1] = display[i][i + 1];
-// }
-// display.push(newElement[0]);
-
-//if (i % 2 == 0) {
-//} else {
-//xAnchor = xAnchorR;
-//yAnchor = yAnchorR;
-//}
-// }
-//};
-
-// for (let i = 0; i < abilities.length; i++) {
-//
-//   img.src = abilities[i].abilitiesBanner;
-// }
-// image.onload = () => {
-//   ctx.drawImage(image, xAnchorL, yAnchor, canvasWidth, 20);
-//   ctx.strokeStyle = "darkgreen";
-//   ctx.lineWidth = 2;
-//   ctx.strokeRect(xAnchorL + 5, yAnchor + 5, canvasWidth - 10, 100);
-// };
-// }
-// image.onload = () => {
-// ctx.drawImage(image, xAnchorR, yAnchor, canvasWidth, 20);
-// ctx.strokeStyle = "darkgreen";
-// ctx.lineWidth = 2;
-// ctx.strokeRect(xAnchorR + 5, yAnchor + 5, canvasWidth - 10, 100);
-// };
 
 export const drawWeaponsOnCanvas = (
   ctx: CanvasRenderingContext2D,

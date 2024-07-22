@@ -54,9 +54,7 @@ export default function Keywords() {
   const dispatch = useDispatch();
 
   return (
-    <AccordionDetails
-      sx={{ display: "flex", flexWrap: "wrap", maxWidth: "1.0" }}
-    >
+    <AccordionDetails sx={{ display: "flex", flexWrap: "wrap", maxWidth: "1.0" }}>
       <Autocomplete
         clearIcon={false}
         options={keywordAbilities}
@@ -68,9 +66,7 @@ export default function Keywords() {
           dispatch(setKeywordAbility(value));
         }}
         renderTags={(value, props) =>
-          value.map((option, index) => (
-            <Chip label={option} {...props({ index })} />
-          ))
+          value.map((option, index) => <Chip label={option} {...props({ index })} />)
         }
         renderInput={(params) => (
           <TextField
@@ -93,9 +89,7 @@ export default function Keywords() {
           dispatch(setKeywordIdentity(value));
         }}
         renderTags={(value, props) =>
-          value.map((option, index) => (
-            <Chip label={option} {...props({ index })} />
-          ))
+          value.map((option, index) => <Chip label={option} {...props({ index })} />)
         }
         renderInput={(params) => (
           <TextField
