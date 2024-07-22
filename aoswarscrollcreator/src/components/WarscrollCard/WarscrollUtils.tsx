@@ -1,10 +1,11 @@
 import { RangedWeaponStats } from "../Weapons/RangedWeapons";
 import { MeleeWeaponStats } from "../Weapons/MeleeWeapons";
 import { Ability } from "../Abilities/Abilities";
+import { Coordinate } from "./WarscrollCard";
 
 // Character limits
 const warscrollTitleCharPerLine = 20;
-const loadoutCharPerLine = 42;
+const loadoutCharPerLine = 37;
 const weaponCharPerLine = 27;
 
 // Font sizes
@@ -13,12 +14,17 @@ const wpnFont = 14;
 const loadoutFontSize = 16;
 const factionTitleFontSize = 12;
 const warscrollNameFontSize = 30;
+const abilitiesFont = 10;
 
 // Banner positions
 const wpnBannerPosX = 10;
 const wpnBannerPosY = 200;
 const wpnHeaderYPos = 215;
 const textPosY = 232;
+const defaultYPos = 242;
+
+// Box visuals
+const rectTransparency = 0.5;
 
 export const drawImageOnCanvas = (
   ctx: CanvasRenderingContext2D,
@@ -76,7 +82,6 @@ export const drawLoadoutOnCanvas = (
 ) => {
   const xAnchorL = 25;
   ctx.globalAlpha = 1;
-
   if (loadoutBody.length > 0) {
     if (loadoutBody.length >= loadoutCharPerLine) {
       const lines = splitTextToLines(loadoutCharPerLine, loadoutBody);
@@ -114,40 +119,104 @@ export const drawAbilitiesOnCanvas = (
   ctx: CanvasRenderingContext2D,
   canvas: HTMLCanvasElement,
   abilities: Ability[],
-  yAnchor: number,
+  coords: Coordinate[],
   isLoadout: boolean
 ) => {
   const xAnchorL = 25;
   const xAnchorR = canvas.width / 2 + 5;
-
   const canvasWidth = canvas.width / 2 - 50;
+  let loadoutOffset = 0; // Offset is used for if we have a loadout, we want to start 1 further in our array
   ctx.globalAlpha = 1;
   console;
-  yAnchor += 20;
-  //let yAnchorL = yAnchor;
-  console.log("yAnchor: " + yAnchor);
+
+  if (isLoadout) {
+    coords[1].x = xAnchorR;
+    loadoutOffset += 1;
+  } else {
+    coords[0].x = xAnchorL;
+    loadoutOffset + 0;
+  }
 
   for (let i = 0; i < abilities.length; i++) {
-    let xAnchor = xAnchorL;
-
-    if (i % 2 == 0) {
-      xAnchor = xAnchorL;
-      yAnchor = yAnchorL;
-    } else {
-      xAnchor = xAnchorR;
-      //yAnchor = yAnchorR;
-    }
     const img = new Image();
+    const hasKeywords = abilities[i].keywords.length > 0;
     img.src = abilities[i].ability_banner;
-
     img.onload = () => {
       ctx.strokeStyle = abilities[i].ability_line_color;
       ctx.lineWidth = 2;
-      ctx.strokeRect(xAnchor + 5, yAnchor, canvasWidth - 10, 100);
-      ctx.drawImage(img, xAnchor, yAnchor - 5, canvasWidth, 20);
+      const k = i + loadoutOffset;
+      i += loadoutOffset;
+
+      // Draw box interior
+      ctx.globalAlpha = rectTransparency;
+      ctx.fillStyle = "white";
+      ctx.fillRect(coords[k].x, coords[k].y + 1, canvasWidth - 10, 100);
+
+      // Draw box exterior
+      ctx.globalAlpha = 1;
+      ctx.strokeRect(coords[k].x, coords[k].y + 1, canvasWidth - 10, 100);
+
+      // Draw top banner
+      ctx.drawImage(img, coords[k].x - 5, coords[k].y, canvasWidth, 20);
+
+      // Draw keyword banners if we have them.
+      if (hasKeywords) {
+        ctx.strokeRect(coords[k].x, coords[k].y + 82, canvasWidth - 10, 19);
+        ctx.drawImage(img, coords[k].x - 1, coords[k].y + 81, 80, 21);
+        drawTextOnCanvas(ctx, "KEYWORDS", coords[k].x + 10, coords[k].y + 95, abilitiesFont, "left", "white");
+        drawTextOnCanvas(
+          ctx,
+          abilities[i].keywords,
+          coords[k].x + 80,
+          coords[k].y + 95,
+          abilitiesFont,
+          "left",
+          "black"
+        );
+      }
+
+      if (k + 1 < abilities.length) {
+        const newCoordinate: Coordinate = { x: 0, y: coords[0].y };
+        coords.push(newCoordinate);
+        if (coords[k].x == xAnchorL) {
+          coords[k + 1].x = xAnchorR;
+        } else if (coords[k].x == xAnchorR) {
+          coords[k + 1].x = xAnchorL;
+          coords[k + 1].y += 150;
+        }
+      }
     };
   }
 };
+
+//for (let i = 0; i < abilities.length; i++) {
+//  const img = new Image();
+//  img.src = abilities[i].ability_banner;
+//
+//  img.onload = () => {
+//    ctx.strokeStyle = abilities[i].ability_line_color;
+//    ctx.lineWidth = 2;
+//    ctx.strokeRect(coords[i].x, coords[i].y + 1, canvasWidth - 10, 100);
+//    ctx.drawImage(img, coords[i].x - 5, coords[i].y, canvasWidth, 20);
+//  };}
+
+// const newElement: number[][] = [[0, 0]]; // Example new element
+// if (isLoadout) {
+//   newElement[0][0] = xAnchorL;
+//   newElement[0][1] = display[i][i + 1];
+// } else {
+//   newElement[0][0] = xAnchorR;
+//   newElement[0][1] = display[i][i + 1];
+// }
+// display.push(newElement[0]);
+
+//if (i % 2 == 0) {
+//} else {
+//xAnchor = xAnchorR;
+//yAnchor = yAnchorR;
+//}
+// }
+//};
 
 // for (let i = 0; i < abilities.length; i++) {
 //
@@ -180,7 +249,7 @@ export const drawWeaponsOnCanvas = (
   let imageOffset = 20;
   let mWpnBannerYPos = wpnBannerPosY;
   let lineCount = 1;
-  let yAnchor = textPosY + 10;
+  let yAnchor = defaultYPos;
   /* Draw out ranged weapon text */
   if (rangedWeapons.length > 0 || meleeWeapons.length > 0) {
     ctx.drawImage(image, wpnBannerPosX, wpnBannerPosY, width, height);

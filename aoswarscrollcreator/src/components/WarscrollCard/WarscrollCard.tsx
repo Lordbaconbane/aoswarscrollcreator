@@ -16,6 +16,11 @@ import {
 
 const charFontSize = 26;
 
+export interface Coordinate {
+  x: number;
+  y: number;
+}
+
 const WarscrollCard: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement>(new Image());
@@ -76,12 +81,12 @@ const WarscrollCard: React.FC = () => {
     const weaponBannerImage = weaponBannerImageRef.current;
     image.src = factionTemplate;
     weaponBannerImage.src = factionWeaponBanner;
-    let yAnchor = 0;
+
+    const coords: Coordinate[] = [{ x: 0, y: 0 }];
 
     image.onload = () => {
       if (ctx && canvas) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
         drawImageOnCanvas(ctx, image, canvas);
 
         // Draw title
@@ -99,11 +104,19 @@ const WarscrollCard: React.FC = () => {
         drawTextOnCanvas(ctx, saveChar, 137, 115, charFontSize, "center", "white");
 
         // Draw Weapons
-        yAnchor = drawWeaponsOnCanvas(ctx, weaponBannerImage, rangedWeapons, meleeWeapons);
-        yAnchor = drawLoadoutOnCanvas(ctx, loadoutBody, loadoutPoints, yAnchor);
+        coords[0].y = drawWeaponsOnCanvas(ctx, weaponBannerImage, rangedWeapons, meleeWeapons);
 
-        const hasLoadout = loadoutBody.length > 0 || loadoutPoints.length > 0;
-        drawAbilitiesOnCanvas(ctx, canvas, abilities, yAnchor, hasLoadout);
+        // If we have a loadout, push a new element in our display and draw our loadout.
+        const hasLoadout = loadoutBody.length > 0;
+        if (hasLoadout) {
+          const newCoordinate: Coordinate = { x: 0, y: coords[0].y };
+          coords.push(newCoordinate);
+          coords[0].y = drawLoadoutOnCanvas(ctx, loadoutBody, loadoutPoints, coords[0].y);
+          console.log("Y1: " + coords[0].y);
+          console.log("y2: " + coords[1].y);
+        }
+
+        drawAbilitiesOnCanvas(ctx, canvas, abilities, coords, hasLoadout);
 
         // Draw Keywords
         drawTextOnCanvas(
