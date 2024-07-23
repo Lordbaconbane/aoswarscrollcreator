@@ -7,6 +7,8 @@ import { Coordinate } from "./WarscrollCard";
 const warscrollTitleCharPerLine = 20;
 const loadoutCharPerLine = 37;
 const weaponCharPerLine = 27;
+const abilityBodyFirstLine = 25;
+const abilityBody = 40;
 
 // Font sizes
 const wpnBannerFontSize = 13;
@@ -25,6 +27,7 @@ const defaultYPos = 242;
 
 // Box visuals
 const rectTransparency = 0.5;
+//const rectWidth = 105;
 
 export const drawImageOnCanvas = (
   ctx: CanvasRenderingContext2D,
@@ -115,6 +118,17 @@ export const drawLoadoutOnCanvas = (
   return yAnchor; // Return the updated yAnchor
 };
 
+// const drawAbilityBox = (ctx: CanvasRenderingContext2D, x: number, y:number, width: number, height: number) => {
+//           // Draw box interior
+//           ctx.globalAlpha = rectTransparency;
+//           ctx.fillStyle = "white";
+//           ctx.fillRect(coords[k].x, coords[k].y + 1, canvasWidth - 10, 100);
+//
+//           // Draw box exterior
+//           ctx.globalAlpha = 1;
+//           ctx.strokeRect(coords[k].x, coords[k].y + 1, canvasWidth - 10, 100);
+// }
+
 export const drawAbilitiesOnCanvas = (
   ctx: CanvasRenderingContext2D,
   canvas: HTMLCanvasElement,
@@ -128,12 +142,15 @@ export const drawAbilitiesOnCanvas = (
   let loadoutOffset = 0; // Offset is used for if we have a loadout, we want to start 1 further in our array
   ctx.globalAlpha = 1;
   console;
+  let yOffset = 20;
 
   if (isLoadout) {
     coords[1].x = xAnchorR;
+    coords[1].y += yOffset;
     loadoutOffset += 1;
   } else {
     coords[0].x = xAnchorL;
+    coords[0].y += yOffset;
     loadoutOffset + 0;
   }
 
@@ -146,17 +163,7 @@ export const drawAbilitiesOnCanvas = (
       ctx.lineWidth = 2;
       const k = i + loadoutOffset;
 
-      // Draw box interior
-      ctx.globalAlpha = rectTransparency;
-      ctx.fillStyle = "white";
-      ctx.fillRect(coords[k].x, coords[k].y + 1, canvasWidth - 10, 100);
-
-      // Draw box exterior
-      ctx.globalAlpha = 1;
-      ctx.strokeRect(coords[k].x, coords[k].y + 1, canvasWidth - 10, 100);
-
       // Draw ability top banner
-
       const abilityTitle = abilities[i].ability_restriction + ", " + abilities[i].ability_timing;
       // Draw top banner. We go in order of banner->text for laying purposes.
       if (abilityTitle.length > 0) {
@@ -164,18 +171,98 @@ export const drawAbilitiesOnCanvas = (
           const lines = splitTextToLines(loadoutCharPerLine, abilityTitle);
           // Draw each line of loadout body
           let tempY = 0;
-          ctx.drawImage(img, coords[k].x - 5, coords[k].y - 10, canvasWidth, 20 * lines.length);
-          for (let i = 0; i < lines.length; i++) {
+
+          ctx.drawImage(img, coords[k].x - 5, coords[k].y - 35, canvasWidth + 5, 20 * lines.length);
+          for (let q = 0; q < lines.length; q++) {
             tempY += 20;
-            drawTextOnCanvas(ctx, lines[i], coords[k].x, coords[k].y - tempY, loadoutFontSize, "left", "red");
+            drawTextOnCanvas(
+              ctx,
+              lines[q],
+              coords[k].x,
+              coords[k].y - 40 + tempY,
+              loadoutFontSize,
+              "left",
+              "red"
+            );
           }
         }
         // If there is only one line, default to this.
         else {
-          ctx.drawImage(img, coords[k].x - 5, coords[k].y, canvasWidth, 20);
-          drawTextOnCanvas(ctx, abilityTitle, xAnchorL, coords[k].y, loadoutFontSize, "left", "white");
+          ctx.drawImage(img, coords[k].x - 5, coords[k].y - 15, canvasWidth + 5, 20);
+          drawTextOnCanvas(ctx, abilityTitle, coords[k].x - 5, coords[k].y, loadoutFontSize, "left", "white");
         }
       }
+
+      /* Draw Ability Box Text */
+
+      // Draw name
+      drawTextOnCanvas(
+        ctx,
+        abilities[i].name.toUpperCase() + ": ",
+        coords[k].x + 5,
+        coords[k].y + yOffset,
+        loadoutFontSize,
+        "left",
+        "black",
+        "bold"
+      );
+      const metrics = ctx.measureText(abilities[i].name.toUpperCase() + ": ");
+      const l = metrics.width;
+      const nameDesc = abilities[i].name + " " + abilities[i].name_desc;
+
+      // Draw name Description
+
+      /* We need to treat the first line special beecause it has to merge with the 
+      name for double spacing purposes. */
+      if (abilities[i].name_desc.length > abilityBodyFirstLine - abilities[i].name.length) {
+        const lines = splitTextToLines(abilityBodyFirstLine, nameDesc);
+        const firstLine = lines[0].split(abilities[i].name).join("").trim();
+        drawTextOnCanvas(
+          ctx,
+          firstLine,
+          coords[k].x + 5 + l,
+          coords[k].y + yOffset,
+          loadoutFontSize,
+          "left",
+          "black",
+          "italic"
+        );
+        yOffset += 15;
+        console.log("Lines: ");
+        lines.shift();
+        const newLines = splitTextToLines(abilityBody, lines.join(" "));
+
+        newLines.forEach((element) => {
+          {
+            //if (index === 0) return; // Skip first line, we drew it above.
+            drawTextOnCanvas(
+              ctx,
+              element,
+              coords[k].x + 5,
+              coords[k].y + yOffset,
+              loadoutFontSize,
+              "left",
+              "black",
+              "italic"
+            );
+            yOffset += 15;
+          }
+        });
+
+        // We need to draw description beside the name as well.
+        //console.log("Double space me");
+      }
+
+      // Draw box interior
+      ctx.globalAlpha = rectTransparency;
+      ctx.fillStyle = "white";
+      ctx.fillRect(coords[k].x, coords[k].y + 1, canvasWidth - 5, 100);
+
+      // Draw box exterior
+      ctx.globalAlpha = 1;
+      ctx.strokeRect(coords[k].x, coords[k].y + 1, canvasWidth - 5, 100);
+
+      //ctx.globalCompositeOperation="destination-atop"
 
       // Draw keyword banners if we have them.
       if (hasKeywords) {
