@@ -116,7 +116,6 @@ export default function Abilities() {
     });
 
     dispatch(setAbilities(newAbilities));
-    console.log(newAbilities);
   };
 
   return (

@@ -7,7 +7,7 @@ import { resetDownload } from "./WarscrollCardSlice";
 
 import {
   drawImageOnCanvas,
-  drawTextOnCanvas,
+  drawText,
   drawAbilitiesOnCanvas,
   drawWarscrollTitleTextOnCanvas,
   drawWeaponsOnCanvas,
@@ -98,10 +98,10 @@ const WarscrollCard: React.FC = () => {
           115
         );
         // Draw characteristics
-        drawTextOnCanvas(ctx, moveChar, 104, 80, charFontSize, "center", "white");
-        drawTextOnCanvas(ctx, controlChar, 104, 147, charFontSize, "center", "white");
-        drawTextOnCanvas(ctx, healthChar, 74, 115, charFontSize, "center", "white");
-        drawTextOnCanvas(ctx, saveChar, 137, 115, charFontSize, "center", "white");
+        drawText(ctx, moveChar, 104, 80, charFontSize, "center", "white");
+        drawText(ctx, controlChar, 104, 147, charFontSize, "center", "white");
+        drawText(ctx, healthChar, 74, 115, charFontSize, "center", "white");
+        drawText(ctx, saveChar, 137, 115, charFontSize, "center", "white");
 
         // Draw Weapons
         coords[0].y = drawWeaponsOnCanvas(ctx, weaponBannerImage, rangedWeapons, meleeWeapons);
@@ -119,7 +119,7 @@ const WarscrollCard: React.FC = () => {
         drawAbilitiesOnCanvas(ctx, canvas, abilities, coords, hasLoadout);
 
         // Draw Keywords
-        drawTextOnCanvas(
+        drawText(
           ctx,
           keywordAbilities.join(", ").toUpperCase(),
           ctx.canvas.width / 2,
@@ -128,7 +128,7 @@ const WarscrollCard: React.FC = () => {
           "center",
           "black"
         );
-        drawTextOnCanvas(
+        drawText(
           ctx,
           keywordIdentities.join(", ").toUpperCase(),
           ctx.canvas.width / 2,

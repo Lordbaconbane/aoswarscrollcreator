@@ -5,10 +5,11 @@ import { Coordinate } from "./WarscrollCard";
 
 // Character limits
 const warscrollTitleCharPerLine = 20;
-const loadoutCharPerLine = 37;
+const loadoutCharPerLine = 31;
 const weaponCharPerLine = 27;
-const abilityBodyFirstLine = 25;
-const abilityBody = 40;
+const abilityNameCharLimit = 24;
+const abilityBodyFirstLine = 24;
+const abilityBody = 34;
 
 // Font sizes
 const wpnBannerFontSize = 13;
@@ -38,7 +39,7 @@ export const drawImageOnCanvas = (
   ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 };
 
-export const drawTextOnCanvas = (
+export const drawText = (
   ctx: CanvasRenderingContext2D,
   text: string,
   x: number,
@@ -91,43 +92,73 @@ export const drawLoadoutOnCanvas = (
       // Draw each line of loadout body
       for (let i = 0; i < lines.length; i++) {
         yAnchor += 20;
-        drawTextOnCanvas(ctx, lines[i], xAnchorL, yAnchor, loadoutFontSize, "left", "black", "italic");
+        drawText(ctx, lines[i], xAnchorL, yAnchor, loadoutFontSize, "left", "black", "italic");
       }
     }
     // If there is only one line, default to this.
     else {
       yAnchor += 20;
-      drawTextOnCanvas(ctx, loadoutBody, xAnchorL, yAnchor, loadoutFontSize, "left", "black", "italic");
+      drawText(ctx, loadoutBody, xAnchorL, yAnchor, loadoutFontSize, "left", "black", "italic");
     }
     // Draw the loadout points
     for (let k = 0; k < loadoutPoints.length; k++) {
       yAnchor += 20;
-      drawTextOnCanvas(
-        ctx,
-        "•  " + loadoutPoints[k],
-        xAnchorL,
-        yAnchor,
-        loadoutFontSize,
-        "left",
-        "black",
-        "italic"
-      );
+      drawText(ctx, "•  " + loadoutPoints[k], xAnchorL, yAnchor, loadoutFontSize, "left", "black", "italic");
     }
   }
 
   return yAnchor; // Return the updated yAnchor
 };
 
-// const drawAbilityBox = (ctx: CanvasRenderingContext2D, x: number, y:number, width: number, height: number) => {
-//           // Draw box interior
-//           ctx.globalAlpha = rectTransparency;
-//           ctx.fillStyle = "white";
-//           ctx.fillRect(coords[k].x, coords[k].y + 1, canvasWidth - 10, 100);
-//
-//           // Draw box exterior
-//           ctx.globalAlpha = 1;
-//           ctx.strokeRect(coords[k].x, coords[k].y + 1, canvasWidth - 10, 100);
-// }
+const getTextHeight = (
+  ctx: CanvasRenderingContext2D,
+  stringToSplit: string,
+  width: number,
+  x: number,
+  y: number,
+  boxHeight: number,
+  drawText: boolean,
+  unshift: string = ""
+) => {
+  let xOffset = x;
+  let yOffset = y;
+  let lines: string[] = [];
+  let heightOffset = 0;
+  width += x;
+
+  lines = stringToSplit.split(" ");
+  if (unshift) {
+    lines.unshift(unshift);
+  }
+  ctx.fillStyle = "black";
+  ctx.textAlign = "left";
+
+  lines.forEach((word, index) => {
+    if (index === 0) {
+      ctx.font = "bold 14px Minion Pro";
+    } else {
+      ctx.font = "14px Minion Pro";
+    }
+
+    const wordWidth = ctx.measureText(word).width;
+
+    // Check if the x position exceeds the maximum value
+    if (xOffset + wordWidth > width) {
+      // Move to the next line and reset x position
+      yOffset += 15;
+      xOffset = x;
+      heightOffset += 20;
+    }
+
+    if (drawText) {
+      ctx.fillText(word, xOffset, yOffset - 5);
+    }
+
+    xOffset += wordWidth + ctx.measureText(" ").width;
+  });
+  heightOffset += 20;
+  return heightOffset;
+};
 
 export const drawAbilitiesOnCanvas = (
   ctx: CanvasRenderingContext2D,
@@ -138,7 +169,8 @@ export const drawAbilitiesOnCanvas = (
 ) => {
   const xAnchorL = 25;
   const xAnchorR = canvas.width / 2 + 5;
-  const canvasWidth = canvas.width / 2 - 50;
+
+  const boxWidth = canvas.width / 2 - 40;
   let loadoutOffset = 0; // Offset is used for if we have a loadout, we want to start 1 further in our array
   ctx.globalAlpha = 1;
   console;
@@ -154,122 +186,149 @@ export const drawAbilitiesOnCanvas = (
     loadoutOffset + 0;
   }
 
+  // -> Get all the lines for name
+  // -> Get all the lines for name description
+  // -> Get all the lines for Declare instructions
+  // -> Get all the lines for Effect insutrctions
+  // -> Multiply the number of lines by some arbitrary value for box size purposes
+  // -> Draw the box using that size
+  // -> Draw the text.
+
+  // Get the name and description lines.
   for (let i = 0; i < abilities.length; i++) {
     const img = new Image();
     const hasKeywords = abilities[i].keywords.length > 0;
+    const k = i + loadoutOffset;
     img.src = abilities[i].ability_banner;
+    let boxHeight = 0;
+
     img.onload = () => {
+      const nameDescCombined = abilities[k]?.name + abilities[k].name_desc;
+      if (nameDescCombined.length > 0) {
+        const offset = getTextHeight(
+          ctx,
+          abilities[k].name_desc,
+          boxWidth,
+          coords[k]?.x + 2,
+          coords[k]?.y + yOffset,
+          boxHeight,
+          false,
+          abilities[k].name + ": "
+        );
+        boxHeight += offset;
+      }
+      if (abilities[k]?.declare_desc.length > 0) {
+        const offset = getTextHeight(
+          ctx,
+          abilities[k].declare_desc,
+          boxWidth,
+          coords[k].x + 2,
+          coords[k].y + yOffset,
+          boxHeight,
+          false,
+          "Declare: "
+        );
+        boxHeight += offset;
+      }
+
+      if (abilities[k].effect_desc.length > 0) {
+        const offset = getTextHeight(
+          ctx,
+          abilities[k].effect_desc,
+          boxWidth,
+          coords[k].x + 2,
+          coords[k].y + yOffset,
+          boxHeight,
+          false,
+          "Effect: "
+        );
+        boxHeight += offset;
+      }
+
       ctx.strokeStyle = abilities[i].ability_line_color;
       ctx.lineWidth = 2;
-      const k = i + loadoutOffset;
-
       // Draw ability top banner
       const abilityTitle = abilities[i].ability_restriction + ", " + abilities[i].ability_timing;
+
       // Draw top banner. We go in order of banner->text for laying purposes.
       if (abilityTitle.length > 0) {
+        //const bannerSize =
         if (abilityTitle.length >= loadoutCharPerLine) {
           const lines = splitTextToLines(loadoutCharPerLine, abilityTitle);
           // Draw each line of loadout body
           let tempY = 0;
 
-          ctx.drawImage(img, coords[k].x - 5, coords[k].y - 35, canvasWidth + 5, 20 * lines.length);
+          ctx.drawImage(img, coords[k].x - 8, coords[k].y - 40, boxWidth + 15, 20 * lines.length);
           for (let q = 0; q < lines.length; q++) {
             tempY += 20;
-            drawTextOnCanvas(
-              ctx,
-              lines[q],
-              coords[k].x,
-              coords[k].y - 40 + tempY,
-              loadoutFontSize,
-              "left",
-              "red"
-            );
+            drawText(ctx, lines[q], coords[k].x, coords[k].y - 45 + tempY, loadoutFontSize, "left", "white");
           }
         }
         // If there is only one line, default to this.
         else {
-          ctx.drawImage(img, coords[k].x - 5, coords[k].y - 15, canvasWidth + 5, 20);
-          drawTextOnCanvas(ctx, abilityTitle, coords[k].x - 5, coords[k].y, loadoutFontSize, "left", "white");
+          ctx.drawImage(img, coords[k].x - 8, coords[k].y - 20, boxWidth + 15, 20);
+          drawText(ctx, abilityTitle, coords[k].x - 5, coords[k].y - 5, loadoutFontSize, "left", "white");
         }
       }
 
-      /* Draw Ability Box Text */
-
-      // Draw name
-      drawTextOnCanvas(
-        ctx,
-        abilities[i].name.toUpperCase() + ": ",
-        coords[k].x + 5,
-        coords[k].y + yOffset,
-        loadoutFontSize,
-        "left",
-        "black",
-        "bold"
-      );
-      const metrics = ctx.measureText(abilities[i].name.toUpperCase() + ": ");
-      const l = metrics.width;
-      const nameDesc = abilities[i].name + " " + abilities[i].name_desc;
-
-      // Draw name Description
-
-      /* We need to treat the first line special beecause it has to merge with the 
-      name for double spacing purposes. */
-      if (abilities[i].name_desc.length > abilityBodyFirstLine - abilities[i].name.length) {
-        const lines = splitTextToLines(abilityBodyFirstLine, nameDesc);
-        const firstLine = lines[0].split(abilities[i].name).join("").trim();
-        drawTextOnCanvas(
-          ctx,
-          firstLine,
-          coords[k].x + 5 + l,
-          coords[k].y + yOffset,
-          loadoutFontSize,
-          "left",
-          "black",
-          "italic"
-        );
-        yOffset += 15;
-        console.log("Lines: ");
-        lines.shift();
-        const newLines = splitTextToLines(abilityBody, lines.join(" "));
-
-        newLines.forEach((element) => {
-          {
-            //if (index === 0) return; // Skip first line, we drew it above.
-            drawTextOnCanvas(
-              ctx,
-              element,
-              coords[k].x + 5,
-              coords[k].y + yOffset,
-              loadoutFontSize,
-              "left",
-              "black",
-              "italic"
-            );
-            yOffset += 15;
-          }
-        });
-
-        // We need to draw description beside the name as well.
-        //console.log("Double space me");
-      }
-
+      //ctx.globalCompositeOperation = "screen";
       // Draw box interior
       ctx.globalAlpha = rectTransparency;
       ctx.fillStyle = "white";
-      ctx.fillRect(coords[k].x, coords[k].y + 1, canvasWidth - 5, 100);
+      ctx.fillRect(coords[k].x, coords[k].y, boxWidth, boxHeight);
 
       // Draw box exterior
       ctx.globalAlpha = 1;
-      ctx.strokeRect(coords[k].x, coords[k].y + 1, canvasWidth - 5, 100);
+      ctx.strokeRect(coords[k].x, coords[k].y, boxWidth, boxHeight);
 
-      //ctx.globalCompositeOperation="destination-atop"
+      if (nameDescCombined.length > 0) {
+        const name = abilities[k].name + ": ";
+        const offset = getTextHeight(
+          ctx,
+          abilities[k].name_desc,
+          boxWidth,
+          coords[k]?.x + 2,
+          coords[k]?.y + yOffset,
+          boxHeight,
+          true,
+          name
+        );
+        yOffset += offset;
+      }
+
+      if (abilities[k].declare_desc.length > 0) {
+        const offset = getTextHeight(
+          ctx,
+          abilities[k].declare_desc,
+          boxWidth,
+          coords[k].x + 2,
+          coords[k].y + yOffset,
+          boxHeight,
+          true,
+          "Declare: "
+        );
+        yOffset += offset;
+      }
+
+      if (abilities[k].effect_desc.length > 0) {
+        getTextHeight(
+          ctx,
+          abilities[k].effect_desc,
+          boxWidth,
+          coords[k].x + 2,
+          coords[k].y + yOffset,
+          boxHeight,
+          true,
+          "Effect: "
+        );
+      }
 
       // Draw keyword banners if we have them.
       if (hasKeywords) {
         ctx.strokeRect(coords[k].x, coords[k].y + 82, canvasWidth - 10, 19);
         ctx.drawImage(img, coords[k].x - 1, coords[k].y + 81, 80, 21);
-        drawTextOnCanvas(ctx, "KEYWORDS", coords[k].x + 10, coords[k].y + 95, abilitiesFont, "left", "white");
-        drawTextOnCanvas(
+        drawText(ctx, "KEYWORDS", coords[k].x + 10, coords[k].y + 95, abilitiesFont, "left", "white");
+        drawText(
           ctx,
           abilities[i].keywords,
           coords[k].x + 80,
@@ -289,6 +348,7 @@ export const drawAbilitiesOnCanvas = (
           coords[k + 1].x = xAnchorL;
           coords[k + 1].y += 150;
         }
+        yOffset = 20;
       }
     };
   }
@@ -316,14 +376,14 @@ export const drawWeaponsOnCanvas = (
     if (rangedWeapons.length > 0) {
       /* If we have ranged weapons, increment the melee weapon value so if we
           add melee weapons, they'll position corrctly. */
-      drawTextOnCanvas(ctx, "RANGED WEAPONS", 110, wpnHeaderYPos, wpnBannerFontSize, "center", "white");
-      drawTextOnCanvas(ctx, "Rng", 240, wpnHeaderYPos, wpnBannerFontSize, "center", "white");
-      drawTextOnCanvas(ctx, "Atk", 280, wpnHeaderYPos, wpnBannerFontSize, "center", "white");
-      drawTextOnCanvas(ctx, "Hit", 320, wpnHeaderYPos, wpnBannerFontSize, "center", "white");
-      drawTextOnCanvas(ctx, "Wnd", 360, wpnHeaderYPos, wpnBannerFontSize, "center", "white");
-      drawTextOnCanvas(ctx, "Rnd", 400, wpnHeaderYPos, wpnBannerFontSize, "center", "white");
-      drawTextOnCanvas(ctx, "Dmg", 440, wpnHeaderYPos, wpnBannerFontSize, "center", "white");
-      drawTextOnCanvas(ctx, "Ability", 550, wpnHeaderYPos, wpnBannerFontSize, "center", "white");
+      drawText(ctx, "RANGED WEAPONS", 110, wpnHeaderYPos, wpnBannerFontSize, "center", "white");
+      drawText(ctx, "Rng", 240, wpnHeaderYPos, wpnBannerFontSize, "center", "white");
+      drawText(ctx, "Atk", 280, wpnHeaderYPos, wpnBannerFontSize, "center", "white");
+      drawText(ctx, "Hit", 320, wpnHeaderYPos, wpnBannerFontSize, "center", "white");
+      drawText(ctx, "Wnd", 360, wpnHeaderYPos, wpnBannerFontSize, "center", "white");
+      drawText(ctx, "Rnd", 400, wpnHeaderYPos, wpnBannerFontSize, "center", "white");
+      drawText(ctx, "Dmg", 440, wpnHeaderYPos, wpnBannerFontSize, "center", "white");
+      drawText(ctx, "Ability", 550, wpnHeaderYPos, wpnBannerFontSize, "center", "white");
 
       for (let i = 0; i < rangedWeapons.length; i++) {
         let isDoubleSpaced = false;
@@ -331,48 +391,23 @@ export const drawWeaponsOnCanvas = (
         if (rangedWeapons[i].name.length > weaponCharPerLine) {
           isDoubleSpaced = true;
           height += 20;
-          console.log("Ranged Weapon Height: " + height);
           const lines = splitTextToLines(weaponCharPerLine, rangedWeapons[i].name);
           // If they are, draw them double spaced.
           let tempOffset = textOffset;
           for (let i = 0; i < lines.length; i++) {
-            drawTextOnCanvas(ctx, lines[i], 111, textPosY + tempOffset, wpnFont, "center", "black");
+            drawText(ctx, lines[i], 111, textPosY + tempOffset, wpnFont, "center", "black");
             tempOffset += 18;
           }
           //
         } else {
-          drawTextOnCanvas(
-            ctx,
-            rangedWeapons[i].name,
-            111,
-            textPosY + textOffset,
-            wpnFont,
-            "center",
-            "black"
-          );
+          drawText(ctx, rangedWeapons[i].name, 111, textPosY + textOffset, wpnFont, "center", "black");
         }
-        drawTextOnCanvas(ctx, rangedWeapons[i].range, 240, textPosY + textOffset, wpnFont, "center", "black");
-        drawTextOnCanvas(ctx, rangedWeapons[i].atk, 280, textPosY + textOffset, wpnFont, "center", "black");
-        drawTextOnCanvas(ctx, rangedWeapons[i].toHit, 320, textPosY + textOffset, wpnFont, "center", "black");
-        drawTextOnCanvas(
-          ctx,
-          rangedWeapons[i].toWound,
-          360,
-          textPosY + textOffset,
-          wpnFont,
-          "center",
-          "black"
-        );
-        drawTextOnCanvas(ctx, rangedWeapons[i].rend, 400, textPosY + textOffset, wpnFont, "center", "black");
-        drawTextOnCanvas(
-          ctx,
-          rangedWeapons[i].damage,
-          440,
-          textPosY + textOffset,
-          wpnFont,
-          "center",
-          "black"
-        );
+        drawText(ctx, rangedWeapons[i].range, 240, textPosY + textOffset, wpnFont, "center", "black");
+        drawText(ctx, rangedWeapons[i].atk, 280, textPosY + textOffset, wpnFont, "center", "black");
+        drawText(ctx, rangedWeapons[i].toHit, 320, textPosY + textOffset, wpnFont, "center", "black");
+        drawText(ctx, rangedWeapons[i].toWound, 360, textPosY + textOffset, wpnFont, "center", "black");
+        drawText(ctx, rangedWeapons[i].rend, 400, textPosY + textOffset, wpnFont, "center", "black");
+        drawText(ctx, rangedWeapons[i].damage, 440, textPosY + textOffset, wpnFont, "center", "black");
 
         // Check if the Abilities are double long enough to be double spaced/
         if (rangedWeapons[i].ability.length > weaponCharPerLine) {
@@ -386,20 +421,12 @@ export const drawWeaponsOnCanvas = (
           let tempOffset = textOffset;
           // If they are, draw them double spaced. .
           for (let i = 0; i < lines.length; i++) {
-            drawTextOnCanvas(ctx, lines[i], 550, textPosY + tempOffset, wpnFont, "center", "black");
+            drawText(ctx, lines[i], 550, textPosY + tempOffset, wpnFont, "center", "black");
             tempOffset += 18;
           }
           //
         } else {
-          drawTextOnCanvas(
-            ctx,
-            rangedWeapons[i].ability,
-            550,
-            textPosY + textOffset,
-            wpnFont,
-            "center",
-            "black"
-          );
+          drawText(ctx, rangedWeapons[i].ability, 550, textPosY + textOffset, wpnFont, "center", "black");
         }
         // Check if odd or even. Odd means fully transparent, even means partially
         if (i % 2 === 0) {
@@ -430,7 +457,6 @@ export const drawWeaponsOnCanvas = (
       let mBannerTextPos = wpnHeaderYPos;
       let mTextPos = wpnHeaderYPos;
       textOffset = 0;
-      console.log("Height at Start: " + height);
       // If we have ranged weapon, increment the text by the current line count.
       if (rangedWeapons.length > 0) {
         mWpnBannerYPos += 20 * lineCount;
@@ -443,13 +469,13 @@ export const drawWeaponsOnCanvas = (
       ctx.drawImage(image, wpnBannerPosX, mWpnBannerYPos, width, height);
 
       // Draw Melee Header Text
-      drawTextOnCanvas(ctx, "MELEE WEAPONS", 110, mBannerTextPos, wpnBannerFontSize, "center", "white");
-      drawTextOnCanvas(ctx, "Atk", 280, mBannerTextPos, wpnBannerFontSize, "center", "white");
-      drawTextOnCanvas(ctx, "Hit", 320, mBannerTextPos, wpnBannerFontSize, "center", "white");
-      drawTextOnCanvas(ctx, "Wnd", 360, mBannerTextPos, wpnBannerFontSize, "center", "white");
-      drawTextOnCanvas(ctx, "Rnd", 400, mBannerTextPos, wpnBannerFontSize, "center", "white");
-      drawTextOnCanvas(ctx, "Dmg", 440, mBannerTextPos, wpnBannerFontSize, "center", "white");
-      drawTextOnCanvas(ctx, "Ability", 550, mBannerTextPos, wpnBannerFontSize, "center", "white");
+      drawText(ctx, "MELEE WEAPONS", 110, mBannerTextPos, wpnBannerFontSize, "center", "white");
+      drawText(ctx, "Atk", 280, mBannerTextPos, wpnBannerFontSize, "center", "white");
+      drawText(ctx, "Hit", 320, mBannerTextPos, wpnBannerFontSize, "center", "white");
+      drawText(ctx, "Wnd", 360, mBannerTextPos, wpnBannerFontSize, "center", "white");
+      drawText(ctx, "Rnd", 400, mBannerTextPos, wpnBannerFontSize, "center", "white");
+      drawText(ctx, "Dmg", 440, mBannerTextPos, wpnBannerFontSize, "center", "white");
+      drawText(ctx, "Ability", 550, mBannerTextPos, wpnBannerFontSize, "center", "white");
 
       for (let i = 0; i < meleeWeapons.length; i++) {
         let isDoubleSpaced = false;
@@ -461,26 +487,18 @@ export const drawWeaponsOnCanvas = (
           // If they are, draw them double spaced.
           let tempOffset = textOffset;
           for (let i = 0; i < lines.length; i++) {
-            drawTextOnCanvas(ctx, lines[i], 111, mTextPos + (i + 2) + tempOffset, wpnFont, "center", "black");
+            drawText(ctx, lines[i], 111, mTextPos + (i + 2) + tempOffset, wpnFont, "center", "black");
             tempOffset += 18;
           }
           //
         } else {
-          drawTextOnCanvas(ctx, meleeWeapons[i].name, 111, mTextPos + textOffset, wpnFont, "center", "black");
+          drawText(ctx, meleeWeapons[i].name, 111, mTextPos + textOffset, wpnFont, "center", "black");
         }
-        drawTextOnCanvas(ctx, meleeWeapons[i].atk, 280, mTextPos + textOffset, wpnFont, "center", "black");
-        drawTextOnCanvas(ctx, meleeWeapons[i].toHit, 320, mTextPos + textOffset, wpnFont, "center", "black");
-        drawTextOnCanvas(
-          ctx,
-          meleeWeapons[i].toWound,
-          360,
-          mTextPos + textOffset,
-          wpnFont,
-          "center",
-          "black"
-        );
-        drawTextOnCanvas(ctx, meleeWeapons[i].rend, 400, mTextPos + textOffset, wpnFont, "center", "black");
-        drawTextOnCanvas(ctx, meleeWeapons[i].damage, 440, mTextPos + textOffset, wpnFont, "center", "black");
+        drawText(ctx, meleeWeapons[i].atk, 280, mTextPos + textOffset, wpnFont, "center", "black");
+        drawText(ctx, meleeWeapons[i].toHit, 320, mTextPos + textOffset, wpnFont, "center", "black");
+        drawText(ctx, meleeWeapons[i].toWound, 360, mTextPos + textOffset, wpnFont, "center", "black");
+        drawText(ctx, meleeWeapons[i].rend, 400, mTextPos + textOffset, wpnFont, "center", "black");
+        drawText(ctx, meleeWeapons[i].damage, 440, mTextPos + textOffset, wpnFont, "center", "black");
 
         // Check if the Abilities are double long enough to be double spaced/
         if (meleeWeapons[i].ability.length > weaponCharPerLine) {
@@ -493,19 +511,11 @@ export const drawWeaponsOnCanvas = (
           const lines = splitTextToLines(weaponCharPerLine, meleeWeapons[i].ability);
           // If they are, draw them double spaced. .
           for (let i = 0; i < lines.length; i++) {
-            drawTextOnCanvas(ctx, lines[i], 550, mTextPos + (i + 1) + tempOffset, wpnFont, "center", "black");
+            drawText(ctx, lines[i], 550, mTextPos + (i + 1) + tempOffset, wpnFont, "center", "black");
             tempOffset += 18;
           }
         } else {
-          drawTextOnCanvas(
-            ctx,
-            meleeWeapons[i].ability,
-            550,
-            mTextPos + textOffset,
-            wpnFont,
-            "center",
-            "black"
-          );
+          drawText(ctx, meleeWeapons[i].ability, 550, mTextPos + textOffset, wpnFont, "center", "black");
         }
         // Check if odd or even. Odd means fully transparent, even means partially
         if (i % 2 === 0) {
