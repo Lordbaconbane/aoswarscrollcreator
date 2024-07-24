@@ -41,7 +41,7 @@ export default function Characteristics() {
   };
 
   const handleSaveChange = (event) => {
-    const value = event.target.value + "+";
+    const value = event.target.value;
     dispatch(setWarscrollSave(value));
   };
 
@@ -132,7 +132,7 @@ export default function Characteristics() {
         id="save"
         label="Save"
       >
-        {["1", "2", "3", "4", "5", "6", "-"].map((num) => (
+        {["1+", "2+", "3+", "4+", "5+", "6+", "-"].map((num) => (
           <MenuItem key={num} value={num}>
             {num}
           </MenuItem>

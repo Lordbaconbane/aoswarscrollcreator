@@ -50,9 +50,9 @@ export const AbilityPhase = [
 ];
 
 export const AbilityUsageRestrictions = [
-  "Once Per Turn (Army)",
-  "Once Per Battle (Army)",
-  "Once Per Battle",
+  "Once Per Turn (Army), ",
+  "Once Per Battle (Army), ",
+  "Once Per Battle, ",
 ];
 
 export const AbilityTimingText = [
@@ -64,7 +64,7 @@ export const AbilityTimingText = [
   "End of Any Turn",
   "Enemy Movement Phase",
   "Passive",
-  "Reaction: Opponent declared an ATTACK ability,",
+  "Reaction: Opponent declared an ATTACK ability",
   "Reaction: Opponent declared a Spell ability",
   "Reaction: You declared a Charge ability for this unit",
   "Reaction: This unit was picked as the target of a non-Core ability",
@@ -74,6 +74,16 @@ export const AbilityTimingText = [
   "Your Hero Phase",
   "Your Movement Phase",
   "Your Shooting Phase",
+];
+
+export const AbilityTimingMutuallyExclusive = [
+  "Passive",
+  "Reaction: Opponent declared an ATTACK ability",
+  "Reaction: Opponent declared a Spell ability",
+  "Reaction: You declared a Charge ability for this unit",
+  "Reaction: This unit was picked as the target of a non-Core ability",
+  "Reaction: You declared a Fight ability for this unit",
+  "Reaction: You declared an ATTACK ability",
 ];
 
 export const AbilityKeywords = [

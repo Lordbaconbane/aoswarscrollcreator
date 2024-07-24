@@ -392,7 +392,7 @@ export default function Abilities() {
               />
             )}
           />
-          {/* Ability tyme */}
+          {/* Ability type */}
           <FormControl>
             <Typography variant="body1" component="div">
               {"Ability type"}
