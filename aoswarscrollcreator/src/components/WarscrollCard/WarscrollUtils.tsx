@@ -5,16 +5,14 @@ import { Coordinate } from "./WarscrollCard";
 
 // Character limits
 const warscrollTitleCharPerLine = 20;
-const loadoutCharPerLine = 31;
 const weaponCharPerLine = 27;
 
 // Font sizes
 const wpnBannerFontSize = 13;
 const wpnFont = 14;
-const loadoutFontSize = 16;
 const factionTitleFontSize = 12;
 const warscrollNameFontSize = 30;
-const abilitiesFont = 10;
+const abilitiesFont = 12;
 
 // Banner positions
 const wpnBannerPosX = 10;
@@ -25,7 +23,9 @@ const defaultYPos = 242;
 
 // Box visuals
 const rectTransparency = 0.5;
-//const rectWidth = 105;
+
+// Default anchors
+const xAnchorL = 25;
 
 export const drawImageOnCanvas = (
   ctx: CanvasRenderingContext2D,
@@ -79,28 +79,50 @@ export const drawLoadoutOnCanvas = (
   ctx: CanvasRenderingContext2D,
   loadoutBody: string,
   loadoutPoints: string[],
-  yAnchor: number
+  yAnchor: number,
+  maxWidth: number
 ) => {
-  const xAnchorL = 25;
+  let xOffset = xAnchorL;
+  let yOffset = yAnchor;
   ctx.globalAlpha = 1;
+  ctx.fillStyle = "black";
+  ctx.textAlign = "left";
+  ctx.font = "bold italic 14px Minion Pro";
+  console.log("loadout Max Width: " + maxWidth);
   if (loadoutBody.length > 0) {
-    if (loadoutBody.length >= loadoutCharPerLine) {
-      const lines = splitTextToLines(loadoutCharPerLine, loadoutBody);
-      // Draw each line of loadout body
-      for (let i = 0; i < lines.length; i++) {
-        yAnchor += 20;
-        drawText(ctx, lines[i], xAnchorL, yAnchor, loadoutFontSize, "left", "black", "italic");
+    const lines = loadoutBody.split(" ");
+
+    lines.forEach((word) => {
+      const wordWidth = ctx.measureText(word).width;
+      if (wordWidth + xOffset > maxWidth) {
+        yOffset += 15;
+        xOffset = xAnchorL;
       }
-    }
-    // If there is only one line, default to this.
-    else {
-      yAnchor += 20;
-      drawText(ctx, loadoutBody, xAnchorL, yAnchor, loadoutFontSize, "left", "black", "italic");
-    }
-    // Draw the loadout points
-    for (let k = 0; k < loadoutPoints.length; k++) {
-      yAnchor += 20;
-      drawText(ctx, "•  " + loadoutPoints[k], xAnchorL, yAnchor, loadoutFontSize, "left", "black", "italic");
+
+      ctx.fillText(word, xOffset, yOffset);
+      xOffset += wordWidth + ctx.measureText(" ").width;
+    });
+  }
+
+  // Draw the loadout points.
+  if (loadoutPoints.length > 0) {
+    yOffset += 5; // Adds a little margin between the body and points.
+    for (let i = 0; i < loadoutPoints.length; i++) {
+      xOffset = xAnchorL;
+      yOffset += 15;
+      const lines = loadoutPoints[i].split(" ");
+      lines.forEach((word, index) => {
+        if (index === 0) {
+          word = "•  " + word;
+        }
+        const wordWidth = ctx.measureText(word).width;
+        if (wordWidth + xOffset > maxWidth) {
+          yOffset += 15;
+          xOffset = xAnchorL;
+        }
+        ctx.fillText(word, xOffset, yOffset);
+        xOffset += wordWidth + ctx.measureText(" ").width;
+      });
     }
   }
 
@@ -164,7 +186,6 @@ export const drawAbilitiesOnCanvas = (
   coords: Coordinate[],
   isLoadout: boolean
 ) => {
-  const xAnchorL = 25;
   const xAnchorR = canvas.width / 2 + 5;
 
   const boxWidth = canvas.width / 2 - 40;
@@ -245,6 +266,15 @@ export const drawAbilitiesOnCanvas = (
 
       ctx.strokeStyle = abilities[i].ability_line_color;
       ctx.lineWidth = 2;
+
+      // Draw box interior
+      ctx.globalAlpha = rectTransparency;
+      ctx.fillStyle = "white";
+      ctx.fillRect(coords[k].x, coords[k].y, boxWidth, boxHeight);
+
+      // Draw box exterior
+      ctx.globalAlpha = 1;
+      ctx.strokeRect(coords[k].x, coords[k].y, boxWidth, boxHeight);
       // Draw ability top banner
       const abilityTitle = abilities[i].ability_restriction + abilities[i].ability_timing;
 
@@ -262,7 +292,6 @@ export const drawAbilitiesOnCanvas = (
           const wordWidth = ctx.measureText(word).width;
           if (xOffset + wordWidth > width) {
             // Move to the next line
-            //yOffset -= 20;
             bannerHeight += 20;
             xOffset = coords[k].x;
             isDoubleBanner = true;
@@ -290,16 +319,6 @@ export const drawAbilitiesOnCanvas = (
           xOffset += wordWidth + ctx.measureText(" ").width;
         });
       }
-
-      //ctx.globalCompositeOperation = "screen";
-      // Draw box interior
-      ctx.globalAlpha = rectTransparency;
-      ctx.fillStyle = "white";
-      ctx.fillRect(coords[k].x, coords[k].y, boxWidth, boxHeight);
-
-      // Draw box exterior
-      ctx.globalAlpha = 1;
-      ctx.strokeRect(coords[k].x, coords[k].y, boxWidth, boxHeight);
 
       if (nameDescCombined.length > 0) {
         const name = abilities[i].name + ": ";
@@ -350,8 +369,8 @@ export const drawAbilitiesOnCanvas = (
         drawText(
           ctx,
           "KEYWORDS",
-          coords[k].x + 10,
-          coords[k].y + boxHeight + 12,
+          coords[k].x + 5,
+          coords[k].y + boxHeight + 14,
           abilitiesFont,
           "left",
           "white"
@@ -359,8 +378,8 @@ export const drawAbilitiesOnCanvas = (
         drawText(
           ctx,
           abilities[i].keywords,
-          coords[k].x + 80,
-          coords[k].y + boxHeight + 12,
+          coords[k].x + 81,
+          coords[k].y + boxHeight + 14,
           abilitiesFont,
           "left",
           "black"

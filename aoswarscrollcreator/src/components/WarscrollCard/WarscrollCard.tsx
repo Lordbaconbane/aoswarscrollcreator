@@ -111,7 +111,8 @@ const WarscrollCard: React.FC = () => {
         if (hasLoadout) {
           const newCoordinate: Coordinate = { x: 0, y: coords[0].y };
           coords.push(newCoordinate);
-          coords[0].y = drawLoadoutOnCanvas(ctx, loadoutBody, loadoutPoints, coords[0].y);
+
+          coords[0].y = drawLoadoutOnCanvas(ctx, loadoutBody, loadoutPoints, coords[0].y, 300);
         }
 
         drawAbilitiesOnCanvas(ctx, canvas, abilities, coords, hasLoadout);
