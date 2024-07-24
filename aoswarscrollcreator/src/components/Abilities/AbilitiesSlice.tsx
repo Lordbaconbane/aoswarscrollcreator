@@ -15,7 +15,6 @@ export const abilitiesSlice = createSlice({
   initialState,
   reducers: {
     setAbilities: (state, action: PayloadAction<Ability[]>) => {
-      console.log("Slice: " + action.payload.toString());
       state.abilities = action.payload;
     },
   },

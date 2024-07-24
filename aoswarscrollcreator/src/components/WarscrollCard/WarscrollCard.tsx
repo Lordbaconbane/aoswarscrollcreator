@@ -116,6 +116,7 @@ const WarscrollCard: React.FC = () => {
         }
 
         drawAbilitiesOnCanvas(ctx, canvas, abilities, coords, hasLoadout);
+        ctx.save();
 
         // Draw Keywords
         drawText(

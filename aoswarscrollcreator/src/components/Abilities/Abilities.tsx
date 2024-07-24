@@ -60,9 +60,7 @@ export default function Abilities() {
   };
 
   const handleAbilityTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("called: " + event.target.value);
     if (event.target.value != AbilityType.default) {
-      console.log("called: " + event.target.value);
       setNonStandardAbility(event.target.checked);
     } else {
       setNonStandardAbility(false);
