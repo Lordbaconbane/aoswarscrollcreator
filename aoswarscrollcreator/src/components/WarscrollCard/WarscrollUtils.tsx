@@ -135,7 +135,6 @@ const getTextHeight = (
   width: number,
   x: number,
   y: number,
-  boxHeight: number,
   drawText: boolean,
   unshift: string = ""
 ) => {
@@ -230,7 +229,6 @@ export const drawAbilitiesOnCanvas = (
           boxWidth,
           coords[k]?.x + 2,
           coords[k]?.y + yOffset,
-          boxHeight,
           false,
           abilities[i].name + ": "
         );
@@ -243,7 +241,6 @@ export const drawAbilitiesOnCanvas = (
           boxWidth,
           coords[k]?.x + 2,
           coords[k]?.y + yOffset,
-          boxHeight,
           false,
           "Declare: "
         );
@@ -257,7 +254,6 @@ export const drawAbilitiesOnCanvas = (
           boxWidth,
           coords[k]?.x + 2,
           coords[k]?.y + yOffset,
-          boxHeight,
           false,
           "Effect: "
         );
@@ -328,7 +324,6 @@ export const drawAbilitiesOnCanvas = (
           boxWidth,
           coords[k]?.x + 2,
           coords[k]?.y + yOffset,
-          boxHeight,
           true,
           name
         );
@@ -342,7 +337,6 @@ export const drawAbilitiesOnCanvas = (
           boxWidth,
           coords[k]?.x + 2,
           coords[k]?.y + yOffset,
-          boxHeight,
           true,
           "Declare: "
         );
@@ -356,7 +350,6 @@ export const drawAbilitiesOnCanvas = (
           boxWidth,
           coords[k]?.x + 2,
           coords[k]?.y + yOffset,
-          boxHeight,
           true,
           "Effect: "
         );
