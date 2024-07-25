@@ -48,6 +48,6 @@ export enum FactionBanners {
   SlavesToDarkness = "111",
   SonsOfBehemat = "222",
   SoulblightGravelords = "333",
-  StormcastEternals = "fw",
+  StormcastEternals = "src/assets/FactionBackgrounds/Order/Stormcast/Stormcast_Weapon_Banner.png",
   Sylvaneth = "444",
 }

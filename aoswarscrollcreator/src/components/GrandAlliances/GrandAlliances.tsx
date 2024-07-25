@@ -27,6 +27,7 @@ export default function GrandAlliances() {
               onClick={() => {
                 dispatch(setFactionName("Stormcast Eternals"));
                 dispatch(setFactionTemplate(FactionTemplates.StormcastEternals));
+                dispatch(setFactionWeaponBanner(FactionBanners.StormcastEternals));
               }}
             >
               <Typography variant="body2">{"Stormcast Eternals"}</Typography>

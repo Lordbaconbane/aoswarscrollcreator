@@ -189,7 +189,6 @@ export const drawAbilitiesOnCanvas = (
   const boxWidth = canvas.width / 2 - 40;
   let loadoutOffset = 0; // Offset is used for if we have a loadout, we want to start 1 further in our array
   ctx.globalAlpha = 1;
-  console;
   let yOffset = 20;
 
   if (isLoadout) {
@@ -399,7 +398,6 @@ export const drawAbilitiesOnCanvas = (
         } else if (xCoord == xAnchorR) {
           // If we're on the right, shift left and shift down.
 
-          console.log("BoxHeight: " + boxHeightArr[k - 1]);
           coords[k + 1].x = xAnchorL;
           coords[k + 1].y = coords[k - 1]?.y + boxHeightArr[k - 1];
         }

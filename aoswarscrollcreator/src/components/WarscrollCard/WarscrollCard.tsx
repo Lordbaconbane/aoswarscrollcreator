@@ -22,7 +22,9 @@ export interface Coordinate {
 }
 
 const WarscrollCard: React.FC = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const backgroundCanvasRef = useRef<HTMLCanvasElement>(null);
+  const characteristicsCanvasRef = useRef<HTMLCanvasElement>(null);
+  const bodyCanvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement>(new Image());
   const weaponBannerImageRef = useRef<HTMLImageElement>(new Image());
   const dispatch = useDispatch();
@@ -62,50 +64,121 @@ const WarscrollCard: React.FC = () => {
 
   useEffect(() => {
     if (triggerDownload) {
-      const canvas = canvasRef.current;
-      if (canvas) {
+      const backgroundCanvas = backgroundCanvasRef.current;
+      const characteristicsCanvas = characteristicsCanvasRef.current;
+      const bodyCanvas = bodyCanvasRef.current;
+
+      if (backgroundCanvas && characteristicsCanvas && bodyCanvas) {
         const link = document.createElement("a");
-        link.href = canvas.toDataURL("image/png");
-        link.download = warscrollName + "_Warscroll.png";
-        link.click();
+        const backgroundCtx = backgroundCanvas.getContext("2d");
+        const characteristicsCtx = characteristicsCanvas.getContext("2d");
+        const bodyCtx = bodyCanvas.getContext("2d");
+
+        // Combine canvases into a single image
+        const combinedCanvas = document.createElement("canvas");
+        combinedCanvas.width = backgroundCanvas.width;
+        combinedCanvas.height = backgroundCanvas.height;
+        const combinedCtx = combinedCanvas.getContext("2d");
+
+        if (combinedCtx && backgroundCtx && characteristicsCtx && bodyCtx) {
+          combinedCtx.drawImage(backgroundCanvas, 0, 0);
+          combinedCtx.drawImage(characteristicsCanvas, 0, 0);
+          combinedCtx.drawImage(bodyCanvas, 0, 0);
+          link.href = combinedCanvas.toDataURL("image/png");
+          link.download = warscrollName + "_Warscroll.png";
+          link.click();
+        }
       }
       dispatch(resetDownload());
     }
   }, [triggerDownload, dispatch, warscrollName]);
 
-  // Runs on initial render but will rerun if you fill the dependency.
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas?.getContext("2d");
+    const backgroundCanvas = backgroundCanvasRef.current;
+    const backgroundCtx = backgroundCanvas?.getContext("2d");
     const image = imageRef.current;
-    const weaponBannerImage = weaponBannerImageRef.current;
+
     image.src = factionTemplate;
+
+    image.onload = () => {
+      if (backgroundCtx && backgroundCanvas) {
+        backgroundCtx.clearRect(0, 0, backgroundCanvas.width, backgroundCanvas.height);
+        drawImageOnCanvas(backgroundCtx, image, backgroundCanvas);
+      }
+    };
+  }, [factionTemplate]);
+
+  useEffect(() => {
+    const characteristicsCanvas = characteristicsCanvasRef.current;
+    const characteristicsCtx = characteristicsCanvas?.getContext("2d");
+
+    if (characteristicsCtx && characteristicsCanvas) {
+      characteristicsCtx.clearRect(0, 0, characteristicsCanvas.width, characteristicsCanvas.height);
+
+      // Draw title
+      drawWarscrollTitleTextOnCanvas(
+        characteristicsCtx,
+        "• " + factionName.toUpperCase() + " WARSCROLL •",
+        warscrollName.toUpperCase(),
+        warscrollSubtype.toUpperCase(),
+        115
+      );
+      // Draw characteristics
+      drawText(characteristicsCtx, moveChar, 104, 80, charFontSize, "center", "white");
+      drawText(characteristicsCtx, controlChar, 104, 147, charFontSize, "center", "white");
+      drawText(characteristicsCtx, healthChar, 74, 115, charFontSize, "center", "white");
+      drawText(characteristicsCtx, saveChar, 137, 115, charFontSize, "center", "white");
+
+      // Draw Keywords
+      drawText(
+        characteristicsCtx,
+        keywordAbilities.join(", ").toUpperCase(),
+        characteristicsCtx.canvas.width / 2,
+        932,
+        11,
+        "center",
+        "black"
+      );
+      characteristicsCtx.save();
+      drawText(
+        characteristicsCtx,
+        keywordIdentities.join(", ").toUpperCase(),
+        characteristicsCtx.canvas.width / 2,
+        960,
+        11,
+        "center",
+        "black"
+      );
+      characteristicsCtx.save();
+    }
+  }, [
+    factionName,
+    warscrollName,
+    warscrollSubtype,
+    moveChar,
+    healthChar,
+    controlChar,
+    saveChar,
+    keywordAbilities,
+    keywordIdentities,
+  ]);
+
+  useEffect(() => {
+    const bodyCanvas = bodyCanvasRef.current;
+    const bodyCtx = bodyCanvas?.getContext("2d");
+    const weaponBannerImage = weaponBannerImageRef.current;
+
     weaponBannerImage.src = factionWeaponBanner;
 
     const coords: Coordinate[] = [{ x: 0, y: 0 }];
 
-    image.onload = () => {
-      if (ctx && canvas) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawImageOnCanvas(ctx, image, canvas);
-
-        // Draw title
-        drawWarscrollTitleTextOnCanvas(
-          ctx,
-          "• " + factionName.toUpperCase() + " WARSCROLL •",
-          warscrollName.toUpperCase(),
-          warscrollSubtype.toUpperCase(),
-          115
-        );
-        // Draw characteristics
-        drawText(ctx, moveChar, 104, 80, charFontSize, "center", "white");
-        drawText(ctx, controlChar, 104, 147, charFontSize, "center", "white");
-        drawText(ctx, healthChar, 74, 115, charFontSize, "center", "white");
-        drawText(ctx, saveChar, 137, 115, charFontSize, "center", "white");
+    weaponBannerImage.onload = () => {
+      if (bodyCtx && bodyCanvas) {
+        bodyCtx.clearRect(0, 0, bodyCanvas.width, bodyCanvas.height);
 
         // Draw Weapons
-        coords[0].y = drawWeaponsOnCanvas(ctx, weaponBannerImage, rangedWeapons, meleeWeapons);
-        ctx.save();
+        coords[0].y = drawWeaponsOnCanvas(bodyCtx, weaponBannerImage, rangedWeapons, meleeWeapons);
+        bodyCtx.save();
 
         // If we have a loadout, push a new element in our display and draw our loadout.
         const hasLoadout = loadoutBody.length > 0;
@@ -113,54 +186,15 @@ const WarscrollCard: React.FC = () => {
           const newCoordinate: Coordinate = { x: 0, y: coords[0].y };
           coords.push(newCoordinate);
 
-          coords[0].y = drawLoadoutOnCanvas(ctx, loadoutBody, loadoutPoints, coords[0].y, 300);
-          ctx.save();
+          coords[0].y = drawLoadoutOnCanvas(bodyCtx, loadoutBody, loadoutPoints, coords[0].y, 300);
+          bodyCtx.save();
         }
 
-        drawAbilitiesOnCanvas(ctx, canvas, abilities, coords, hasLoadout);
-        ctx.save();
-
-        // Draw Keywords
-        drawText(
-          ctx,
-          keywordAbilities.join(", ").toUpperCase(),
-          ctx.canvas.width / 2,
-          932,
-          11,
-          "center",
-          "black"
-        );
-        ctx.save();
-        drawText(
-          ctx,
-          keywordIdentities.join(", ").toUpperCase(),
-          ctx.canvas.width / 2,
-          960,
-          11,
-          "center",
-          "black"
-        );
-        ctx.save();
+        drawAbilitiesOnCanvas(bodyCtx, bodyCanvas, abilities, coords, hasLoadout);
+        bodyCtx.save();
       }
     };
-  }, [
-    factionName,
-    factionTemplate,
-    warscrollName,
-    moveChar,
-    healthChar,
-    controlChar,
-    saveChar,
-    warscrollSubtype,
-    keywordIdentities,
-    keywordAbilities,
-    meleeWeapons,
-    rangedWeapons,
-    factionWeaponBanner,
-    loadoutBody,
-    loadoutPoints,
-    abilities,
-  ]); // This is your dependency. If you want useEffect to rerun, add stuff to this!!
+  }, [factionWeaponBanner, rangedWeapons, meleeWeapons, loadoutBody, loadoutPoints, abilities]);
 
   return (
     <Box
@@ -173,18 +207,44 @@ const WarscrollCard: React.FC = () => {
       }}
     >
       <Container style={{ overflowY: "auto", display: "flex" }}>
-        <div style={{ flex: "none", position: "relative" }}>
+        <div style={{ flex: "none", position: "relative", width: "658px", height: "995px" }}>
           <canvas
-            ref={canvasRef}
+            ref={backgroundCanvasRef}
             className="sticky-canvas"
             width={658}
             height={995}
             style={{
               height: "100vh",
               width: "70vh",
-              border: "1px solid #000",
-              position: "sticky",
-              top: "10",
+              position: "absolute",
+              top: 0,
+              left: 0,
+            }}
+          />
+          <canvas
+            ref={characteristicsCanvasRef}
+            className="sticky-canvas"
+            width={658}
+            height={995}
+            style={{
+              height: "100vh",
+              width: "70vh",
+              position: "absolute",
+              top: 0,
+              left: 0,
+            }}
+          />
+          <canvas
+            ref={bodyCanvasRef}
+            className="sticky-canvas"
+            width={658}
+            height={995}
+            style={{
+              height: "100vh",
+              width: "70vh",
+              position: "absolute",
+              top: 0,
+              left: 0,
             }}
           />
         </div>
