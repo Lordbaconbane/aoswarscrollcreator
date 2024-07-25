@@ -105,6 +105,7 @@ const WarscrollCard: React.FC = () => {
 
         // Draw Weapons
         coords[0].y = drawWeaponsOnCanvas(ctx, weaponBannerImage, rangedWeapons, meleeWeapons);
+        ctx.save();
 
         // If we have a loadout, push a new element in our display and draw our loadout.
         const hasLoadout = loadoutBody.length > 0;
@@ -113,6 +114,7 @@ const WarscrollCard: React.FC = () => {
           coords.push(newCoordinate);
 
           coords[0].y = drawLoadoutOnCanvas(ctx, loadoutBody, loadoutPoints, coords[0].y, 300);
+          ctx.save();
         }
 
         drawAbilitiesOnCanvas(ctx, canvas, abilities, coords, hasLoadout);
@@ -128,6 +130,7 @@ const WarscrollCard: React.FC = () => {
           "center",
           "black"
         );
+        ctx.save();
         drawText(
           ctx,
           keywordIdentities.join(", ").toUpperCase(),
@@ -137,6 +140,7 @@ const WarscrollCard: React.FC = () => {
           "center",
           "black"
         );
+        ctx.save();
       }
     };
   }, [

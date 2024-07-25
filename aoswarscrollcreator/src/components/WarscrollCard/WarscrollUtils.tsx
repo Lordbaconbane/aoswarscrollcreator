@@ -381,6 +381,7 @@ export const drawAbilitiesOnCanvas = (
         );
         boxHeight += 20;
       }
+      ctx.save(); // Save our canvas
 
       boxHeightArr[i] = boxHeight + +60;
       if (k + 1 < abilities.length) {
