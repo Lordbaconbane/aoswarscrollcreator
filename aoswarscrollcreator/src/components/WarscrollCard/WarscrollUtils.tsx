@@ -83,7 +83,7 @@ export const drawLoadoutOnCanvas = (
   maxWidth: number
 ) => {
   let xOffset = xAnchorL;
-  let yOffset = yAnchor;
+  let yOffset = yAnchor + 20;
   ctx.globalAlpha = 1;
   ctx.fillStyle = "black";
   ctx.textAlign = "left";
@@ -125,7 +125,7 @@ export const drawLoadoutOnCanvas = (
     }
   }
 
-  return yAnchor; // Return the updated yAnchor
+  return yAnchor - 40; // Return the updated yAnchor
 };
 
 const getTextHeight = (
@@ -367,6 +367,9 @@ export const drawAbilitiesOnCanvas = (
       // Draw keyword banners if we have them.
       if (hasKeywords) {
         ctx.strokeRect(xCoord, yCoord + +yOffset, boxWidth, 19);
+        ctx.globalAlpha = rectTransparency;
+        ctx.fillStyle = "white";
+        ctx.fillRect(xCoord + 80, yCoord + yOffset, boxWidth - 80, 19);
         ctx.drawImage(img, xCoord - 1, yCoord + yOffset + -1, 80, 21);
         drawText(ctx, "KEYWORDS", xCoord + 5, yCoord + yOffset + 14, abilitiesFont, "left", "white");
         drawText(
@@ -383,7 +386,7 @@ export const drawAbilitiesOnCanvas = (
       ctx.save(); // Save our canvas
 
       boxHeightArr[i] = boxHeight + +60;
-      if (k + 1 < abilities.length) {
+      if (i + 1 < abilities.length) {
         const newCoordinate: Coordinate = { x: 0, y: coords[0].y };
         coords.push(newCoordinate);
         if (xCoord == xAnchorL) {
