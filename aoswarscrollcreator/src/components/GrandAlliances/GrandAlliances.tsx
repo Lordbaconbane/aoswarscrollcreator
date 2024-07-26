@@ -107,7 +107,11 @@ export default function GrandAlliances() {
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Blades of Khorne"))}
+              onClick={() => {
+                dispatch(setFactionName("Khorne"));
+                dispatch(setFactionTemplate(FactionTemplates.BladesOfKhorne));
+                dispatch(setFactionWeaponBanner(FactionBanners.BladesOfKhorne));
+              }}
             >
               <Typography variant="body2">{"Blades of Khorne"}</Typography>
             </Button>
@@ -121,7 +125,11 @@ export default function GrandAlliances() {
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Hedonites of Slaanesh"))}
+              onClick={() => {
+                dispatch(setFactionName("Hedonites Of Slaanesh"));
+                dispatch(setFactionTemplate(FactionTemplates.HedonitesOfSlaanesh));
+                dispatch(setFactionWeaponBanner(FactionBanners.HedonitesOfSlaanesh));
+              }}
             >
               <Typography variant="body2">{"Hedonites of Slaanesh"}</Typography>
             </Button>

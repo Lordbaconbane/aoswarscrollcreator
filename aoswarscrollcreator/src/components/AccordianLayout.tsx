@@ -12,6 +12,7 @@ import MeleeWeapons from "./Weapons/MeleeWeapons";
 import RangedWeapons from "./Weapons/RangedWeapons";
 import Abilities from "./Abilities/Abilities";
 import Loadout from "./Loadouts/Loadouts";
+import Legal from "./Legal";
 const theme = createTheme({
   typography: {
     fontFamily: "Minion Pro, Arial, sans-serif",
@@ -109,6 +110,7 @@ export default function AccordianLayout() {
         </AccordionSummary>
         <Keywords />
       </Accordion>
+      <Legal />
     </Box>
   );
 }

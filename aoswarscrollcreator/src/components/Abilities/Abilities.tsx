@@ -77,7 +77,7 @@ export default function Abilities() {
           declare_desc: "",
           effect_desc: "",
           keywords: "",
-          ability_banner: "",
+          ability_banner: AbilityBanner.start_deployment,
           ability_line_color: "",
           ability_icon: "",
           ability_phase: "",

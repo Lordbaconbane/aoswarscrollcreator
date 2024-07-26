@@ -9,7 +9,7 @@ export interface FactionState {
 const initialState: FactionState = {
   grandAlliance: "",
   factionName: "Default",
-  factionTemplate: "src/assets/FactionBackgrounds/AoS4DefaultTemplate.png",
+  factionTemplate: "src/assets/FactionBackgrounds/Order/Stormcast/Stormcast_Warscroll_Template.png",
   factionWeaponBanner: "src/assets/FactionBackgrounds/Order/Stormcast/Stormcast_Weapon_Banner.png",
 };
 
