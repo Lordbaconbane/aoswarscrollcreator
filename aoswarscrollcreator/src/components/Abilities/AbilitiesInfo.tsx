@@ -46,15 +46,15 @@ export const AbilityIcon = [
 ];
 
 export enum AbilityIconPath {
-  battleDamagedWeaponPath = "",
-  battleDamagedAbilityPath = "",
-  controlIconPath = "",
-  defensiveIconPath = "",
-  movementIconPath = "",
-  OffensiveIconPath = "",
-  rallyingIconPath = "",
-  shootingIconPath = "",
-  specialIconPath = "",
+  battleDamagedWeaponPath = "src/assets/icons/BattleDamaged_WeaponIcon.png",
+  battleDamagedAbilityPath = "src/assets/icons/BattleDamaged_AbilityIcon.png",
+  controlIconPath = "src/assets/icons/ControlIcon.png",
+  defensiveIconPath = "src/assets/icons/DefensiveIcon.png",
+  movementIconPath = "src/assets/icons/MovementIcon.png",
+  OffensiveIconPath = "src/assets/icons/OffensiveIcon.png",
+  rallyingIconPath = "src/assets/icons/RallyingIcon.png",
+  shootingIconPath = "src/assets/icons/ShootingIcon.png",
+  specialIconPath = "src/assets/icons/SpecialIcon.png",
 }
 
 export const AbilityPhase = [
