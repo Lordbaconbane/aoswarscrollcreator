@@ -21,6 +21,7 @@ import {
   AbilityType,
   AbilityUsageRestrictions,
   AbilityLineColor,
+  AbilityTypeIcon,
 } from "./AbilitiesInfo";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
@@ -36,17 +37,18 @@ export interface Ability {
   ability_banner: string;
   ability_line_color: string;
   ability_icon: string;
+  ability_icon_path: string;
   ability_phase: string;
   ability_timing: string;
   ability_type: string;
   ability_type_value: string;
+  ability_icon_type_path: string;
   ability_restriction: string;
 }
 
 export default function Abilities() {
   const dispatch = useDispatch();
   const abilities = useSelector((state: RootState) => state.abilities.abilities);
-
   const [isNonStandardAbility, setNonStandardAbility] = useState(false);
 
   const [isBattleDamaged, setBattleDamaged] = useState(false);
@@ -80,10 +82,12 @@ export default function Abilities() {
           ability_banner: AbilityBanner.start_deployment,
           ability_line_color: "",
           ability_icon: "",
+          ability_icon_path: AbilityTypeIcon.none,
           ability_phase: "",
           ability_timing: "",
           ability_type: "",
           ability_type_value: "",
+          ability_icon_type_path: "",
           ability_restriction: "",
         },
       ])
@@ -403,16 +407,80 @@ export default function Abilities() {
                 value={ability.ability_type}
                 sx={{ mb: 1 }}
                 onChange={(e) => {
-                  handleInputAbilityChange(index, "ability_type", e.target.value);
                   handleAbilityTypeChange(e);
                 }}
               >
-                <FormControlLabel value="Standard" control={<Radio />} label="Standard" />
-                <FormControlLabel value="Command" control={<Radio />} label="Command" />
-                <FormControlLabel value="Spell" control={<Radio />} label="Spell" />
-                <FormControlLabel value="Prayer" control={<Radio />} label="Prayer" />
+                <FormControlLabel
+                  value="Standard"
+                  control={
+                    <Radio
+                      onClick={() => {
+                        handleInputAbilityChange(
+                          index,
+                          "ability_icon_type_path",
+                          AbilityTypeIcon.none,
+                          "ability_type",
+                          AbilityType.default
+                        );
+                      }}
+                    />
+                  }
+                  label="Standard"
+                />
+                <FormControlLabel
+                  value="Command"
+                  control={
+                    <Radio
+                      onClick={() => {
+                        handleInputAbilityChange(
+                          index,
+                          "ability_icon_type_path",
+                          AbilityTypeIcon.command,
+                          "ability_type",
+                          AbilityType.command
+                        );
+                      }}
+                    />
+                  }
+                  label="Command"
+                />
+                <FormControlLabel
+                  value="Spell"
+                  control={
+                    <Radio
+                      onClick={() => {
+                        handleInputAbilityChange(
+                          index,
+                          "ability_icon_type_path",
+                          AbilityTypeIcon.spell,
+                          "ability_type",
+                          AbilityType.spell
+                        );
+                      }}
+                    />
+                  }
+                  label="Spell"
+                />
+                <FormControlLabel
+                  value="Prayer"
+                  control={
+                    <Radio
+                      onClick={() => {
+                        handleInputAbilityChange(
+                          index,
+                          "ability_icon_type_path",
+                          AbilityTypeIcon.prayer,
+                          "ability_type",
+                          AbilityType.prayer
+                        );
+                      }}
+                    />
+                  }
+                  label="Prayer"
+                />
                 {isNonStandardAbility && (
                   <TextField
+                    value={ability.ability_type_value}
                     label={ability.ability_type + " value"}
                     variant="outlined"
                     margin="normal"

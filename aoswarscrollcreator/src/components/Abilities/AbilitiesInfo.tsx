@@ -1,8 +1,15 @@
 export enum AbilityType {
   default = "Standard",
   command = "Command",
-  prayer = "prayer",
-  spell = "spell",
+  prayer = "Prayer",
+  spell = "Spell",
+}
+
+export enum AbilityTypeIcon {
+  none = "",
+  command = "src/assets/icons/CommandIcon.png",
+  prayer = "src/assets/icons/PrayerIcon.png",
+  spell = "src/assets/icons/SpellIcon.png",
 }
 
 export enum AbilityLineColor {

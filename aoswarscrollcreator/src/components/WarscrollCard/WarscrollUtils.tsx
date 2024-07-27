@@ -2,6 +2,7 @@ import { RangedWeaponStats } from "../Weapons/RangedWeapons";
 import { MeleeWeaponStats } from "../Weapons/MeleeWeapons";
 import { Ability } from "../Abilities/Abilities";
 import { Coordinate } from "./WarscrollCard";
+import { AbilityTypeIcon } from "../Abilities/AbilitiesInfo";
 
 // Character limits
 const warscrollTitleCharPerLine = 20;
@@ -30,10 +31,14 @@ const xAnchorL = 25;
 export const drawImageOnCanvas = (
   ctx: CanvasRenderingContext2D,
   image: HTMLImageElement,
-  canvas: HTMLCanvasElement
+  canvas: HTMLCanvasElement,
+  x: number = 0,
+  y: number = 0,
+  width: number = canvas.width,
+  height: number = canvas.height
 ) => {
   ctx.globalAlpha = 1;
-  ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+  ctx.drawImage(image, x, y, width, height);
 };
 
 export const drawText = (
@@ -204,9 +209,9 @@ export const drawAbilitiesOnCanvas = (
 
   const loadImages = abilities.map((ability) => {
     return new Promise<void>((resolve) => {
-      const img = new Image();
-      img.src = ability.ability_banner;
-      img.onload = () => resolve();
+      const imgBanneer = new Image();
+      imgBanneer.src = ability.ability_banner;
+      imgBanneer.onload = () => resolve();
     });
   });
 
@@ -344,6 +349,39 @@ export const drawAbilitiesOnCanvas = (
             true,
             "Effect: "
           );
+        }
+
+        // Handle the ability type icon
+        const iconTypePath = abilities[i].ability_icon_type_path;
+        console.log("Icon Path: " + iconTypePath);
+        if (
+          iconTypePath === AbilityTypeIcon.command ||
+          iconTypePath === AbilityTypeIcon.prayer ||
+          iconTypePath === AbilityTypeIcon.spell
+        ) {
+          const iconTypeImg = new Image();
+          iconTypeImg.src = iconTypePath;
+
+          iconTypeImg.onload = () => {
+            console.log("Draw abilities icons");
+            ctx.drawImage(iconTypeImg, xCoord + boxWidth - 30, yCoord - 10, 40, 40);
+            let fontColor = "";
+            if (iconTypePath === AbilityTypeIcon.command) {
+              fontColor = "black";
+            } else {
+              fontColor = "white";
+            }
+            drawText(
+              ctx,
+              abilities[i].ability_type_value,
+              xCoord + boxWidth - 12,
+              yCoord + 17,
+              24,
+              "center",
+              fontColor,
+              "bold"
+            );
+          };
         }
 
         if (hasKeywords) {
