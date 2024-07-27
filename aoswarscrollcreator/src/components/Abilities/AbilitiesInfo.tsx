@@ -45,6 +45,18 @@ export const AbilityIcon = [
   "Special Ability",
 ];
 
+export enum AbilityIconPath {
+  battleDamagedWeaponPath = "",
+  battleDamagedAbilityPath = "",
+  controlIconPath = "",
+  defensiveIconPath = "",
+  movementIconPath = "",
+  OffensiveIconPath = "",
+  rallyingIconPath = "",
+  shootingIconPath = "",
+  specialIconPath = "",
+}
+
 export const AbilityPhase = [
   "Start of Turn",
   "Hero Phase",
