@@ -21,7 +21,7 @@ export enum FactionTemplates {
   SlavesToDarkness = "111",
   SonsOfBehemat = "222",
   SoulblightGravelords = "333",
-  StormcastEternals = "src/assets/FactionBackgrounds/Order/Seraphon/Stormcast_Warscroll_Template.png",
+  StormcastEternals = "src/assets/FactionBackgrounds/Order/Stormcast/Stormcast_Warscroll_Template.png",
   Sylvaneth = "444",
 }
 
