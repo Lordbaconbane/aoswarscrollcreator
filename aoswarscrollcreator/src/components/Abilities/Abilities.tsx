@@ -29,6 +29,18 @@ import { RootState } from "../../store/store";
 import { setAbilities } from "./AbilitiesSlice";
 import { useState } from "react";
 
+import BattleIcon from "../../assets/Icons/BattleDamaged_AbilityIcon.png";
+import ControlIcon from "../../assets/Icons/Controlicon.png";
+import DefensiveIcon from "../../assets/Icons/DefensiveIcon.png";
+import MovementIcon from "../../assets/Icons/MovementIcon.png";
+import OffensiveIcon from "../../assets/Icons/OffensiveIcon.png";
+import RallyingIcon from "../../assets/Icons/RallyingIcon.png";
+import ShootingIcon from "../../assets/Icons/ShootingIcon.png";
+import SpecialIcon from "../../assets/Icons/SpecialIcon.png";
+
+const abilityTypeIconHeight = 24;
+const abilityTypeIconWidth = 24;
+
 export interface Ability {
   name: string;
   name_desc: string;
@@ -301,9 +313,6 @@ export default function Abilities() {
             {"Ability icon (gives an idea at a glance)"}
           </Typography>
           <FormControl>
-            <Typography variant="body1" component="div">
-              {"Ability type"}
-            </Typography>
             <FormLabel id="ability-type">
               <RadioGroup
                 row
@@ -331,7 +340,16 @@ export default function Abilities() {
                       }}
                     />
                   }
-                  label="Battle Damaged"
+                  label={
+                    <Box style={{ display: "flex", alignItems: "center" }}>
+                      <img
+                        src={BattleIcon}
+                        alt="Battle Damaged Icon"
+                        style={{ marginRight: 4, width: abilityTypeIconWidth, height: abilityTypeIconHeight }}
+                      />
+                      Battle Damaged
+                    </Box>
+                  }
                 />
                 <FormControlLabel
                   value="Control"
@@ -349,7 +367,16 @@ export default function Abilities() {
                       }}
                     />
                   }
-                  label="Control"
+                  label={
+                    <Box style={{ display: "flex", alignItems: "center" }}>
+                      <img
+                        src={ControlIcon}
+                        alt="Control Icon"
+                        style={{ marginRight: 4, width: abilityTypeIconWidth, height: abilityTypeIconHeight }}
+                      />
+                      Control
+                    </Box>
+                  }
                 />
                 <FormControlLabel
                   value="Defensive"
@@ -367,7 +394,16 @@ export default function Abilities() {
                       }}
                     />
                   }
-                  label="Defensive"
+                  label={
+                    <Box style={{ display: "flex", alignItems: "center" }}>
+                      <img
+                        src={DefensiveIcon}
+                        alt="Defensive Icon"
+                        style={{ marginRight: 4, width: abilityTypeIconWidth, height: abilityTypeIconHeight }}
+                      />
+                      Defensive
+                    </Box>
+                  }
                 />
                 <FormControlLabel
                   value="Movement"
@@ -385,7 +421,16 @@ export default function Abilities() {
                       }}
                     />
                   }
-                  label="Movement"
+                  label={
+                    <Box style={{ display: "flex", alignItems: "center" }}>
+                      <img
+                        src={MovementIcon}
+                        alt="Movement Icon"
+                        style={{ marginRight: 4, width: abilityTypeIconWidth, height: abilityTypeIconHeight }}
+                      />
+                      Movement
+                    </Box>
+                  }
                 />
                 <FormControlLabel
                   value="Offensive"
@@ -403,7 +448,16 @@ export default function Abilities() {
                       }}
                     />
                   }
-                  label="Offensive"
+                  label={
+                    <Box style={{ display: "flex", alignItems: "center" }}>
+                      <img
+                        src={OffensiveIcon}
+                        alt="Offensive Icon"
+                        style={{ marginRight: 8, width: abilityTypeIconWidth, height: abilityTypeIconHeight }}
+                      />
+                      Offensive
+                    </Box>
+                  }
                 />
                 <FormControlLabel
                   value="Rallying"
@@ -421,7 +475,16 @@ export default function Abilities() {
                       }}
                     />
                   }
-                  label="Rallying"
+                  label={
+                    <Box style={{ display: "flex", alignItems: "center" }}>
+                      <img
+                        src={RallyingIcon}
+                        alt="Rallying Icon"
+                        style={{ marginRight: 8, width: abilityTypeIconWidth, height: abilityTypeIconHeight }}
+                      />
+                      Rallying
+                    </Box>
+                  }
                 />
                 <FormControlLabel
                   value="Shooting"
@@ -439,7 +502,16 @@ export default function Abilities() {
                       }}
                     />
                   }
-                  label="Shooting"
+                  label={
+                    <Box style={{ display: "flex", alignItems: "center" }}>
+                      <img
+                        src={ShootingIcon}
+                        alt="Shooting Icon"
+                        style={{ marginRight: 8, width: abilityTypeIconWidth, height: abilityTypeIconHeight }}
+                      />
+                      Shooting
+                    </Box>
+                  }
                 />
                 <FormControlLabel
                   value="Special"
@@ -457,7 +529,16 @@ export default function Abilities() {
                       }}
                     />
                   }
-                  label="Special"
+                  label={
+                    <Box style={{ display: "flex", alignItems: "center" }}>
+                      <img
+                        src={SpecialIcon}
+                        alt="Speciald Icon"
+                        style={{ marginRight: 8, width: abilityTypeIconWidth, height: abilityTypeIconHeight }}
+                      />
+                      Special
+                    </Box>
+                  }
                 />
               </RadioGroup>
             </FormLabel>
