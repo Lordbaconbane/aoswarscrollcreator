@@ -37,6 +37,7 @@ import OffensiveIcon from "../../assets/Icons/OffensiveIcon.png";
 import RallyingIcon from "../../assets/Icons/RallyingIcon.png";
 import ShootingIcon from "../../assets/Icons/ShootingIcon.png";
 import SpecialIcon from "../../assets/Icons/SpecialIcon.png";
+import { setAllWeaponNames } from "../Weapons/WeaponsSlice";
 
 const abilityTypeIconHeight = 24;
 const abilityTypeIconWidth = 24;
@@ -62,9 +63,14 @@ export interface Ability {
 export default function Abilities() {
   const dispatch = useDispatch();
   const abilities = useSelector((state: RootState) => state.abilities.abilities);
+  const allWeaponNames = useSelector((state: RootState) => state.weapons.allWeaponNames);
   const [isNonStandardAbility, setNonStandardAbility] = useState(false);
 
   const [isBattleDamaged, setBattleDamaged] = useState(false);
+
+  const handleSetWeaponNames = () => {
+    setAllWeaponNames();
+  };
 
   const handleAbilityTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value != AbilityType.default) {
@@ -337,6 +343,7 @@ export default function Abilities() {
                           AbilityIconPath.battleDamagedAbilityPath
                         );
                         setBattleDamaged(true);
+                        handleSetWeaponNames();
                       }}
                     />
                   }
@@ -347,7 +354,9 @@ export default function Abilities() {
                         alt="Battle Damaged Icon"
                         style={{ marginRight: 4, width: abilityTypeIconWidth, height: abilityTypeIconHeight }}
                       />
-                      Battle Damaged
+                      <Typography variant="body1" component="div">
+                        {"Battle Damaged"}
+                      </Typography>
                     </Box>
                   }
                 />
@@ -374,7 +383,9 @@ export default function Abilities() {
                         alt="Control Icon"
                         style={{ marginRight: 4, width: abilityTypeIconWidth, height: abilityTypeIconHeight }}
                       />
-                      Control
+                      <Typography variant="body1" component="div">
+                        {"Control"}
+                      </Typography>
                     </Box>
                   }
                 />
@@ -401,7 +412,9 @@ export default function Abilities() {
                         alt="Defensive Icon"
                         style={{ marginRight: 4, width: abilityTypeIconWidth, height: abilityTypeIconHeight }}
                       />
-                      Defensive
+                      <Typography variant="body1" component="div">
+                        {"Defensive"}
+                      </Typography>
                     </Box>
                   }
                 />
@@ -428,7 +441,9 @@ export default function Abilities() {
                         alt="Movement Icon"
                         style={{ marginRight: 4, width: abilityTypeIconWidth, height: abilityTypeIconHeight }}
                       />
-                      Movement
+                      <Typography variant="body1" component="div">
+                        {"Movement"}
+                      </Typography>
                     </Box>
                   }
                 />
@@ -455,7 +470,9 @@ export default function Abilities() {
                         alt="Offensive Icon"
                         style={{ marginRight: 8, width: abilityTypeIconWidth, height: abilityTypeIconHeight }}
                       />
-                      Offensive
+                      <Typography variant="body1" component="div">
+                        {"Offensive"}
+                      </Typography>
                     </Box>
                   }
                 />
@@ -482,7 +499,9 @@ export default function Abilities() {
                         alt="Rallying Icon"
                         style={{ marginRight: 8, width: abilityTypeIconWidth, height: abilityTypeIconHeight }}
                       />
-                      Rallying
+                      <Typography variant="body1" component="div">
+                        {"Rallying"}
+                      </Typography>
                     </Box>
                   }
                 />
@@ -509,7 +528,9 @@ export default function Abilities() {
                         alt="Shooting Icon"
                         style={{ marginRight: 8, width: abilityTypeIconWidth, height: abilityTypeIconHeight }}
                       />
-                      Shooting
+                      <Typography variant="body1" component="div">
+                        {"Shooting"}
+                      </Typography>
                     </Box>
                   }
                 />
@@ -536,7 +557,9 @@ export default function Abilities() {
                         alt="Speciald Icon"
                         style={{ marginRight: 8, width: abilityTypeIconWidth, height: abilityTypeIconHeight }}
                       />
-                      Special
+                      <Typography variant="body1" component="div">
+                        {"Special"}
+                      </Typography>
                     </Box>
                   }
                 />
@@ -545,15 +568,30 @@ export default function Abilities() {
           </FormControl>
           {/*Specifically for battle damaged*/}
           {isBattleDamaged && (
-            <TextField
-              label={"Battle Damaged weapon"}
-              variant="outlined"
+            <Autocomplete
+              clearIcon={false}
+              options={allWeaponNames}
               fullWidth
-              sx={{ mt: 1 }}
-              //onChange={(e) => {
-              //handleInputAbilityChange(index, "ability_type_value", e.target.value);
+              //onChange={(_event, value) => {
+              //if (value !== null) {
+              //handleInputAbilityChange(index, "ability_restriction", value);
+              //}
               //}}
-            ></TextField>
+              renderTags={(value, props) =>
+                value.map((option, index) => <Chip label={option} {...props({ index })} />)
+              }
+              renderInput={(params) => (
+                <TextField
+                  sx={{ mt: 1, mb: 1 }}
+                  //onChange={(e) => {
+                  //handleInputAbilityChange(index, "ability_restriction", e.target.value);
+                  //}}
+                  label="Select a weapon"
+                  {...params}
+                  id="battle-damaged-weapon"
+                />
+              )}
+            />
           )}
 
           {/* Ability restrictions */}

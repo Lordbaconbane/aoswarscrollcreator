@@ -1,17 +1,9 @@
 import { WeaponAbilities } from "./WeaponAbilities";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { setMeleeWeapons } from "./WeaponsSlice";
+import { setAllWeaponNames, setMeleeWeapons } from "./WeaponsSlice";
 
-import {
-  AccordionDetails,
-  Button,
-  Typography,
-  TextField,
-  MenuItem,
-  Autocomplete,
-  Chip,
-} from "@mui/material";
+import { AccordionDetails, Button, Typography, TextField, MenuItem, Autocomplete, Chip } from "@mui/material";
 
 export interface MeleeWeaponStats {
   name: string;
@@ -44,6 +36,7 @@ export default function MeleeWeapons() {
           },
         ])
       );
+      dispatch(setAllWeaponNames());
     }
   };
 
@@ -51,16 +44,15 @@ export default function MeleeWeapons() {
     dispatch(setMeleeWeapons(meleeWeapons.filter((_MeleeWaponStats, i) => i !== index)));
   };
 
-  const handleInputMeleeChange = (
-    index: number,
-    field: keyof (typeof meleeWeapons)[0],
-    value: string
-  ) => {
+  const handleInputMeleeChange = (index: number, field: keyof (typeof meleeWeapons)[0], value: string) => {
     // Create a copy of the array and the object at the specific index
     const newMeleeWeapons = meleeWeapons.map((weapon, i) =>
       i === index ? { ...weapon, [field]: value } : weapon
     );
     dispatch(setMeleeWeapons(newMeleeWeapons));
+    if (field === "name") {
+      dispatch(setAllWeaponNames());
+    }
   };
 
   return (
@@ -157,15 +149,11 @@ export default function MeleeWeapons() {
             fullWidth
             freeSolo
             multiple
-            onChange={(_e, newValue) =>
-              handleInputMeleeChange(index, "ability", newValue.join(", "))
-            }
+            onChange={(_e, newValue) => handleInputMeleeChange(index, "ability", newValue.join(", "))}
             renderTags={(value, props) =>
               value.map((option, index) => <Chip label={option} {...props({ index })} />)
             }
-            renderInput={(params) => (
-              <TextField {...params} label="Ability" sx={{ mb: 1, mr: 1, mt: 1 }} />
-            )}
+            renderInput={(params) => <TextField {...params} label="Ability" sx={{ mb: 1, mr: 1, mt: 1 }} />}
           />
           <Button
             variant="contained"
@@ -173,9 +161,7 @@ export default function MeleeWeapons() {
             onClick={() => handleRemoveMeleeWeapon(index)}
             sx={{ mr: 1, mt: 1 }}
           >
-            <Typography variant="body1">
-              {"Remove Melee Weapon: " + meleeWeapons[index].name}
-            </Typography>
+            <Typography variant="body1">{"Remove Melee Weapon: " + meleeWeapons[index].name}</Typography>
           </Button>
         </div>
       ))}
