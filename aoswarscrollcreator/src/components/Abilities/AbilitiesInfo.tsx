@@ -34,16 +34,16 @@ export enum AbilityBanner {
   defensive = "src/assets/Banners/Ability_Banner_Defensive.png",
 }
 
-export const AbilityIcon = [
-  "Battle Damaged",
-  "Control Ability",
-  "Defensive Ability",
-  "Movement Ability",
-  "Offensive Ability",
-  "Rallying Ability",
-  "Shooting Ability",
-  "Special Ability",
-];
+export enum AbilityIcon {
+  battleDamaged = "Battle Damaged",
+  control = "Control",
+  defensive = "Defensive",
+  move = "Movement",
+  offensive = "Offensive",
+  rally = "Rallying",
+  shoot = "Shooting",
+  special = "Special",
+}
 
 export enum AbilityIconPath {
   battleDamagedWeaponPath = "src/assets/icons/BattleDamaged_WeaponIcon.png",

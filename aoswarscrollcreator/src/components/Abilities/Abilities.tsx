@@ -22,6 +22,7 @@ import {
   AbilityUsageRestrictions,
   AbilityLineColor,
   AbilityTypeIcon,
+  AbilityIconPath,
 } from "./AbilitiesInfo";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
@@ -52,14 +53,6 @@ export default function Abilities() {
   const [isNonStandardAbility, setNonStandardAbility] = useState(false);
 
   const [isBattleDamaged, setBattleDamaged] = useState(false);
-
-  const handleBattleDamaged = (value: string) => {
-    if (value !== "Battle Damaged") {
-      setBattleDamaged(false);
-    } else {
-      setBattleDamaged(true);
-    }
-  };
 
   const handleAbilityTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value != AbilityType.default) {
@@ -307,24 +300,168 @@ export default function Abilities() {
           <Typography variant="body1" component="div">
             {"Ability icon (gives an idea at a glance)"}
           </Typography>
-          <Autocomplete
-            clearIcon={false}
-            options={AbilityIcon}
-            fullWidth
-            freeSolo
-            onChange={(_event, value) => {
-              if (value !== null) {
-                handleInputAbilityChange(index, "ability_icon", value);
-                handleBattleDamaged(value);
-              }
-            }}
-            renderTags={(value, props) =>
-              value.map((option, index) => <Chip label={option} {...props({ index })} />)
-            }
-            renderInput={(params) => (
-              <TextField sx={{ mt: 2 }} label="Ability icon" {...params} id="ability-keywords" />
-            )}
-          />
+          <FormControl>
+            <Typography variant="body1" component="div">
+              {"Ability type"}
+            </Typography>
+            <FormLabel id="ability-type">
+              <RadioGroup
+                row
+                aria-label="ability-type-radio-button-group"
+                name="ability-type-radio-buttons-group"
+                value={ability.ability_icon}
+                sx={{ mb: 1 }}
+                onChange={(e) => {
+                  handleAbilityTypeChange(e);
+                }}
+              >
+                <FormControlLabel
+                  value="Battle Damaged"
+                  control={
+                    <Radio
+                      onClick={() => {
+                        handleInputAbilityChange(
+                          index,
+                          "ability_icon",
+                          AbilityIcon.battleDamaged,
+                          "ability_icon_path",
+                          AbilityIconPath.battleDamagedAbilityPath
+                        );
+                        setBattleDamaged(true);
+                      }}
+                    />
+                  }
+                  label="Battle Damaged"
+                />
+                <FormControlLabel
+                  value="Control"
+                  control={
+                    <Radio
+                      onClick={() => {
+                        handleInputAbilityChange(
+                          index,
+                          "ability_icon",
+                          AbilityIcon.control,
+                          "ability_icon_path",
+                          AbilityIconPath.controlIconPath
+                        );
+                        setBattleDamaged(false);
+                      }}
+                    />
+                  }
+                  label="Control"
+                />
+                <FormControlLabel
+                  value="Defensive"
+                  control={
+                    <Radio
+                      onClick={() => {
+                        handleInputAbilityChange(
+                          index,
+                          "ability_icon",
+                          AbilityIcon.defensive,
+                          "ability_icon_path",
+                          AbilityIconPath.defensiveIconPath
+                        );
+                        setBattleDamaged(false);
+                      }}
+                    />
+                  }
+                  label="Defensive"
+                />
+                <FormControlLabel
+                  value="Movement"
+                  control={
+                    <Radio
+                      onClick={() => {
+                        handleInputAbilityChange(
+                          index,
+                          "ability_icon",
+                          AbilityIcon.move,
+                          "ability_icon_path",
+                          AbilityIconPath.movementIconPath
+                        );
+                        setBattleDamaged(false);
+                      }}
+                    />
+                  }
+                  label="Movement"
+                />
+                <FormControlLabel
+                  value="Offensive"
+                  control={
+                    <Radio
+                      onClick={() => {
+                        handleInputAbilityChange(
+                          index,
+                          "ability_icon",
+                          AbilityIcon.offensive,
+                          "ability_icon_path",
+                          AbilityIconPath.OffensiveIconPath
+                        );
+                        setBattleDamaged(false);
+                      }}
+                    />
+                  }
+                  label="Offensive"
+                />
+                <FormControlLabel
+                  value="Rallying"
+                  control={
+                    <Radio
+                      onClick={() => {
+                        handleInputAbilityChange(
+                          index,
+                          "ability_icon",
+                          AbilityIcon.rally,
+                          "ability_icon_path",
+                          AbilityIconPath.rallyingIconPath
+                        );
+                        setBattleDamaged(false);
+                      }}
+                    />
+                  }
+                  label="Rallying"
+                />
+                <FormControlLabel
+                  value="Shooting"
+                  control={
+                    <Radio
+                      onClick={() => {
+                        handleInputAbilityChange(
+                          index,
+                          "ability_icon",
+                          AbilityIcon.shoot,
+                          "ability_icon_path",
+                          AbilityIconPath.shootingIconPath
+                        );
+                        setBattleDamaged(false);
+                      }}
+                    />
+                  }
+                  label="Shooting"
+                />
+                <FormControlLabel
+                  value="Special"
+                  control={
+                    <Radio
+                      onClick={() => {
+                        handleInputAbilityChange(
+                          index,
+                          "ability_icon",
+                          AbilityIcon.special,
+                          "ability_icon_path",
+                          AbilityIconPath.specialIconPath
+                        );
+                        setBattleDamaged(false);
+                      }}
+                    />
+                  }
+                  label="Special"
+                />
+              </RadioGroup>
+            </FormLabel>
+          </FormControl>
           {/*Specifically for battle damaged*/}
           {isBattleDamaged && (
             <TextField
