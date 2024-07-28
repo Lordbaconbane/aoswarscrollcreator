@@ -34,6 +34,8 @@ export enum AbilityBanner {
   defensive = "src/assets/Banners/Ability_Banner_Defensive.png",
 }
 
+export const defaultAbilityIconWidthHeight = 17;
+
 export enum AbilityIcon {
   battleDamaged = "Battle Damaged",
   control = "Control",

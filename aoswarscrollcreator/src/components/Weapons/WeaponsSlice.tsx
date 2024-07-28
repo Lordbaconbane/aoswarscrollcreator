@@ -6,12 +6,14 @@ export interface WeaponsState {
   meleeWeaponStats: MeleeWeaponStats[];
   rangedWeaponsStats: RangedWeaponStats[];
   allWeaponNames: Array<string>;
+  battleDamagedWeapon: string;
 }
 
 const initialState: WeaponsState = {
   meleeWeaponStats: [],
   rangedWeaponsStats: [],
   allWeaponNames: [],
+  battleDamagedWeapon: "",
 };
 
 // Our slice!
@@ -26,7 +28,6 @@ export const weaponsSlice = createSlice({
       state.rangedWeaponsStats = action.payload;
     },
     setAllWeaponNames: (state) => {
-      console.log("He;wefwefwfwe");
       state.allWeaponNames.length = 0;
       for (let i = 0; i < state.meleeWeaponStats.length; i++) {
         state.allWeaponNames.push(state.meleeWeaponStats[i].name);
@@ -35,10 +36,18 @@ export const weaponsSlice = createSlice({
         state.allWeaponNames.push(state.rangedWeaponsStats[i].name);
       }
     },
+    setBattleDamagedWeapon: (state, action: PayloadAction<string>) => {
+      if (state.allWeaponNames.includes(action.payload)) {
+        state.battleDamagedWeapon = action.payload;
+      } else {
+        state.battleDamagedWeapon = "";
+      }
+    },
   },
   // "Create slice will infer the state tupe from the initialState argument"
 });
 
-export const { setMeleeWeapons, setRangedWeapons, setAllWeaponNames } = weaponsSlice.actions;
+export const { setMeleeWeapons, setRangedWeapons, setAllWeaponNames, setBattleDamagedWeapon } =
+  weaponsSlice.actions;
 
 export default weaponsSlice.reducer;

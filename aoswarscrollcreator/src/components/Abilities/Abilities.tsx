@@ -37,7 +37,7 @@ import OffensiveIcon from "../../assets/Icons/OffensiveIcon.png";
 import RallyingIcon from "../../assets/Icons/RallyingIcon.png";
 import ShootingIcon from "../../assets/Icons/ShootingIcon.png";
 import SpecialIcon from "../../assets/Icons/SpecialIcon.png";
-import { setAllWeaponNames } from "../Weapons/WeaponsSlice";
+import { setAllWeaponNames, setBattleDamagedWeapon } from "../Weapons/WeaponsSlice";
 
 const abilityTypeIconHeight = 24;
 const abilityTypeIconWidth = 24;
@@ -373,6 +373,7 @@ export default function Abilities() {
                           AbilityIconPath.controlIconPath
                         );
                         setBattleDamaged(false);
+                        dispatch(setBattleDamagedWeapon(""));
                       }}
                     />
                   }
@@ -402,6 +403,7 @@ export default function Abilities() {
                           AbilityIconPath.defensiveIconPath
                         );
                         setBattleDamaged(false);
+                        dispatch(setBattleDamagedWeapon(""));
                       }}
                     />
                   }
@@ -431,6 +433,7 @@ export default function Abilities() {
                           AbilityIconPath.movementIconPath
                         );
                         setBattleDamaged(false);
+                        dispatch(setBattleDamagedWeapon(""));
                       }}
                     />
                   }
@@ -460,6 +463,7 @@ export default function Abilities() {
                           AbilityIconPath.OffensiveIconPath
                         );
                         setBattleDamaged(false);
+                        dispatch(setBattleDamagedWeapon(""));
                       }}
                     />
                   }
@@ -489,6 +493,7 @@ export default function Abilities() {
                           AbilityIconPath.rallyingIconPath
                         );
                         setBattleDamaged(false);
+                        dispatch(setBattleDamagedWeapon(""));
                       }}
                     />
                   }
@@ -518,6 +523,7 @@ export default function Abilities() {
                           AbilityIconPath.shootingIconPath
                         );
                         setBattleDamaged(false);
+                        dispatch(setBattleDamagedWeapon(""));
                       }}
                     />
                   }
@@ -547,6 +553,7 @@ export default function Abilities() {
                           AbilityIconPath.specialIconPath
                         );
                         setBattleDamaged(false);
+                        dispatch(setBattleDamagedWeapon(""));
                       }}
                     />
                   }
@@ -572,20 +579,21 @@ export default function Abilities() {
               clearIcon={false}
               options={allWeaponNames}
               fullWidth
-              //onChange={(_event, value) => {
-              //if (value !== null) {
-              //handleInputAbilityChange(index, "ability_restriction", value);
-              //}
-              //}}
+              onChange={(_event, value) => {
+                if (value != null) {
+                  dispatch(setBattleDamagedWeapon(value));
+                }
+              }}
               renderTags={(value, props) =>
                 value.map((option, index) => <Chip label={option} {...props({ index })} />)
               }
               renderInput={(params) => (
                 <TextField
                   sx={{ mt: 1, mb: 1 }}
-                  //onChange={(e) => {
-                  //handleInputAbilityChange(index, "ability_restriction", e.target.value);
-                  //}}
+                  onChange={(e) => {
+                    dispatch(setBattleDamagedWeapon(e.target.value));
+                    //handleInputAbilityChange(index, "ability_restriction", e.target.value);
+                  }}
                   label="Select a weapon"
                   {...params}
                   id="battle-damaged-weapon"

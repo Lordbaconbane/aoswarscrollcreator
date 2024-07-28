@@ -32,29 +32,22 @@ const WarscrollCard: React.FC = () => {
   const triggerDownload = useSelector((state: RootState) => state.warscroll.triggerDownload);
 
   const factionTemplate = useSelector((state: RootState) => state.faction.factionTemplate);
-
   const factionWeaponBanner = useSelector((state: RootState) => state.faction.factionWeaponBanner);
-
   const factionName = useSelector((state: RootState) => state.faction.factionName);
 
   const warscrollName = useSelector((state: RootState) => state.characteristics.warscrollName);
-
   const warscrollSubtype = useSelector((state: RootState) => state.characteristics.warscrollSubtype);
 
   const moveChar = useSelector((state: RootState) => state.characteristics.warscrollMove);
-
   const healthChar = useSelector((state: RootState) => state.characteristics.warscrollHealth);
-
   const saveChar = useSelector((state: RootState) => state.characteristics.warscrollSave);
-
   const controlChar = useSelector((state: RootState) => state.characteristics.warscrollControl);
 
   const keywordIdentities = useSelector((state: RootState) => state.keywords.keywordIdentities);
-
   const keywordAbilities = useSelector((state: RootState) => state.keywords.keywordAbilities);
 
   const meleeWeapons = useSelector((state: RootState) => state.weapons.meleeWeaponStats);
-
+  const battleDamagedWeapon = useSelector((state: RootState) => state.weapons.battleDamagedWeapon);
   const rangedWeapons = useSelector((state: RootState) => state.weapons.rangedWeaponsStats);
 
   const abilities = useSelector((state: RootState) => state.abilities.abilities);
@@ -177,7 +170,13 @@ const WarscrollCard: React.FC = () => {
         bodyCtx.clearRect(0, 0, bodyCanvas.width, bodyCanvas.height);
 
         // Draw Weapons
-        coords[0].y = drawWeaponsOnCanvas(bodyCtx, weaponBannerImage, rangedWeapons, meleeWeapons);
+        coords[0].y = drawWeaponsOnCanvas(
+          bodyCtx,
+          weaponBannerImage,
+          rangedWeapons,
+          meleeWeapons,
+          battleDamagedWeapon
+        );
         bodyCtx.save();
 
         // If we have a loadout, push a new element in our display and draw our loadout.
@@ -194,7 +193,15 @@ const WarscrollCard: React.FC = () => {
         bodyCtx.save();
       }
     };
-  }, [factionWeaponBanner, rangedWeapons, meleeWeapons, loadoutBody, loadoutPoints, abilities]);
+  }, [
+    factionWeaponBanner,
+    rangedWeapons,
+    meleeWeapons,
+    loadoutBody,
+    loadoutPoints,
+    abilities,
+    battleDamagedWeapon,
+  ]);
 
   return (
     <Box
