@@ -4,16 +4,14 @@ import { RangedWeaponStats } from "./RangedWeapons";
 
 export interface WeaponsState {
   meleeWeaponStats: MeleeWeaponStats[];
-  rangedWeaponsStats: RangedWeaponStats[];
+  rangedWeaponStats: RangedWeaponStats[];
   allWeaponNames: Array<string>;
-  battleDamagedWeapon: string;
 }
 
 const initialState: WeaponsState = {
   meleeWeaponStats: [],
-  rangedWeaponsStats: [],
+  rangedWeaponStats: [],
   allWeaponNames: [],
-  battleDamagedWeapon: "",
 };
 
 // Our slice!
@@ -25,22 +23,31 @@ export const weaponsSlice = createSlice({
       state.meleeWeaponStats = action.payload;
     },
     setRangedWeapons: (state, action: PayloadAction<Array<RangedWeaponStats>>) => {
-      state.rangedWeaponsStats = action.payload;
+      state.rangedWeaponStats = action.payload;
     },
     setAllWeaponNames: (state) => {
       state.allWeaponNames.length = 0;
       for (let i = 0; i < state.meleeWeaponStats.length; i++) {
-        state.allWeaponNames.push(state.meleeWeaponStats[i].name);
+        state.allWeaponNames.push(state.meleeWeaponStats[i].name + " (melee)");
       }
-      for (let i = 0; i < state.rangedWeaponsStats.length; i++) {
-        state.allWeaponNames.push(state.rangedWeaponsStats[i].name);
+      for (let i = 0; i < state.rangedWeaponStats.length; i++) {
+        state.allWeaponNames.push(state.rangedWeaponStats[i].name + " (ranged)");
       }
     },
     setBattleDamagedWeapon: (state, action: PayloadAction<string>) => {
-      if (state.allWeaponNames.includes(action.payload)) {
-        state.battleDamagedWeapon = action.payload;
-      } else {
-        state.battleDamagedWeapon = "";
+      for (let i = 0; i < state.meleeWeaponStats.length; i++) {
+        if (action.payload === state.meleeWeaponStats[i].name + " (melee)") {
+          state.meleeWeaponStats[i].isBattleDamaged = true;
+        } else {
+          state.meleeWeaponStats[i].isBattleDamaged = false;
+        }
+      }
+      for (let i = 0; i < state.rangedWeaponStats.length; i++) {
+        if (action.payload === state.rangedWeaponStats[i].name + " (ranged)") {
+          state.rangedWeaponStats[i].isBattleDamaged = true;
+        } else {
+          state.rangedWeaponStats[i].isBattleDamaged = false;
+        }
       }
     },
   },

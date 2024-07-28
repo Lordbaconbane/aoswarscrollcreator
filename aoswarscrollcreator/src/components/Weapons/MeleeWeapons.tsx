@@ -13,6 +13,7 @@ export interface MeleeWeaponStats {
   rend: string;
   damage: string;
   ability: string;
+  isBattleDamaged: boolean;
 }
 
 export default function MeleeWeapons() {
@@ -33,6 +34,7 @@ export default function MeleeWeapons() {
             rend: "",
             damage: "",
             ability: "",
+            isBattleDamaged: false,
           },
         ])
       );

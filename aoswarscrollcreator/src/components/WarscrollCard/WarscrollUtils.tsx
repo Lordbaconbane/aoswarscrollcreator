@@ -440,29 +440,23 @@ export const drawAbilitiesOnCanvas = (
 
 const drawBattleDamagedWeaponIcon = (
   ctx: CanvasRenderingContext2D,
-  battleDamagedWeapon: string,
-  weaponName: string,
   battleDamagdIconPath: string,
   x: number,
   y: number
 ) => {
-  if (battleDamagedWeapon === weaponName && battleDamagedWeapon.length > 0) {
-    // Now draw the ability icon
-    const iconPath = battleDamagdIconPath;
-    const iconImg = new Image();
-    iconImg.src = iconPath;
-    iconImg.onload = () => {
-      ctx.drawImage(iconImg, x + 1, y + 1, defaultAbilityIconWidthHeight, defaultAbilityIconWidthHeight);
-    };
-  }
+  const iconPath = battleDamagdIconPath;
+  const iconImg = new Image();
+  iconImg.src = iconPath;
+  iconImg.onload = () => {
+    ctx.drawImage(iconImg, x + 1, y + 1, defaultAbilityIconWidthHeight, defaultAbilityIconWidthHeight);
+  };
 };
 
 export const drawWeaponsOnCanvas = (
   ctx: CanvasRenderingContext2D,
   image: HTMLImageElement,
   rangedWeapons: RangedWeaponStats[],
-  meleeWeapons: MeleeWeaponStats[],
-  battleDamagedWeapon: string
+  meleeWeapons: MeleeWeaponStats[]
 ) => {
   const width = 640;
   let height = 20;
@@ -544,14 +538,14 @@ export const drawWeaponsOnCanvas = (
         ctx.drawImage(image, wpnBannerPosX, wpnBannerPosY + imageOffset, width, height);
 
         // If we have a battle damaged weapon, add battle damage icon
-        drawBattleDamagedWeaponIcon(
-          ctx,
-          battleDamagedWeapon,
-          rangedWeapons[i].name,
-          AbilityIconPath.battleDamagedWeaponPath,
-          wpnBannerPosX,
-          wpnBannerPosY + imageOffset
-        );
+        if (rangedWeapons[i].isBattleDamaged) {
+          drawBattleDamagedWeaponIcon(
+            ctx,
+            AbilityIconPath.battleDamagedWeaponPath,
+            wpnBannerPosX,
+            wpnBannerPosY + imageOffset
+          );
+        }
 
         /* If we're double spacd, add extra offset, but reduce the height as the next 
         line is assumed to be single space. */
@@ -641,15 +635,15 @@ export const drawWeaponsOnCanvas = (
         // Finally, draw our image
         ctx.drawImage(image, wpnBannerPosX, wpnBannerPosY + imageOffset, width, height);
 
-        // Draw battle damaged icon if we have one
-        drawBattleDamagedWeaponIcon(
-          ctx,
-          battleDamagedWeapon,
-          meleeWeapons[i].name,
-          AbilityIconPath.battleDamagedWeaponPath,
-          wpnBannerPosX,
-          wpnBannerPosY + imageOffset
-        );
+        // If we have a battle damaged weapon, add battle damage icon
+        if (meleeWeapons[i].isBattleDamaged) {
+          drawBattleDamagedWeaponIcon(
+            ctx,
+            AbilityIconPath.battleDamagedWeaponPath,
+            wpnBannerPosX,
+            wpnBannerPosY + imageOffset
+          );
+        }
 
         /* If we're double spacd, add extra offset, but reduce the height as the next 
         line is assumed to be single space. */

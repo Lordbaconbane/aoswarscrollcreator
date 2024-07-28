@@ -47,8 +47,7 @@ const WarscrollCard: React.FC = () => {
   const keywordAbilities = useSelector((state: RootState) => state.keywords.keywordAbilities);
 
   const meleeWeapons = useSelector((state: RootState) => state.weapons.meleeWeaponStats);
-  const battleDamagedWeapon = useSelector((state: RootState) => state.weapons.battleDamagedWeapon);
-  const rangedWeapons = useSelector((state: RootState) => state.weapons.rangedWeaponsStats);
+  const rangedWeapons = useSelector((state: RootState) => state.weapons.rangedWeaponStats);
 
   const abilities = useSelector((state: RootState) => state.abilities.abilities);
 
@@ -170,13 +169,7 @@ const WarscrollCard: React.FC = () => {
         bodyCtx.clearRect(0, 0, bodyCanvas.width, bodyCanvas.height);
 
         // Draw Weapons
-        coords[0].y = drawWeaponsOnCanvas(
-          bodyCtx,
-          weaponBannerImage,
-          rangedWeapons,
-          meleeWeapons,
-          battleDamagedWeapon
-        );
+        coords[0].y = drawWeaponsOnCanvas(bodyCtx, weaponBannerImage, rangedWeapons, meleeWeapons);
         bodyCtx.save();
 
         // If we have a loadout, push a new element in our display and draw our loadout.
@@ -193,15 +186,7 @@ const WarscrollCard: React.FC = () => {
         bodyCtx.save();
       }
     };
-  }, [
-    factionWeaponBanner,
-    rangedWeapons,
-    meleeWeapons,
-    loadoutBody,
-    loadoutPoints,
-    abilities,
-    battleDamagedWeapon,
-  ]);
+  }, [factionWeaponBanner, rangedWeapons, meleeWeapons, loadoutBody, loadoutPoints, abilities]);
 
   return (
     <Box

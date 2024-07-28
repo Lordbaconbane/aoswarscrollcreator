@@ -14,12 +14,13 @@ export interface RangedWeaponStats {
   rend: string;
   damage: string;
   ability: string;
+  isBattleDamaged: boolean;
 }
 
 export default function RangedWeapons() {
   const dispatch = useDispatch();
 
-  const rangedWeapons = useSelector((state: RootState) => state.weapons.rangedWeaponsStats);
+  const rangedWeapons = useSelector((state: RootState) => state.weapons.rangedWeaponStats);
 
   const handleAddRangedWeapon = () => {
     if (rangedWeapons.length < 5) {
@@ -35,6 +36,7 @@ export default function RangedWeapons() {
             rend: "",
             damage: "",
             ability: "",
+            isBattleDamaged: false,
           },
         ])
       );
