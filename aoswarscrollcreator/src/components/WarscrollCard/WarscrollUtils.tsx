@@ -229,6 +229,7 @@ export const drawAbilitiesOnCanvas = (
         const abilityTitle = abilities[i].ability_restriction + abilities[i].ability_timing;
 
         let bannerHeight = 20;
+        let abilityIconOffset = 17;
         if (abilityTitle.length > 0) {
           const titleLines = abilityTitle.split(" ");
           const width = boxWidth + xCoord;
@@ -256,15 +257,26 @@ export const drawAbilitiesOnCanvas = (
             if (xOffset + wordWidth > width) {
               yTempOffset += 15;
               xOffset = coords[k].x;
+              abilityIconOffset = 0;
             }
             if (isDoubleBanner) {
-              ctx.fillText(word, xOffset, yCoord + bannerHeight + yTempOffset - 17);
+              ctx.fillText(word, xOffset + abilityIconOffset, yCoord + bannerHeight + yTempOffset - 17);
             } else {
-              ctx.fillText(word, xOffset, yCoord + bannerHeight + yTempOffset);
+              ctx.fillText(word, xOffset + abilityIconOffset, yCoord + bannerHeight + yTempOffset);
             }
             xOffset += wordWidth + ctx.measureText(" ").width;
           });
           yOffset += isDoubleBanner ? 40 : 20;
+
+          // Now draw the ability icon
+          const iconPath = abilities[i].ability_icon_path;
+          const iconImg = new Image();
+          iconImg.src = iconPath;
+
+          iconImg.onload = () => {
+            console.log("Draw ability icon");
+            ctx.drawImage(iconImg, xCoord - 3, yCoord + 2, 17, 17);
+          };
         }
 
         let boxHeight = 0;
@@ -314,6 +326,7 @@ export const drawAbilitiesOnCanvas = (
         ctx.globalAlpha = 1;
         ctx.strokeRect(xCoord, yCoord + yOffset - 20, boxWidth, boxHeight);
 
+        // Draw the ability description
         if (nameDescCombined.length > 0) {
           const name = abilities[i].name + ": ";
           const offset = getTextHeight(
@@ -353,7 +366,6 @@ export const drawAbilitiesOnCanvas = (
 
         // Handle the ability type icon
         const iconTypePath = abilities[i].ability_icon_type_path;
-        console.log("Icon Path: " + iconTypePath);
         if (
           iconTypePath === AbilityTypeIcon.command ||
           iconTypePath === AbilityTypeIcon.prayer ||
