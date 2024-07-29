@@ -373,7 +373,7 @@ export default function Abilities() {
                           AbilityIconPath.controlIconPath
                         );
                         setBattleDamaged(false);
-                        dispatch(setBattleDamagedWeapon(""));
+                        dispatch(setBattleDamagedWeapon([""]));
                       }}
                     />
                   }
@@ -403,7 +403,7 @@ export default function Abilities() {
                           AbilityIconPath.defensiveIconPath
                         );
                         setBattleDamaged(false);
-                        dispatch(setBattleDamagedWeapon(""));
+                        dispatch(setBattleDamagedWeapon([""]));
                       }}
                     />
                   }
@@ -433,7 +433,7 @@ export default function Abilities() {
                           AbilityIconPath.movementIconPath
                         );
                         setBattleDamaged(false);
-                        dispatch(setBattleDamagedWeapon(""));
+                        dispatch(setBattleDamagedWeapon([""]));
                       }}
                     />
                   }
@@ -463,7 +463,7 @@ export default function Abilities() {
                           AbilityIconPath.OffensiveIconPath
                         );
                         setBattleDamaged(false);
-                        dispatch(setBattleDamagedWeapon(""));
+                        dispatch(setBattleDamagedWeapon([""]));
                       }}
                     />
                   }
@@ -493,7 +493,7 @@ export default function Abilities() {
                           AbilityIconPath.rallyingIconPath
                         );
                         setBattleDamaged(false);
-                        dispatch(setBattleDamagedWeapon(""));
+                        dispatch(setBattleDamagedWeapon([""]));
                       }}
                     />
                   }
@@ -523,7 +523,7 @@ export default function Abilities() {
                           AbilityIconPath.shootingIconPath
                         );
                         setBattleDamaged(false);
-                        dispatch(setBattleDamagedWeapon(""));
+                        dispatch(setBattleDamagedWeapon([""]));
                       }}
                     />
                   }
@@ -553,7 +553,7 @@ export default function Abilities() {
                           AbilityIconPath.specialIconPath
                         );
                         setBattleDamaged(false);
-                        dispatch(setBattleDamagedWeapon(""));
+                        dispatch(setBattleDamagedWeapon([""]));
                       }}
                     />
                   }
@@ -579,6 +579,7 @@ export default function Abilities() {
               clearIcon={false}
               options={allWeaponNames}
               fullWidth
+              multiple
               onChange={(_event, value) => {
                 if (value != null) {
                   dispatch(setBattleDamagedWeapon(value));
@@ -590,10 +591,6 @@ export default function Abilities() {
               renderInput={(params) => (
                 <TextField
                   sx={{ mt: 1, mb: 1 }}
-                  onChange={(e) => {
-                    dispatch(setBattleDamagedWeapon(e.target.value));
-                    //handleInputAbilityChange(index, "ability_restriction", e.target.value);
-                  }}
                   label="Select a weapon"
                   {...params}
                   id="battle-damaged-weapon"

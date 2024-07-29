@@ -34,21 +34,30 @@ export const weaponsSlice = createSlice({
         state.allWeaponNames.push(state.rangedWeaponStats[i].name + " (ranged)");
       }
     },
-    setBattleDamagedWeapon: (state, action: PayloadAction<string>) => {
-      for (let i = 0; i < state.meleeWeaponStats.length; i++) {
-        if (action.payload === state.meleeWeaponStats[i].name + " (melee)") {
-          state.meleeWeaponStats[i].isBattleDamaged = true;
-        } else {
-          state.meleeWeaponStats[i].isBattleDamaged = false;
-        }
-      }
-      for (let i = 0; i < state.rangedWeaponStats.length; i++) {
-        if (action.payload === state.rangedWeaponStats[i].name + " (ranged)") {
-          state.rangedWeaponStats[i].isBattleDamaged = true;
-        } else {
-          state.rangedWeaponStats[i].isBattleDamaged = false;
-        }
-      }
+    setBattleDamagedWeapon: (state, action: PayloadAction<string[]>) => {
+      state.meleeWeaponStats.forEach((weapon) => {
+        weapon.isBattleDamaged = false;
+      });
+
+      state.rangedWeaponStats.forEach((weapon) => {
+        weapon.isBattleDamaged = false;
+      });
+
+      action.payload.forEach((damagedWeapon) => {
+        state.meleeWeaponStats.forEach((weaponStat, index) => {
+          if (weaponStat.name + " (melee)" === damagedWeapon) {
+            state.meleeWeaponStats[index].isBattleDamaged = true;
+          }
+        });
+      });
+
+      action.payload.forEach((damagedWeapon) => {
+        state.rangedWeaponStats.forEach((weaponStat, index) => {
+          if (weaponStat.name + " (ranged)" === damagedWeapon) {
+            state.rangedWeaponStats[index].isBattleDamaged = true;
+          }
+        });
+      });
     },
   },
   // "Create slice will infer the state tupe from the initialState argument"
