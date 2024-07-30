@@ -28,6 +28,18 @@ const rectTransparency = 0.5;
 // Default anchors
 const xAnchorL = 25;
 
+export const validateDiceInput = (value: string): boolean => {
+  const numberPattern = /^[1-9][0-9]?$/;
+  const diceNumberPattern = /^[1-9]([d])?([1-9])?([+])?([1-9])?$/;
+  const dicePattern = /^d[1-9]([+][1-9])?$/;
+  return numberPattern.test(value) || diceNumberPattern.test(value) || dicePattern.test(value);
+};
+
+export const validateNumericInput = (value: string): boolean => {
+  const numberPattern = /^[1-9][0-9]?$/;
+  return numberPattern.test(value);
+};
+
 export const drawImageOnCanvas = (
   ctx: CanvasRenderingContext2D,
   image: HTMLImageElement,

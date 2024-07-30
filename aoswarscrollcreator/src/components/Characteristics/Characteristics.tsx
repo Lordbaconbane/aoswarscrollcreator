@@ -9,11 +9,19 @@ import {
   setWarscrollSubtype,
   setWarscrollSave,
 } from "./CharacteristicsSlice";
+import { validateDiceInput, validateNumericInput } from "../WarscrollCard/WarscrollUtils";
+import { useState } from "react";
 
 export default function Characteristics() {
   const dispatch = useDispatch();
 
   const saveChar = useSelector((state: RootState) => state.characteristics.warscrollSave);
+
+  const [errors, setErrors] = useState({
+    move: false,
+    health: false,
+    control: false,
+  });
 
   const handleNameChange = (event) => {
     const value = event.target.value;
@@ -26,18 +34,33 @@ export default function Characteristics() {
   };
 
   const handleMoveChange = (event) => {
-    const value = event.target.value + '"';
-    dispatch(setWarscrollMove(value));
+    const isValid = validateDiceInput(event.target.value);
+    if (isValid || !event.target.value.toString()) {
+      setErrors((prevErrors) => ({ ...prevErrors, move: false }));
+      dispatch(setWarscrollMove(event.target.value));
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, move: true }));
+    }
   };
 
   const handleHealthChange = (event) => {
-    const value = event.target.value;
-    dispatch(setWarscrollHealth(value));
+    const isValid = validateNumericInput(event.target.value);
+    if (isValid || !event.target.value.toString()) {
+      setErrors((prevErrors) => ({ ...prevErrors, health: false }));
+      dispatch(setWarscrollHealth(event.target.value));
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, health: true }));
+    }
   };
 
   const handleControlChange = (event) => {
-    const value = event.target.value;
-    dispatch(setWarscrollControl(value));
+    const isValid = validateNumericInput(event.target.value);
+    if (isValid || !event.target.value.toString()) {
+      setErrors((prevErrors) => ({ ...prevErrors, control: false }));
+      dispatch(setWarscrollControl(event.target.value));
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, control: true }));
+    }
   };
 
   const handleSaveChange = (event) => {
@@ -80,15 +103,11 @@ export default function Characteristics() {
         sx={{ m: 1 }}
         id="move"
         label="Move"
+        error={errors.move}
+        helperText={errors.move ? "Invalid move value" : ""}
         inputProps={{
-          maxLength: 2,
+          maxLength: 6,
           inputMode: "numeric",
-          pattern: "[0-9]*",
-        }}
-        onKeyDown={(e) => {
-          if (["e", "E", "-", ".", "+"].includes(e.key)) {
-            e.preventDefault();
-          }
         }}
         onChange={handleMoveChange}
       ></TextField>
@@ -96,6 +115,8 @@ export default function Characteristics() {
         sx={{ m: 1 }}
         id="health"
         label="Health"
+        error={errors.health}
+        helperText={errors.health ? "Invalid health value" : ""}
         inputProps={{
           maxLength: 2,
           inputMode: "numeric",
@@ -112,6 +133,8 @@ export default function Characteristics() {
         sx={{ m: 1 }}
         id="control"
         label="Control"
+        error={errors.control}
+        helperText={errors.control ? "Invalid control value" : ""}
         inputProps={{
           maxLength: 2,
           inputMode: "numeric",

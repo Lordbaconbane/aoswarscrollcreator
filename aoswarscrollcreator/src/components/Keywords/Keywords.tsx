@@ -84,7 +84,7 @@ export default function Keywords() {
         sx={{ mt: 2 }}
         fullWidth
         multiple
-        onChange={(event, value) => {
+        onChange={(_event, value) => {
           dispatch(setKeywordIdentity(value));
         }}
         renderTags={(value, props) =>
