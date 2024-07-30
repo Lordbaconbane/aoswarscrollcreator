@@ -4,6 +4,8 @@ import { RootState } from "../../store/store";
 import { setAllWeaponNames, setMeleeWeapons } from "./WeaponsSlice";
 
 import { AccordionDetails, Button, Typography, TextField, MenuItem, Autocomplete, Chip } from "@mui/material";
+import { validateDiceInput } from "../WarscrollCard/WarscrollUtils";
+import { useState } from "react";
 
 export interface MeleeWeaponStats {
   name: string;
@@ -20,6 +22,21 @@ export default function MeleeWeapons() {
   const dispatch = useDispatch();
 
   const meleeWeapons = useSelector((state: RootState) => state.weapons.meleeWeaponStats);
+
+  const [errors, setErrors] = useState({
+    atk: false,
+    damage: false,
+  });
+
+  const handleInputChange = (event, index: number, field: keyof (typeof meleeWeapons)[0]) => {
+    const isValid = validateDiceInput(event.target.value);
+    if (isValid || !event.target.value.toString()) {
+      setErrors((prevErrors) => ({ ...prevErrors, [field]: false }));
+      handleInputMeleeChange(index, field, event.target.value.toString());
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, [field]: true }));
+    }
+  };
 
   const handleAddMeleeWeapon = () => {
     if (meleeWeapons.length < 5) {
@@ -88,9 +105,11 @@ export default function MeleeWeapons() {
           <TextField
             label="Attacks"
             fullWidth
-            inputProps={{ maxLength: 2 }}
+            inputProps={{ maxLength: 5 }}
             value={weapon.atk}
-            onChange={(e) => handleInputMeleeChange(index, "atk", e.target.value)}
+            error={errors.atk}
+            helperText={errors.atk ? "Invalid attack value" : ""}
+            onChange={(e) => handleInputChange(e, index, "atk")}
             sx={{ mb: 1 }}
           />
           <TextField
@@ -134,17 +153,12 @@ export default function MeleeWeapons() {
           </TextField>
           <TextField
             label="Damage"
-            select
             value={weapon.damage}
-            onChange={(e) => handleInputMeleeChange(index, "damage", e.target.value)}
+            onChange={(e) => handleInputChange(e, index, "damage")}
+            error={errors.damage}
+            helperText={errors.damage ? "Invalid Damage input" : ""}
             sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
-          >
-            {["1", "2", "3", "4", "5", "6"].map((num) => (
-              <MenuItem key={num} value={num}>
-                {num}
-              </MenuItem>
-            ))}
-          </TextField>
+          ></TextField>
           <Autocomplete
             options={WeaponAbilities}
             clearIcon={false}

@@ -4,6 +4,8 @@ import { RootState } from "../../store/store";
 import { setAllWeaponNames, setRangedWeapons } from "./WeaponsSlice";
 
 import { AccordionDetails, Button, Typography, TextField, MenuItem, Autocomplete, Chip } from "@mui/material";
+import { validateDiceInput } from "../WarscrollCard/WarscrollUtils";
+import { useState } from "react";
 
 export interface RangedWeaponStats {
   name: string;
@@ -19,6 +21,12 @@ export interface RangedWeaponStats {
 
 export default function RangedWeapons() {
   const dispatch = useDispatch();
+
+  const [errors, setErrors] = useState({
+    range: false,
+    atk: false,
+    damage: false,
+  });
 
   const rangedWeapons = useSelector((state: RootState) => state.weapons.rangedWeaponStats);
 
@@ -41,6 +49,16 @@ export default function RangedWeapons() {
         ])
       );
       setAllWeaponNames();
+    }
+  };
+
+  const handleInputChange = (event, index: number, field: keyof (typeof rangedWeapons)[0]) => {
+    const isValid = validateDiceInput(event.target.value);
+    if (isValid || !event.target.value.toString()) {
+      setErrors((prevErrors) => ({ ...prevErrors, [field]: false }));
+      handleInputRangedChange(index, field, event.target.value.toString());
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, [field]: true }));
     }
   };
 
@@ -90,15 +108,19 @@ export default function RangedWeapons() {
           <TextField
             label="Range"
             value={weapon.range}
-            onChange={(e) => handleInputRangedChange(index, "range", e.target.value)}
-            sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
+            error={errors.range}
+            helperText={errors.range ? "Invalid range value" : ""}
+            onChange={(e) => handleInputChange(e, index, "range")}
+            sx={{ mb: 1, mr: 1, mt: 1, width: "12ch" }}
           ></TextField>
           <TextField
             label="Attacks"
             fullWidth
-            inputProps={{ maxLength: 2 }}
+            inputProps={{ maxLength: 5 }}
             value={weapon.atk}
-            onChange={(e) => handleInputRangedChange(index, "atk", e.target.value)}
+            error={errors.atk}
+            helperText={errors.atk ? "Invalid attack value" : ""}
+            onChange={(e) => handleInputChange(e, index, "atk")}
             sx={{ mb: 1 }}
           />
           <TextField
@@ -106,7 +128,7 @@ export default function RangedWeapons() {
             select
             value={weapon.toHit}
             onChange={(e) => handleInputRangedChange(index, "toHit", e.target.value)}
-            sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
+            sx={{ mb: 1, mr: 1, mt: 1, width: "12ch" }}
           >
             {["1", "2", "3", "4", "5", "6"].map((num) => (
               <MenuItem key={num} value={num}>
@@ -119,7 +141,7 @@ export default function RangedWeapons() {
             select
             value={weapon.toWound}
             onChange={(e) => handleInputRangedChange(index, "toWound", e.target.value)}
-            sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
+            sx={{ mb: 1, mr: 1, mt: 1, width: "13ch" }}
           >
             {["1", "2", "3", "4", "5", "6"].map((num) => (
               <MenuItem key={num} value={num}>
@@ -132,7 +154,7 @@ export default function RangedWeapons() {
             value={weapon.rend}
             select
             onChange={(e) => handleInputRangedChange(index, "rend", e.target.value)}
-            sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
+            sx={{ mb: 1, mr: 1, mt: 1, width: "12ch" }}
           >
             {["1", "2", "3", "4", "5", "6"].map((num) => (
               <MenuItem key={num} value={num}>
@@ -142,17 +164,12 @@ export default function RangedWeapons() {
           </TextField>
           <TextField
             label="Damage"
-            select
             value={weapon.damage}
-            onChange={(e) => handleInputRangedChange(index, "damage", e.target.value)}
-            sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
-          >
-            {["1", "2", "3", "4", "5", "6"].map((num) => (
-              <MenuItem key={num} value={num}>
-                {num}
-              </MenuItem>
-            ))}
-          </TextField>
+            error={errors.damage}
+            helperText={errors.damage ? "Invalid damage value" : ""}
+            onChange={(e) => handleInputChange(e, index, "damage")}
+            sx={{ mb: 1, mr: 1, mt: 1, width: "12ch" }}
+          ></TextField>
           <Autocomplete
             options={WeaponAbilities}
             clearIcon={false}

@@ -513,7 +513,7 @@ export const drawWeaponsOnCanvas = (
         } else {
           drawText(ctx, rangedWeapons[i].name, 120, textPosY + textOffset, wpnFont, "center", "black");
         }
-        drawText(ctx, rangedWeapons[i].range, 240, textPosY + textOffset, wpnFont, "center", "black");
+        drawText(ctx, rangedWeapons[i].range + '"', 240, textPosY + textOffset, wpnFont, "center", "black");
         drawText(ctx, rangedWeapons[i].atk, 280, textPosY + textOffset, wpnFont, "center", "black");
         drawText(ctx, rangedWeapons[i].toHit, 320, textPosY + textOffset, wpnFont, "center", "black");
         drawText(ctx, rangedWeapons[i].toWound, 360, textPosY + textOffset, wpnFont, "center", "black");
