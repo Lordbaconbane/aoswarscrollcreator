@@ -14,6 +14,7 @@ const wpnFont = 14;
 const factionTitleFontSize = 12;
 const warscrollNameFontSize = 30;
 const abilitiesFont = 12;
+const abilityTypeFontSize = 20;
 
 // Banner positions
 const wpnBannerPosX = 10;
@@ -30,7 +31,7 @@ const xAnchorL = 25;
 
 export const validateDiceInput = (value: string): boolean => {
   const numberPattern = /^[1-9][0-9]?$/;
-  const diceNumberPattern = /^[1-9]([d])?([1-9])?([+])?([1-9])?$/;
+  const diceNumberPattern = /^[1-9]([d])?([1-9])?([+-])?([1-9])?$/;
   const dicePattern = /^d[1-9]([+][1-9])?$/;
   return numberPattern.test(value) || diceNumberPattern.test(value) || dicePattern.test(value);
 };
@@ -396,9 +397,9 @@ export const drawAbilitiesOnCanvas = (
             drawText(
               ctx,
               abilities[i].ability_type_value,
-              xCoord + boxWidth - 12,
+              xCoord + boxWidth - 10,
               yCoord + 17,
-              24,
+              abilityTypeFontSize,
               "center",
               fontColor,
               "bold"

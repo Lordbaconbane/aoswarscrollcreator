@@ -115,13 +115,12 @@ export default function RangedWeapons() {
           ></TextField>
           <TextField
             label="Attacks"
-            fullWidth
             inputProps={{ maxLength: 5 }}
             value={weapon.atk}
             error={errors.atk}
             helperText={errors.atk ? "Invalid attack value" : ""}
             onChange={(e) => handleInputChange(e, index, "atk")}
-            sx={{ mb: 1 }}
+            sx={{ mb: 1, mr: 1, mt: 1, width: "12ch" }}
           />
           <TextField
             label="To Hit"

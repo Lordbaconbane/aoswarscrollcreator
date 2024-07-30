@@ -104,20 +104,19 @@ export default function MeleeWeapons() {
           />
           <TextField
             label="Attacks"
-            fullWidth
             inputProps={{ maxLength: 5 }}
             value={weapon.atk}
             error={errors.atk}
             helperText={errors.atk ? "Invalid attack value" : ""}
             onChange={(e) => handleInputChange(e, index, "atk")}
-            sx={{ mb: 1 }}
+            sx={{ mb: 1, mr: 1, mt: 1, width: "12ch" }}
           />
           <TextField
             label="To Hit"
             select
             value={weapon.toHit}
             onChange={(e) => handleInputMeleeChange(index, "toHit", e.target.value)}
-            sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
+            sx={{ mb: 1, mr: 1, mt: 1, width: "12ch" }}
           >
             {["1", "2", "3", "4", "5", "6"].map((num) => (
               <MenuItem key={num} value={num}>
@@ -130,7 +129,7 @@ export default function MeleeWeapons() {
             select
             value={weapon.toWound}
             onChange={(e) => handleInputMeleeChange(index, "toWound", e.target.value)}
-            sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
+            sx={{ mb: 1, mr: 1, mt: 1, width: "13ch" }}
           >
             {["1", "2", "3", "4", "5", "6"].map((num) => (
               <MenuItem key={num} value={num}>
@@ -143,7 +142,7 @@ export default function MeleeWeapons() {
             value={weapon.rend}
             select
             onChange={(e) => handleInputMeleeChange(index, "rend", e.target.value)}
-            sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
+            sx={{ mb: 1, mr: 1, mt: 1, width: "12ch" }}
           >
             {["1", "2", "3", "4", "5", "6"].map((num) => (
               <MenuItem key={num} value={num}>
@@ -157,7 +156,7 @@ export default function MeleeWeapons() {
             onChange={(e) => handleInputChange(e, index, "damage")}
             error={errors.damage}
             helperText={errors.damage ? "Invalid Damage input" : ""}
-            sx={{ mb: 1, mr: 1, mt: 1, width: "14ch" }}
+            sx={{ mb: 1, mr: 1, mt: 1, width: "12ch" }}
           ></TextField>
           <Autocomplete
             options={WeaponAbilities}
