@@ -14,7 +14,8 @@ import {
   drawLoadoutOnCanvas,
 } from "./WarscrollUtils";
 
-const charFontSize = 26;
+const charFontSize = 25;
+const charReducedFontSize = 19;
 
 export interface Coordinate {
   x: number;
@@ -116,7 +117,12 @@ const WarscrollCard: React.FC = () => {
         115
       );
       // Draw characteristics
-      drawText(characteristicsCtx, moveChar, 104, 80, charFontSize, "center", "white");
+      if (moveChar.length > 3) {
+        drawText(characteristicsCtx, moveChar, 107, 76, charReducedFontSize, "center", "white");
+      } else {
+        drawText(characteristicsCtx, moveChar, 106, 80, charFontSize, "center", "white");
+      }
+
       drawText(characteristicsCtx, controlChar, 104, 147, charFontSize, "center", "white");
       drawText(characteristicsCtx, healthChar, 74, 115, charFontSize, "center", "white");
       drawText(characteristicsCtx, saveChar, 137, 115, charFontSize, "center", "white");
