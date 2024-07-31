@@ -365,7 +365,7 @@ export const drawAbilitiesOnCanvas = (
           yOffset += offset;
         }
         if (abilities[i]?.effect_desc.length > 0) {
-          getTextHeight(
+          const offset = getTextHeight(
             ctx,
             abilities[i]?.effect_desc,
             boxWidth,
@@ -374,6 +374,7 @@ export const drawAbilitiesOnCanvas = (
             true,
             "Effect: "
           );
+          yOffset += offset - 20;
         }
 
         // Handle the ability type icon

@@ -164,7 +164,11 @@ export default function GrandAlliances() {
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName(FactionNames.SonsOfHashut))}
+              onClick={() => {
+                dispatch(setFactionName(FactionNames.SonsOfHashut));
+                dispatch(setFactionTemplate(FactionTemplates.SonsOfHashut));
+                dispatch(setFactionWeaponBanner(FactionBanners.SonsOfHashut));
+              }}
             >
               <Typography variant="body2">{FactionNames.SonsOfHashut}</Typography>
             </Button>
