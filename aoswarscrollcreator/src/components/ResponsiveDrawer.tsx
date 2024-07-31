@@ -10,7 +10,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Shield, Home, RestartAlt, Download } from "@mui/icons-material";
+import { Shield, Home, RestartAlt, Download, GitHub } from "@mui/icons-material";
 
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -44,15 +44,13 @@ export default function ResponsiveDrawer() {
     setIsClosing(false);
   };
 
+  const handleOpenGithub = () => {
+    window.open("https://github.com/Lordbaconbane");
+  };
+
   const MenuIcon = () => {
     return (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        height="24px"
-        viewBox="0 0 24 24"
-        width="24px"
-        fill="#000000"
-      >
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
         <path d="M0 0h24v24H0z" fill="none" />
         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
       </svg>
@@ -67,9 +65,7 @@ export default function ResponsiveDrawer() {
         {["Warscroll Designer", "Spearhead"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <Home /> : <Shield />}
-              </ListItemIcon>
+              <ListItemIcon>{index % 2 === 0 ? <Home /> : <Shield />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
@@ -82,9 +78,7 @@ export default function ResponsiveDrawer() {
         {["Reset Warscroll"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <RestartAlt /> : <RestartAlt />}
-              </ListItemIcon>
+              <ListItemIcon>{index % 2 === 0 ? <RestartAlt /> : <RestartAlt />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
@@ -122,13 +116,28 @@ export default function ResponsiveDrawer() {
             sx={{ fontStyle: "italic" }}
             style={{
               whiteSpace: "pre-wrap",
-              flexGrow: 1,
+              //flexGrow: 1,
             }}
           >
             {" by Lordbaconbane"}
           </Typography>
-          {/* PDF related icons */}
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            size="large"
+            sx={{ justifyContent: "left", ml: 1 }}
+            onClick={handleOpenGithub}
+          >
+            <GitHub />
+          </IconButton>
+          <Box
+            style={{
+              whiteSpace: "pre-wrap",
+              flexGrow: 1,
+            }}
+          ></Box>
 
+          {/* PDF related icons */}
           <IconButton
             color="inherit"
             aria-label="open drawer"
