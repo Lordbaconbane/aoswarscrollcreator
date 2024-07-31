@@ -2,7 +2,7 @@ import { useState } from "react";
 import { AccordionDetails, Button, ButtonGroup, Typography } from "@mui/material";
 import { setFactionName, setFactionTemplate, setFactionWeaponBanner } from "./GrandAlliancsSlice";
 import { useDispatch } from "react-redux";
-import { FactionBanners, FactionTemplates } from "./FactionTemplateLinks";
+import { FactionBanners, FactionNames, FactionTemplates } from "./FactionTemplateLinks";
 
 const buttonMargin = 0.5;
 
@@ -25,72 +25,72 @@ export default function GrandAlliances() {
               color="primary"
               sx={{ m: buttonMargin }}
               onClick={() => {
-                dispatch(setFactionName("Stormcast Eternals"));
+                dispatch(setFactionName(FactionNames.StormcastEternals));
                 dispatch(setFactionTemplate(FactionTemplates.StormcastEternals));
                 dispatch(setFactionWeaponBanner(FactionBanners.StormcastEternals));
               }}
             >
-              <Typography variant="body2">{"Stormcast Eternals"}</Typography>
+              <Typography variant="body2">{FactionNames.StormcastEternals}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Cities of Sigmar"))}
+              onClick={() => dispatch(setFactionName(FactionNames.CitiesOfSigmar))}
             >
-              <Typography variant="body2">{"Cities of Sigmar"}</Typography>
+              <Typography variant="body2">{FactionNames.CitiesOfSigmar}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Fyreslayers"))}
+              onClick={() => dispatch(setFactionName(FactionNames.Fyreslayers))}
             >
-              <Typography variant="body2">{"Fyreslayers"}</Typography>
+              <Typography variant="body2">{FactionNames.Fyreslayers}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Daughters of Khaine"))}
+              onClick={() => dispatch(setFactionName(FactionNames.DaughtersOfKhaine))}
             >
-              <Typography variant="body2">{"Daughters of Khaine"}</Typography>
+              <Typography variant="body2">{FactionNames.DaughtersOfKhaine}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Idoneth Deepkin"))}
+              onClick={() => dispatch(setFactionName(FactionNames.IdonethDeepkin))}
             >
-              <Typography variant="body2">{"Idoneth Deepkin"}</Typography>
+              <Typography variant="body2">{FactionNames.IdonethDeepkin}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Kharadron Overlords"))}
+              onClick={() => dispatch(setFactionName(FactionNames.KharadronOverlords))}
             >
-              <Typography variant="body2">{"Kharadron Overlords"}</Typography>
+              <Typography variant="body2">{FactionNames.KharadronOverlords}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Lumineth Realmlords"))}
+              onClick={() => dispatch(setFactionName(FactionNames.LuminethRealmLords))}
             >
-              <Typography variant="body2">{"Lumineth Realmlords"}</Typography>
+              <Typography variant="body2">{FactionNames.LuminethRealmLords}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Sylvaneth"))}
+              onClick={() => dispatch(setFactionName(FactionNames.Sylvaneth))}
             >
-              <Typography variant="body2">{"Sylvaneth"}</Typography>
+              <Typography variant="body2">{FactionNames.Sylvaneth}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
               onClick={() => {
-                dispatch(setFactionName("Seraphon"));
+                dispatch(setFactionName(FactionNames.Seraphon));
                 dispatch(setFactionTemplate(FactionTemplates.Seraphon));
                 dispatch(setFactionWeaponBanner(FactionBanners.Seraphon));
               }}
             >
-              <Typography variant="body2">{"Seraphon"}</Typography>
+              <Typography variant="body2">{FactionNames.Seraphon}</Typography>
             </Button>
           </ButtonGroup>
         );
@@ -107,52 +107,66 @@ export default function GrandAlliances() {
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
+              onClick={() => dispatch(setFactionName(FactionNames.BeastsOfChaos))}
+            >
+              <Typography variant="body2">{FactionNames.BeastsOfChaos}</Typography>
+            </Button>
+            <Button
+              color="primary"
+              sx={{ m: buttonMargin }}
               onClick={() => {
-                dispatch(setFactionName("Khorne"));
+                dispatch(setFactionName(FactionNames.BladesOfKhorne));
                 dispatch(setFactionTemplate(FactionTemplates.BladesOfKhorne));
                 dispatch(setFactionWeaponBanner(FactionBanners.BladesOfKhorne));
               }}
             >
-              <Typography variant="body2">{"Blades of Khorne"}</Typography>
+              <Typography variant="body2">{FactionNames.BladesOfKhorne}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Disciples of Tzeench"))}
+              onClick={() => dispatch(setFactionName(FactionNames.DisciplesOfTzeench))}
             >
-              <Typography variant="body2">{"Disciples of Tzeench"}</Typography>
+              <Typography variant="body2">{FactionNames.DisciplesOfTzeench}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
               onClick={() => {
-                dispatch(setFactionName("Hedonites Of Slaanesh"));
+                dispatch(setFactionName(FactionNames.HedonitesOfSlaanesh));
                 dispatch(setFactionTemplate(FactionTemplates.HedonitesOfSlaanesh));
                 dispatch(setFactionWeaponBanner(FactionBanners.HedonitesOfSlaanesh));
               }}
             >
-              <Typography variant="body2">{"Hedonites of Slaanesh"}</Typography>
+              <Typography variant="body2">{FactionNames.HedonitesOfSlaanesh}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Maggotkin of Nurgle"))}
+              onClick={() => dispatch(setFactionName(FactionNames.MaggotkinOfNurgle))}
             >
-              <Typography variant="body2">{"Maggotkin of Nurgle"}</Typography>
+              <Typography variant="body2">{FactionNames.MaggotkinOfNurgle}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Skaven"))}
+              onClick={() => dispatch(setFactionName(FactionNames.Skaven))}
             >
-              <Typography variant="body2">{"Skaven"}</Typography>
+              <Typography variant="body2">{FactionNames.Skaven}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Slaves to Darkness"))}
+              onClick={() => dispatch(setFactionName(FactionNames.SlavesToDarkness))}
             >
-              <Typography variant="body2">{"Slaves to Darkness"}</Typography>
+              <Typography variant="body2">{FactionNames.SlavesToDarkness}</Typography>
+            </Button>
+            <Button
+              color="primary"
+              sx={{ m: buttonMargin }}
+              onClick={() => dispatch(setFactionName(FactionNames.SonsOfHashut))}
+            >
+              <Typography variant="body2">{FactionNames.SonsOfHashut}</Typography>
             </Button>
           </ButtonGroup>
         );
@@ -169,30 +183,30 @@ export default function GrandAlliances() {
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Flesh-Eater Courts"))}
+              onClick={() => dispatch(setFactionName(FactionNames.FleshEaterCourts))}
             >
-              <Typography variant="body2">{"Flesh-Eater Courts"}</Typography>
+              <Typography variant="body2">{FactionNames.FleshEaterCourts}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Nighthaunt"))}
+              onClick={() => dispatch(setFactionName(FactionNames.Nighthaunt))}
             >
-              <Typography variant="body2">{"Nighthaunt"}</Typography>
+              <Typography variant="body2">{FactionNames.Nighthaunt}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Ossiarch Bonereapers"))}
+              onClick={() => dispatch(setFactionName(FactionNames.OssiarchBonereapers))}
             >
-              <Typography variant="body2">{"Ossiarch Bonereapers"}</Typography>
+              <Typography variant="body2">{FactionNames.OssiarchBonereapers}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Soulblight Gravelords"))}
+              onClick={() => dispatch(setFactionName(FactionNames.SoulblightGravelords))}
             >
-              <Typography variant="body2">{"Soulblight Gravelords"}</Typography>
+              <Typography variant="body2">{FactionNames.SoulblightGravelords}</Typography>
             </Button>
           </ButtonGroup>
         );
@@ -209,23 +223,37 @@ export default function GrandAlliances() {
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Gloomspite Gitz"))}
+              onClick={() => dispatch(setFactionName(FactionNames.Bonesplittaz))}
             >
-              <Typography variant="body2">{"Gloomspite Gitz"}</Typography>
+              <Typography variant="body2">{FactionNames.Bonesplittaz}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Ogor Mawtribes"))}
+              onClick={() => dispatch(setFactionName(FactionNames.OrrukWarclans))}
             >
-              <Typography variant="body2">{"Ogor Mawtribes"}</Typography>
+              <Typography variant="body2">{FactionNames.OrrukWarclans}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName("Sons of Behemat"))}
+              onClick={() => dispatch(setFactionName(FactionNames.GloomspiteGitz))}
             >
-              <Typography variant="body2">{"Sons of Behemat"}</Typography>
+              <Typography variant="body2">{FactionNames.GloomspiteGitz}</Typography>
+            </Button>
+            <Button
+              color="primary"
+              sx={{ m: buttonMargin }}
+              onClick={() => dispatch(setFactionName(FactionNames.OgorMawtribes))}
+            >
+              <Typography variant="body2">{FactionNames.OgorMawtribes}</Typography>
+            </Button>
+            <Button
+              color="primary"
+              sx={{ m: buttonMargin }}
+              onClick={() => dispatch(setFactionName(FactionNames.SonsOfBehemat))}
+            >
+              <Typography variant="body2">{FactionNames.SonsOfBehemat}</Typography>
             </Button>
           </ButtonGroup>
         );
