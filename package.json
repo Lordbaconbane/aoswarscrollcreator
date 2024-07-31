@@ -1,8 +1,8 @@
 {
-  "homepage": "https://lordbaconbane.github.io/AoSWarscrollCreator/" ,
+  "homepage": "https://lordbaconbane.github.io/",
   "name": "aoswarscrollcreator",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
