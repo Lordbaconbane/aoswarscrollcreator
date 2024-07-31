@@ -8,7 +8,7 @@ export interface FactionState {
 
 const initialState: FactionState = {
   grandAlliance: "",
-  factionName: "Default",
+  factionName: "Stormcast Eternals",
   factionTemplate: "src/assets/FactionBackgrounds/Order/Stormcast/Stormcast_Warscroll_Template.png",
   factionWeaponBanner: "src/assets/FactionBackgrounds/Order/Stormcast/Stormcast_Weapon_Banner.png",
 };
