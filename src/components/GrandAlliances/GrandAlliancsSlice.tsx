@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { FactionBanners, FactionNames, FactionTemplates } from "./FactionTemplateLinks";
 export interface FactionState {
   grandAlliance: string;
   factionName: string;
@@ -8,9 +9,9 @@ export interface FactionState {
 
 const initialState: FactionState = {
   grandAlliance: "",
-  factionName: "Stormcast Eternals",
-  factionTemplate: "src/assets/FactionBackgrounds/Order/Stormcast/Stormcast_Warscroll_Template.png",
-  factionWeaponBanner: "src/assets/FactionBackgrounds/Order/Stormcast/Stormcast_Weapon_Banner.png",
+  factionName: FactionNames.StormcastEternals,
+  factionTemplate: FactionTemplates.StormcastEternals,
+  factionWeaponBanner: FactionBanners.StormcastEternals,
 };
 
 // Our slice!

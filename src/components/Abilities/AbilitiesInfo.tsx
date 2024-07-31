@@ -7,9 +7,9 @@ export enum AbilityType {
 
 export enum AbilityTypeIcon {
   none = "",
-  command = "src/assets/icons/CommandIcon.png",
-  prayer = "src/assets/icons/PrayerIcon.png",
-  spell = "src/assets/icons/SpellIcon.png",
+  command = "Icons/CommandIcon.png",
+  prayer = "Icons/PrayerIcon.png",
+  spell = "Icons/SpellIcon.png",
 }
 
 export enum AbilityLineColor {
@@ -24,14 +24,14 @@ export enum AbilityLineColor {
 }
 
 export enum AbilityBanner {
-  start_deployment = "src/assets/Banners/Ability_Banner_StartDeploy.png",
-  hero = "src/assets/Banners/Ability_Banner_Hero.png",
-  move = "src/assets/Banners/Ability_Banner_Movement.png",
-  shoot = "src/assets/Banners/Ability_Banner_Shooting.png",
-  charge = "src/assets/Banners/Ability_Banner_Charge.png",
-  combat = "src/assets/Banners/Ability_Banner_Combat.png",
-  end = "src/assets/Banners/Ability_Banner_EndOfTurn.png",
-  defensive = "src/assets/Banners/Ability_Banner_Defensive.png",
+  start_deployment = "Banners/Ability_Banner_StartDeploy.png",
+  hero = "Banners/Ability_Banner_Hero.png",
+  move = "Banners/Ability_Banner_Movement.png",
+  shoot = "Banners/Ability_Banner_Shooting.png",
+  charge = "Banners/Ability_Banner_Charge.png",
+  combat = "Banners/Ability_Banner_Combat.png",
+  end = "Banners/Ability_Banner_EndOfTurn.png",
+  defensive = "Banners/Ability_Banner_Defensive.png",
 }
 
 export const defaultAbilityIconWidthHeight = 17;
@@ -48,15 +48,15 @@ export enum AbilityIcon {
 }
 
 export enum AbilityIconPath {
-  battleDamagedWeaponPath = "src/assets/icons/BattleDamaged_WeaponIcon.png",
-  battleDamagedAbilityPath = "src/assets/icons/BattleDamaged_AbilityIcon.png",
-  controlIconPath = "src/assets/icons/ControlIcon.png",
-  defensiveIconPath = "src/assets/icons/DefensiveIcon.png",
-  movementIconPath = "src/assets/icons/MovementIcon.png",
-  OffensiveIconPath = "src/assets/icons/OffensiveIcon.png",
-  rallyingIconPath = "src/assets/icons/RallyingIcon.png",
-  shootingIconPath = "src/assets/icons/ShootingIcon.png",
-  specialIconPath = "src/assets/icons/SpecialIcon.png",
+  battleDamagedWeaponPath = "Icons/BattleDamaged_WeaponIcon.png",
+  battleDamagedAbilityPath = "Icons/BattleDamaged_AbilityIcon.png",
+  controlIconPath = "Icons/ControlIcon.png",
+  defensiveIconPath = "Icons/DefensiveIcon.png",
+  movementIconPath = "Icons/MovementIcon.png",
+  OffensiveIconPath = "Icons/OffensiveIcon.png",
+  rallyingIconPath = "Icons/RallyingIcon.png",
+  shootingIconPath = "Icons/ShootingIcon.png",
+  specialIconPath = "Icons/SpecialIcon.png",
 }
 
 export const AbilityPhase = [

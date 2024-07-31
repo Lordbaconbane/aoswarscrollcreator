@@ -221,7 +221,9 @@ export const drawAbilitiesOnCanvas = (
   }
 
   const loadImages = abilities.map((ability) => {
+    console.log("Load images");
     return new Promise<void>((resolve) => {
+      console.log("images: " + ability.ability_banner);
       const imgBanneer = new Image();
       imgBanneer.src = ability.ability_banner;
       imgBanneer.onload = () => resolve();
@@ -388,7 +390,7 @@ export const drawAbilitiesOnCanvas = (
           iconTypeImg.src = iconTypePath;
 
           iconTypeImg.onload = () => {
-            ctx.drawImage(iconTypeImg, xCoord + boxWidth - 30, yCoord - 10, 40, 40);
+            ctx.drawImage(iconTypeImg, xCoord + boxWidth - 15, yCoord - 10, 40, 40);
             let fontColor = "";
             if (iconTypePath === AbilityTypeIcon.command) {
               fontColor = "black";
@@ -398,7 +400,7 @@ export const drawAbilitiesOnCanvas = (
             drawText(
               ctx,
               abilities[i].ability_type_value,
-              xCoord + boxWidth - 10,
+              xCoord + boxWidth + 5,
               yCoord + 17,
               abilityTypeFontSize,
               "center",
