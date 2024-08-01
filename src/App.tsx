@@ -6,7 +6,7 @@ import ResponsiveDrawer from "./components/ResponsiveDrawer";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { Box } from "@mui/material";
 
-import "./fonts/MinionPro.css";
+import "../public/fonts/Minion Pro Regular.ttf";
 import WarscrollCard from "./components/WarscrollCard/WarscrollCard";
 import { store } from "./store/store";
 import { Provider } from "react-redux";

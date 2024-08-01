@@ -29,14 +29,14 @@ import { RootState } from "../../store/store";
 import { setAbilities } from "./AbilitiesSlice";
 import { useState } from "react";
 
-import BattleIcon from "../../assets/Icons/BattleDamaged_AbilityIcon.png";
-import ControlIcon from "../../assets/Icons/Controlicon.png";
-import DefensiveIcon from "../../assets/Icons/DefensiveIcon.png";
-import MovementIcon from "../../assets/Icons/MovementIcon.png";
-import OffensiveIcon from "../../assets/Icons/OffensiveIcon.png";
-import RallyingIcon from "../../assets/Icons/RallyingIcon.png";
-import ShootingIcon from "../../assets/Icons/ShootingIcon.png";
-import SpecialIcon from "../../assets/Icons/SpecialIcon.png";
+import BattleIcon from "../../../public/Icons/BattleDamaged_AbilityIcon.png";
+import ControlIcon from "../../../public/Icons/Controlicon.png";
+import DefensiveIcon from "../../../public/Icons/DefensiveIcon.png";
+import MovementIcon from "../../../public/Icons/MovementIcon.png";
+import OffensiveIcon from "../../../public/Icons/OffensiveIcon.png";
+import RallyingIcon from "../../../public/Icons/RallyingIcon.png";
+import ShootingIcon from "../../../public//Icons/ShootingIcon.png";
+import SpecialIcon from "../../../public/Icons/SpecialIcon.png";
 import { setAllWeaponNames, setBattleDamagedWeapon } from "../Weapons/WeaponsSlice";
 
 const abilityTypeIconHeight = 24;
