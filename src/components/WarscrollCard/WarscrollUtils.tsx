@@ -294,7 +294,7 @@ export const drawAbilitiesOnCanvas = (
         }
 
         let boxHeight = 0;
-        const nameDescCombined = abilities[i]?.name + abilities[i]?.name_desc;
+        const nameDescCombined = abilities[i]?.name.toUpperCase() + abilities[i]?.name_desc;
         if (nameDescCombined.length > 0) {
           const offset = getTextHeight(
             ctx,
@@ -350,7 +350,7 @@ export const drawAbilitiesOnCanvas = (
             xCoord + 2,
             yCoord + yOffset,
             true,
-            name
+            name.toUpperCase()
           );
           yOffset += offset;
         }
