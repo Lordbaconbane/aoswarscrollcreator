@@ -161,44 +161,58 @@ const getTextHeight = (
 ) => {
   let xOffset = x;
   let yOffset = y;
-  let lines: string[] = [];
-  let heightOffset = 0;
+  let heightOffset = 10;
   width += x;
 
-  lines = stringToSplit.split(" ");
+  // Split the string into lines based on newline characters
+
+  const lines = stringToSplit.split("\n");
   if (unshift) {
-    lines.unshift(unshift);
+    lines[0] = unshift + lines[0];
   }
-  ctx.fillStyle = "black";
-  ctx.textAlign = "left";
 
-  lines.forEach((word, index) => {
-    if (index === 0) {
-      ctx.font = "bold 14px Minion Pro";
-    } else {
-      ctx.font = `${style} ${fontSize}px "Minion Pro"`;
-      ctx.fillStyle = fontColor;
-      ctx.textAlign = alignment;
-      ctx.globalAlpha = 1;
-    }
+  console.log(lines);
 
-    const wordWidth = ctx.measureText(word).width;
+  ctx.fillStyle = fontColor;
+  ctx.textAlign = alignment;
 
-    // Check if the x position exceeds the maximum value
-    if (xOffset + wordWidth > width) {
-      // Move to the next line and reset x position
-      yOffset += 15;
-      xOffset = x;
-      heightOffset += 20;
-    }
+  lines.forEach((line, lineIndex) => {
+    // Split each line into words
+    const words = line.split(" ");
 
-    if (drawText) {
-      ctx.fillText(word, xOffset, yOffset - 5);
-    }
+    words.forEach((word, wordIndex) => {
+      if (lineIndex === 0 && wordIndex + 1 < unshift.split(" ").length) {
+        ctx.font = "bold 14px Minion Pro";
+      } else {
+        ctx.font = `${style} ${fontSize}px "Minion Pro"`;
+        ctx.fillStyle = fontColor;
+        ctx.textAlign = alignment;
+        ctx.globalAlpha = 1;
+      }
 
-    xOffset += wordWidth + ctx.measureText(" ").width;
+      const wordWidth = ctx.measureText(word).width;
+
+      // Check if the x position exceeds the maximum value
+      if (xOffset + wordWidth > width) {
+        // Move to the next line and reset x position
+        yOffset += fontSize;
+        xOffset = x;
+        heightOffset += fontSize;
+      }
+
+      if (drawText) {
+        ctx.fillText(word, xOffset, yOffset);
+      }
+
+      xOffset += wordWidth + ctx.measureText(" ").width;
+    });
+
+    // Move to the next line after processing each line
+    yOffset += fontSize;
+    xOffset = x;
+    heightOffset += fontSize;
   });
-  heightOffset += 20;
+
   return heightOffset;
 };
 
