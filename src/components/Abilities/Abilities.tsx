@@ -38,6 +38,7 @@ import RallyingIcon from "../../../public/Icons/RallyingIcon.png";
 import ShootingIcon from "../../../public//Icons/ShootingIcon.png";
 import SpecialIcon from "../../../public/Icons/SpecialIcon.png";
 import { setAllWeaponNames, setBattleDamagedWeapon } from "../Weapons/WeaponsSlice";
+import { validateNumericInput } from "../WarscrollCard/WarscrollUtils";
 
 const abilityTypeIconHeight = 24;
 const abilityTypeIconWidth = 24;
@@ -68,6 +69,10 @@ export default function Abilities() {
 
   const [isBattleDamaged, setBattleDamaged] = useState(false);
 
+  const [errors, setErrors] = useState({
+    value: false,
+  });
+
   const handleSetWeaponNames = () => {
     setAllWeaponNames();
   };
@@ -77,6 +82,16 @@ export default function Abilities() {
       setNonStandardAbility(event.target.checked);
     } else {
       setNonStandardAbility(false);
+    }
+  };
+
+  const handleInputChange = (event, index: number, field: keyof (typeof abilities)[0]) => {
+    const isValid = validateNumericInput(event.target.value);
+    if (isValid || !event.target.value.toString()) {
+      setErrors((prevErrors) => ({ ...prevErrors, [field]: false }));
+      handleInputAbilityChange(index, field, event.target.value.toString());
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, [field]: true }));
     }
   };
 
@@ -745,8 +760,10 @@ export default function Abilities() {
                     label={ability.ability_type + " value"}
                     variant="outlined"
                     margin="normal"
+                    error={errors.value}
+                    helperText={errors.value ? "Invalid value input" : ""}
                     onChange={(e) => {
-                      handleInputAbilityChange(index, "ability_type_value", e.target.value);
+                      handleInputChange(e, index, "ability_type_value");
                     }}
                     inputProps={{
                       maxLength: 2,

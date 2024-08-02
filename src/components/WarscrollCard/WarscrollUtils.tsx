@@ -228,9 +228,7 @@ export const drawAbilitiesOnCanvas = (
   }
 
   const loadImages = abilities.map((ability) => {
-    console.log("Load images");
     return new Promise<void>((resolve) => {
-      console.log("images: " + ability.ability_banner);
       const imgBanneer = new Image();
       imgBanneer.src = ability.ability_banner;
       imgBanneer.onload = () => resolve();
