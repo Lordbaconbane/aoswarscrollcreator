@@ -32,7 +32,7 @@ export default function MeleeWeapons() {
     const isValid = validateDiceInput(event.target.value);
     if (isValid || !event.target.value.toString()) {
       setErrors((prevErrors) => ({ ...prevErrors, [field]: false }));
-      handleInputMeleeChange(index, field, event.target.value.toString());
+      handleInputMeleeChange(index, field, event.target.value.toString().toUpperCase());
     } else {
       setErrors((prevErrors) => ({ ...prevErrors, [field]: true }));
     }

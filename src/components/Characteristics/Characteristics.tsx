@@ -37,7 +37,7 @@ export default function Characteristics() {
     const isValid = validateDiceInput(event.target.value);
     if (isValid || !event.target.value.toString()) {
       setErrors((prevErrors) => ({ ...prevErrors, move: false }));
-      dispatch(setWarscrollMove(event.target.value + '"'));
+      dispatch(setWarscrollMove(event.target.value.toString().toUpperCase() + '"'));
     } else {
       setErrors((prevErrors) => ({ ...prevErrors, move: true }));
     }

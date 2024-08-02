@@ -31,7 +31,7 @@ const xAnchorL = 25;
 
 export const validateDiceInput = (value: string): boolean => {
   const numberPattern = /^[d]?[1-9]?[0-9]?$/i;
-  const diceNumberPattern = /^[1-9]([d])?([1-9])?([+-])?([1-9])?$/i;
+  const diceNumberPattern = /^[1-9]?[0-9]?[d]?[1-9]?[+-]?[1-9]?$/i;
   const dicePattern = /^[d]?[1-9]?[+]?[1-9]?$/i;
   return numberPattern.test(value) || diceNumberPattern.test(value) || dicePattern.test(value);
 };

@@ -89,7 +89,7 @@ export default function Abilities() {
     const isValid = validateNumericInput(event.target.value);
     if (isValid || !event.target.value.toString()) {
       setErrors((prevErrors) => ({ ...prevErrors, [field]: false }));
-      handleInputAbilityChange(index, field, event.target.value.toString());
+      handleInputAbilityChange(index, field, event.target.value.toString().toUpperCase());
     } else {
       setErrors((prevErrors) => ({ ...prevErrors, [field]: true }));
     }

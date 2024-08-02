@@ -56,7 +56,7 @@ export default function RangedWeapons() {
     const isValid = validateDiceInput(event.target.value);
     if (isValid || !event.target.value.toString()) {
       setErrors((prevErrors) => ({ ...prevErrors, [field]: false }));
-      handleInputRangedChange(index, field, event.target.value.toString());
+      handleInputRangedChange(index, field, event.target.value.toString().toUpperCase());
     } else {
       setErrors((prevErrors) => ({ ...prevErrors, [field]: true }));
     }
