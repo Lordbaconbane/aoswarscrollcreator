@@ -41,9 +41,9 @@ export default function RangedWeapons() {
             atk: "",
             toHit: "",
             toWound: "",
-            rend: "",
+            rend: "-",
             damage: "",
-            ability: "",
+            ability: "-",
             isBattleDamaged: false,
           },
         ])
@@ -155,7 +155,7 @@ export default function RangedWeapons() {
             onChange={(e) => handleInputRangedChange(index, "rend", e.target.value)}
             sx={{ mb: 1, mr: 1, mt: 1, width: "12ch" }}
           >
-            {["1", "2", "3", "4", "5", "6"].map((num) => (
+            {["-", "1", "2", "3", "4", "5", "6"].map((num) => (
               <MenuItem key={num} value={num}>
                 {num}
               </MenuItem>

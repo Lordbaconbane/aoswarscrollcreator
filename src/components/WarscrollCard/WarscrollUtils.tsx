@@ -552,6 +552,10 @@ export const drawWeaponsOnCanvas = (
         } else {
           drawText(ctx, rangedWeapons[i].ability, 550, textPosY + textOffset, wpnFont, "center", "black");
         }
+
+        if (rangedWeapons[i].ability.length === 0) {
+          drawText(ctx, "-", 550, textPosY + textOffset, wpnFont, "center", "black");
+        }
         // Check if odd or even. Odd means fully transparent, even means partially
         if (i % 2 === 0) {
           ctx.globalAlpha = 0.1;
@@ -651,6 +655,11 @@ export const drawWeaponsOnCanvas = (
         } else {
           drawText(ctx, meleeWeapons[i].ability, 550, mTextPos + textOffset, wpnFont, "center", "black");
         }
+
+        if (meleeWeapons[i].ability.length === 0) {
+          drawText(ctx, "-", 550, textPosY + textOffset, wpnFont, "center", "black");
+        }
+
         // Check if odd or even. Odd means fully transparent, even means partially
         if (i % 2 === 0) {
           ctx.globalAlpha = 0.1;

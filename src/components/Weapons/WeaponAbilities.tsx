@@ -14,7 +14,7 @@ export const WeaponAbilities = [
   "Charge (+1 Damage)",
   "Companion",
   "Crit (2 Hits)",
-  "Crit (Auto-wound",
+  "Crit (Auto-wound)",
   "Crit (Mortal)",
   "Shoot in Combat",
 ];
