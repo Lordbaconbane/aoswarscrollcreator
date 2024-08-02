@@ -29,6 +29,7 @@ export default function MeleeWeapons() {
   });
 
   const handleInputChange = (event, index: number, field: keyof (typeof meleeWeapons)[0]) => {
+    console.log(event.target.value);
     const isValid = validateDiceInput(event.target.value);
     if (isValid || !event.target.value.toString()) {
       setErrors((prevErrors) => ({ ...prevErrors, [field]: false }));
