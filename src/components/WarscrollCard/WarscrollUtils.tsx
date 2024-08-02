@@ -171,8 +171,6 @@ const getTextHeight = (
     lines[0] = unshift + lines[0];
   }
 
-  console.log(lines);
-
   ctx.fillStyle = fontColor;
   ctx.textAlign = alignment;
 
