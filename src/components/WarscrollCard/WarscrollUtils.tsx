@@ -153,7 +153,11 @@ const getTextHeight = (
   x: number,
   y: number,
   drawText: boolean,
-  unshift: string = ""
+  unshift: string = "",
+  fontSize: number = 14,
+  alignment: CanvasTextAlign = "left",
+  fontColor: string = "black",
+  style: string = "" // Default to an empty string if no style is provided
 ) => {
   let xOffset = x;
   let yOffset = y;
@@ -172,7 +176,10 @@ const getTextHeight = (
     if (index === 0) {
       ctx.font = "bold 14px Minion Pro";
     } else {
-      ctx.font = "14px Minion Pro";
+      ctx.font = `${style} ${fontSize}px "Minion Pro"`;
+      ctx.fillStyle = fontColor;
+      ctx.textAlign = alignment;
+      ctx.globalAlpha = 1;
     }
 
     const wordWidth = ctx.measureText(word).width;
@@ -350,7 +357,11 @@ export const drawAbilitiesOnCanvas = (
             xCoord + 2,
             yCoord + yOffset,
             true,
-            name.toUpperCase()
+            name.toUpperCase(),
+            14,
+            "left",
+            "black",
+            "italic"
           );
           yOffset += offset;
         }
