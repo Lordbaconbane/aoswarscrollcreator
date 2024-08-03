@@ -100,7 +100,7 @@ export default function MeleeWeapons() {
       </Button>
       {meleeWeapons.map((weapon, index) => (
         <Accordion key={index} sx={{ mb: 2 }}>
-          <AccordionSummary sx={{ bgcolor: "#3D3D3D" }} expandIcon={<ExpandMoreIcon />}>
+          <AccordionSummary sx={{ bgcolor: "#3D3D3D", borderRadius: "8px" }} expandIcon={<ExpandMoreIcon />}>
             <Typography>{weapon.name || `Weapons ${index + 1}`}</Typography>
           </AccordionSummary>
           <AccordionDetails>

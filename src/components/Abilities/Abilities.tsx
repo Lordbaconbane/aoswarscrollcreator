@@ -163,7 +163,7 @@ export default function Abilities() {
       </Button>
       {abilities.map((ability, index) => (
         <Accordion key={index} sx={{ mb: 2 }}>
-          <AccordionSummary sx={{ bgcolor: "#3D3D3D" }} expandIcon={<ExpandMoreIcon />}>
+          <AccordionSummary sx={{ bgcolor: "#3D3D3D", borderRadius: "8px" }} expandIcon={<ExpandMoreIcon />}>
             <Typography>{ability.name || `Ability ${index + 1}`}</Typography>
           </AccordionSummary>
           <AccordionDetails>
