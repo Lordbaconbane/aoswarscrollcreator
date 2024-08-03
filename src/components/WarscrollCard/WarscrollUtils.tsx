@@ -14,7 +14,7 @@ const wpnFont = 14;
 const factionTitleFontSize = 12;
 const warscrollNameFontSize = 30;
 const abilitiesFont = 12;
-const abilityTypeFontSize = 20;
+const abilityTypeFontSize = 16;
 
 // Banner positions
 const wpnBannerPosX = 10;
@@ -353,9 +353,10 @@ export const drawAbilitiesOnCanvas = (
         ctx.lineWidth = 2;
         ctx.globalAlpha = rectTransparency;
         ctx.fillStyle = "white";
-        ctx.fillRect(xCoord, yCoord + yOffset - 20, boxWidth, boxHeight);
+        const padding = 5;
+        ctx.fillRect(xCoord, yCoord + yOffset - 20, boxWidth + padding, boxHeight);
         ctx.globalAlpha = 1;
-        ctx.strokeRect(xCoord, yCoord + yOffset - 20, boxWidth, boxHeight);
+        ctx.strokeRect(xCoord, yCoord + yOffset - 20, boxWidth + padding, boxHeight);
 
         // Draw the ability description
         if (nameDescCombined.length > 0) {
@@ -411,7 +412,7 @@ export const drawAbilitiesOnCanvas = (
           iconTypeImg.src = iconTypePath;
 
           iconTypeImg.onload = () => {
-            ctx.drawImage(iconTypeImg, xCoord + boxWidth - 15, yCoord - 10, 40, 40);
+            ctx.drawImage(iconTypeImg, xCoord + boxWidth - 15, yCoord - 8, 35, 35);
             let fontColor = "";
             if (iconTypePath === AbilityTypeIcon.command) {
               fontColor = "black";
@@ -421,8 +422,8 @@ export const drawAbilitiesOnCanvas = (
             drawText(
               ctx,
               abilities[i].ability_type_value,
-              xCoord + boxWidth + 5,
-              yCoord + 17,
+              xCoord + boxWidth + 2,
+              yCoord + 15,
               abilityTypeFontSize,
               "center",
               fontColor,
@@ -432,10 +433,10 @@ export const drawAbilitiesOnCanvas = (
         }
 
         if (hasKeywords) {
-          ctx.strokeRect(xCoord, yCoord + yOffset, boxWidth, 19);
+          ctx.strokeRect(xCoord, yCoord + yOffset, boxWidth + padding, 19);
           ctx.globalAlpha = rectTransparency;
           ctx.fillStyle = "white";
-          ctx.fillRect(xCoord, yCoord + yOffset, boxWidth, 19);
+          ctx.fillRect(xCoord, yCoord + yOffset, boxWidth + padding, 19);
           ctx.globalAlpha = 1.0;
           ctx.drawImage(img, xCoord - 1, yCoord + yOffset - 1, 80, 21);
           drawText(ctx, "KEYWORDS", xCoord + 5, yCoord + yOffset + 14, abilitiesFont, "left", "white");
