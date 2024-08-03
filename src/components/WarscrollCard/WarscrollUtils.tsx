@@ -353,10 +353,12 @@ export const drawAbilitiesOnCanvas = (
         ctx.lineWidth = 2;
         ctx.globalAlpha = rectTransparency;
         ctx.fillStyle = "white";
-        const padding = 5;
-        ctx.fillRect(xCoord, yCoord + yOffset - 20, boxWidth + padding, boxHeight);
+        const rPadding = 10;
+        const lPadding = 5;
+        const bPadding = 5;
+        ctx.fillRect(xCoord - lPadding, yCoord + yOffset - 20, boxWidth + rPadding, boxHeight + bPadding);
         ctx.globalAlpha = 1;
-        ctx.strokeRect(xCoord, yCoord + yOffset - 20, boxWidth + padding, boxHeight);
+        ctx.strokeRect(xCoord - lPadding, yCoord + yOffset - 20, boxWidth + rPadding, boxHeight + 5);
 
         // Draw the ability description
         if (nameDescCombined.length > 0) {
@@ -433,18 +435,26 @@ export const drawAbilitiesOnCanvas = (
         }
 
         if (hasKeywords) {
-          ctx.strokeRect(xCoord, yCoord + yOffset, boxWidth + padding, 19);
+          ctx.strokeRect(xCoord - lPadding, yCoord + yOffset + bPadding, boxWidth + rPadding, 19);
           ctx.globalAlpha = rectTransparency;
           ctx.fillStyle = "white";
-          ctx.fillRect(xCoord, yCoord + yOffset, boxWidth + padding, 19);
+          ctx.fillRect(xCoord - lPadding, yCoord + yOffset + bPadding, boxWidth + rPadding, 19);
           ctx.globalAlpha = 1.0;
-          ctx.drawImage(img, xCoord - 1, yCoord + yOffset - 1, 80, 21);
-          drawText(ctx, "KEYWORDS", xCoord + 5, yCoord + yOffset + 14, abilitiesFont, "left", "white");
+          ctx.drawImage(img, xCoord - 1 - lPadding, yCoord + yOffset - 1 + bPadding, 80, 21);
+          drawText(
+            ctx,
+            "KEYWORDS",
+            xCoord + 5 - lPadding,
+            yCoord + yOffset + 14 + bPadding,
+            abilitiesFont,
+            "left",
+            "white"
+          );
           drawText(
             ctx,
             abilities[i].keywords,
-            xCoord + 81,
-            yCoord + yOffset + 14,
+            xCoord + 81 - lPadding,
+            yCoord + yOffset + 14 + bPadding,
             abilitiesFont,
             "left",
             "black"
