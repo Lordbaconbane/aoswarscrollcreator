@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { Container, Box } from "@mui/material";
-
+import { Container, Box, useMediaQuery, Theme } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/store";
 import { resetDownload } from "./WarscrollCardSlice";
@@ -54,6 +53,8 @@ const WarscrollCard: React.FC = () => {
 
   const loadoutBody = useSelector((state: RootState) => state.loadout.body);
   const loadoutPoints = useSelector((state: RootState) => state.loadout.points);
+
+  const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
 
   useEffect(() => {
     if (triggerDownload) {
@@ -205,15 +206,15 @@ const WarscrollCard: React.FC = () => {
       }}
     >
       <Container style={{ overflowY: "auto", display: "flex" }}>
-        <div style={{ flex: "none", position: "relative", width: "658px", height: "995px" }}>
+        <Box style={{ position: "relative", width: "658px", height: "995px" }}>
           <canvas
             ref={backgroundCanvasRef}
             className="sticky-canvas"
             width={658}
             height={995}
             style={{
-              height: "100vh",
-              width: "70vh",
+              height: isMobile ? "70vh" : "100vh",
+              width: isMobile ? "49vh" : "70vh",
               position: "absolute",
               top: 0,
               left: 0,
@@ -225,8 +226,8 @@ const WarscrollCard: React.FC = () => {
             width={658}
             height={995}
             style={{
-              height: "100vh",
-              width: "70vh",
+              height: isMobile ? "70vh" : "100vh",
+              width: isMobile ? "49vh" : "70vh",
               position: "absolute",
               top: 0,
               left: 0,
@@ -238,14 +239,14 @@ const WarscrollCard: React.FC = () => {
             width={658}
             height={995}
             style={{
-              height: "100vh",
-              width: "70vh",
+              height: isMobile ? "70vh" : "100vh",
+              width: isMobile ? "49vh" : "70vh",
               position: "absolute",
               top: 0,
               left: 0,
             }}
           />
-        </div>
+        </Box>
       </Container>
     </Box>
   );

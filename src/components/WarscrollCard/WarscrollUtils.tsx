@@ -221,7 +221,7 @@ export const drawAbilitiesOnCanvas = (
   coords: Coordinate[],
   isLoadout: boolean
 ) => {
-  const xAnchorR = canvas.width / 2 + 5;
+  const xAnchorR = canvas.width / 2 + 10;
   const xAnchorL = 20;
 
   const boxWidth = canvas.width / 2 - 40;

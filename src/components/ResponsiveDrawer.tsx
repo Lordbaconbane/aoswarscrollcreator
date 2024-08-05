@@ -11,7 +11,6 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { Shield, Home, RestartAlt, Download, GitHub } from "@mui/icons-material";
-
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
@@ -66,7 +65,14 @@ export default function ResponsiveDrawer() {
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>{index % 2 === 0 ? <Home /> : <Shield />}</ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText
+                primary={text}
+                primaryTypographyProps={{
+                  sx: {
+                    fontSize: { xs: "0.875rem", sm: "1rem" }, // Smaller font size on mobile
+                  },
+                }}
+              />
             </ListItemButton>
           </ListItem>
         ))}
@@ -79,7 +85,14 @@ export default function ResponsiveDrawer() {
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>{index % 2 === 0 ? <RestartAlt /> : <RestartAlt />}</ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText
+                primary={text}
+                primaryTypographyProps={{
+                  sx: {
+                    fontSize: { xs: "0.875rem", sm: "1rem" }, // Smaller font size on mobile
+                  },
+                }}
+              />
             </ListItemButton>
           </ListItem>
         ))}
@@ -96,7 +109,12 @@ export default function ResponsiveDrawer() {
           mr: "2s",
         }}
       >
-        <Toolbar>
+        <Toolbar
+          sx={{
+            minHeight: { xs: 48, sm: 64 }, // Smaller toolbar height on mobile
+            px: { xs: 1, sm: 2 }, // Smaller padding on mobile
+          }}
+        >
           {/* Menu icon */}
           <IconButton
             color="inherit"
@@ -108,15 +126,21 @@ export default function ResponsiveDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h5" component="div">
+          <Typography
+            variant="h5"
+            component="div"
+            sx={{
+              fontSize: { xs: "1rem", sm: "1.5rem" }, // Smaller font size on mobile
+            }}
+          >
             {"AoS Warscroll Creator "}
           </Typography>
           <Typography
             variant="h6"
-            sx={{ fontStyle: "italic" }}
-            style={{
+            sx={{
+              fontStyle: "italic",
               whiteSpace: "pre-wrap",
-              //flexGrow: 1,
+              fontSize: { xs: "0.5rem", sm: "1.25rem" }, // Smaller font size on mobile
             }}
           >
             {" by Lordbaconbane"}
@@ -131,7 +155,7 @@ export default function ResponsiveDrawer() {
             <GitHub />
           </IconButton>
           <Box
-            style={{
+            sx={{
               whiteSpace: "pre-wrap",
               flexGrow: 1,
             }}

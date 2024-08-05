@@ -26,10 +26,10 @@ function App() {
           <ResponsiveDrawer />
           <Box sx={{ flexGrow: 1, width: "100%" }}>
             <Grid container spacing={1}>
-              <Grid xs={6}>
+              <Grid xs={12} md={6}>
                 <AccordianLayout />
               </Grid>
-              <Grid xs={6}>
+              <Grid xs={12} md={6}>
                 <WarscrollCard />
               </Grid>
             </Grid>

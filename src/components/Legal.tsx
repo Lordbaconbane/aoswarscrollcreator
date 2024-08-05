@@ -1,34 +1,27 @@
-import { Box, Typography } from "@mui/material";
+import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 
-const Legal: React.FC = () => {
+export default function Legal() {
   return (
-    <Box
-      component="main"
-      sx={{
-        flexGrow: 0,
-        p: 2,
-        marginTop: 1,
-        width: 1,
-      }}
-    >
-      <Typography
-        variant="body1"
-        component="div"
-        alignItems="center"
-        p={2}
-        bgcolor={"#201c1c"}
-        fontFamily={"Minion Pro"}
-        sx={{ border: "2px solid grey" }}
-      >
-        {`
+    <Box component="main">
+      <AppBar position="sticky" color="primary" sx={{ top: "auto", bottom: 0 }}>
+        <Toolbar sx={{}}>
+          <Typography
+            variant="body2"
+            component="div"
+            alignItems="center"
+            bgcolor={"#201c1c"}
+            fontFamily={"Minion Pro"}
+            sx={{ border: "2px solid grey", p: 1 }}
+          >
+            {`
         This website is a fan-made, UNOFFICIAL project. It is not affiliated with, endorsed, sponsored, 
         or approved by Games Workshop. All content on 
         this site is intended for non-commercial, 
         no-charge digital distribution only.
       `}
-      </Typography>
+          </Typography>
+        </Toolbar>
+      </AppBar>
     </Box>
   );
-};
-
-export default Legal;
+}
