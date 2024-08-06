@@ -35,49 +35,77 @@ export default function GrandAlliances() {
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName(FactionNames.CitiesOfSigmar))}
+              onClick={() => {
+                dispatch(setFactionName(FactionNames.CitiesOfSigmar));
+                dispatch(setFactionTemplate(FactionTemplates.CitiesOfSigmar));
+                dispatch(setFactionWeaponBanner(FactionBanners.CitiesOfSigmar));
+              }}
             >
               <Typography variant="body2">{FactionNames.CitiesOfSigmar}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName(FactionNames.Fyreslayers))}
+              onClick={() => {
+                dispatch(setFactionName(FactionNames.Fyreslayers));
+                dispatch(setFactionTemplate(FactionTemplates.Fyreslayers));
+                dispatch(setFactionWeaponBanner(FactionBanners.Fyreslayers));
+              }}
             >
               <Typography variant="body2">{FactionNames.Fyreslayers}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName(FactionNames.DaughtersOfKhaine))}
+              onClick={() => {
+                dispatch(setFactionName(FactionNames.DaughtersOfKhaine));
+                dispatch(setFactionTemplate(FactionTemplates.DaughtersOfKhaine));
+                dispatch(setFactionWeaponBanner(FactionBanners.DaughtersOfKhaine));
+              }}
             >
               <Typography variant="body2">{FactionNames.DaughtersOfKhaine}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName(FactionNames.IdonethDeepkin))}
+              onClick={() => {
+                dispatch(setFactionName(FactionNames.IdonethDeepkin));
+                dispatch(setFactionTemplate(FactionTemplates.IdonethDeepkin));
+                dispatch(setFactionWeaponBanner(FactionBanners.IdonethDeepkin));
+              }}
             >
               <Typography variant="body2">{FactionNames.IdonethDeepkin}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName(FactionNames.KharadronOverlords))}
+              onClick={() => {
+                dispatch(setFactionName(FactionNames.KharadronOverlords));
+                dispatch(setFactionTemplate(FactionTemplates.KharadronOverlords));
+                dispatch(setFactionWeaponBanner(FactionBanners.KharadronOverlords));
+              }}
             >
               <Typography variant="body2">{FactionNames.KharadronOverlords}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName(FactionNames.LuminethRealmLords))}
+              onClick={() => {
+                dispatch(setFactionName(FactionNames.LuminethRealmLords));
+                dispatch(setFactionTemplate(FactionTemplates.LuminethRealmLords));
+                dispatch(setFactionWeaponBanner(FactionBanners.LuminethRealmLords));
+              }}
             >
               <Typography variant="body2">{FactionNames.LuminethRealmLords}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName(FactionNames.Sylvaneth))}
+              onClick={() => {
+                dispatch(setFactionName(FactionNames.Sylvaneth));
+                dispatch(setFactionTemplate(FactionTemplates.Sylvaneth));
+                dispatch(setFactionWeaponBanner(FactionBanners.Sylvaneth));
+              }}
             >
               <Typography variant="body2">{FactionNames.Sylvaneth}</Typography>
             </Button>
