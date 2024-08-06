@@ -235,28 +235,44 @@ export default function GrandAlliances() {
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName(FactionNames.FleshEaterCourts))}
+              onClick={() => {
+                dispatch(setFactionName(FactionNames.FleshEaterCourts));
+                dispatch(setFactionTemplate(FactionTemplates.FleshEaterCourts));
+                dispatch(setFactionWeaponBanner(FactionBanners.FleshEaterCourts));
+              }}
             >
               <Typography variant="body2">{FactionNames.FleshEaterCourts}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName(FactionNames.Nighthaunt))}
+              onClick={() => {
+                dispatch(setFactionName(FactionNames.Nighthaunt));
+                dispatch(setFactionTemplate(FactionTemplates.Nighthaunt));
+                dispatch(setFactionWeaponBanner(FactionBanners.Nighthaunt));
+              }}
             >
               <Typography variant="body2">{FactionNames.Nighthaunt}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName(FactionNames.OssiarchBonereapers))}
+              onClick={() => {
+                dispatch(setFactionName(FactionNames.OssiarchBonereapers));
+                dispatch(setFactionTemplate(FactionTemplates.OssiarchBonereapers));
+                dispatch(setFactionWeaponBanner(FactionBanners.Nighthaunt));
+              }}
             >
               <Typography variant="body2">{FactionNames.OssiarchBonereapers}</Typography>
             </Button>
             <Button
               color="primary"
               sx={{ m: buttonMargin }}
-              onClick={() => dispatch(setFactionName(FactionNames.SoulblightGravelords))}
+              onClick={() => {
+                dispatch(setFactionName(FactionNames.SoulblightGravelords));
+                dispatch(setFactionTemplate(FactionTemplates.SoulblightGravelords));
+                dispatch(setFactionWeaponBanner(FactionBanners.FleshEaterCourts));
+              }}
             >
               <Typography variant="body2">{FactionNames.SoulblightGravelords}</Typography>
             </Button>
