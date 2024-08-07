@@ -119,9 +119,9 @@ const WarscrollCard: React.FC = () => {
       );
       // Draw characteristics
       if (moveChar.length > 3) {
-        drawText(characteristicsCtx, moveChar, 107, 76, charReducedFontSize, "center", "white");
+        drawText(characteristicsCtx, moveChar + '"', 107, 76, charReducedFontSize, "center", "white");
       } else {
-        drawText(characteristicsCtx, moveChar, 106, 80, charFontSize, "center", "white");
+        drawText(characteristicsCtx, moveChar + '"', 106, 80, charFontSize, "center", "white");
       }
 
       drawText(characteristicsCtx, controlChar, 104, 147, charFontSize, "center", "white");

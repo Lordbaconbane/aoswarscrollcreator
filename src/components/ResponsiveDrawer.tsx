@@ -14,6 +14,9 @@ import { Shield, Home, RestartAlt, Download, GitHub, CloudDownload, CloudUpload 
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
+import ExportData from "./HandleData/ExportData";
+import { ImportData } from "./HandleData/ImportData";
+
 import { initDownload } from "./WarscrollCard/WarscrollCardSlice";
 import { useDispatch } from "react-redux";
 
@@ -46,6 +49,19 @@ export default function ResponsiveDrawer() {
   const handleOpenGithub = () => {
     window.open("https://github.com/Lordbaconbane");
   };
+
+  const exportData = ExportData(); // Get the exportData function from the custom hook
+
+  const { importData, fileInputRef, handleFileChange } = ImportData();
+  const handleDownloadClick = (index: number) => {
+    if (index == 0) {
+      exportData();
+    } else if (index == 1) {
+      importData(); // Trigger the file input dialog
+    }
+  };
+
+  //const handleWarscrollReset = () => {};
 
   const MenuIcon = () => {
     return (
@@ -80,10 +96,12 @@ export default function ResponsiveDrawer() {
       <Divider />
 
       <List>
-        {["Download Warscroll Data", "Upload Warscroll Data"].map((text, index) => (
+        {["Download Warscroll Data", "Import Warscroll Data"].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>{index % 2 === 0 ? <CloudDownload /> : <CloudUpload />}</ListItemIcon>
+            <ListItemButton onClick={() => handleDownloadClick(index)}>
+              <ListItemIcon>
+                {index % 2 === 0 ? <CloudDownload /> : <CloudUpload> </CloudUpload>}
+              </ListItemIcon>
               <ListItemText
                 primary={text}
                 primaryTypographyProps={{
@@ -96,6 +114,13 @@ export default function ResponsiveDrawer() {
           </ListItem>
         ))}
       </List>
+      <input
+        type="file"
+        ref={fileInputRef}
+        style={{ display: "none" }}
+        accept=".json"
+        onChange={handleFileChange}
+      />
       <Divider />
 
       {/* Bottom section of list */}

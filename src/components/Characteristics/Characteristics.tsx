@@ -15,7 +15,12 @@ import { useState } from "react";
 export default function Characteristics() {
   const dispatch = useDispatch();
 
-  const saveChar = useSelector((state: RootState) => state.characteristics.warscrollSave);
+  const control = useSelector((state: RootState) => state.characteristics.warscrollControl);
+  const health = useSelector((state: RootState) => state.characteristics.warscrollHealth);
+  const move = useSelector((state: RootState) => state.characteristics.warscrollMove);
+  const save = useSelector((state: RootState) => state.characteristics.warscrollSave);
+  const name = useSelector((state: RootState) => state.characteristics.warscrollName);
+  const subtype = useSelector((state: RootState) => state.characteristics.warscrollSubtype);
 
   const [errors, setErrors] = useState({
     move: false,
@@ -35,9 +40,11 @@ export default function Characteristics() {
 
   const handleMoveChange = (event) => {
     const isValid = validateDiceInput(event.target.value);
+    console.log("Value: " + event.target.value);
+    console.log(isValid);
     if (isValid || !event.target.value.toString()) {
       setErrors((prevErrors) => ({ ...prevErrors, move: false }));
-      dispatch(setWarscrollMove(event.target.value.toString().toUpperCase() + '"'));
+      dispatch(setWarscrollMove(event.target.value.toString().toUpperCase()));
     } else {
       setErrors((prevErrors) => ({ ...prevErrors, move: true }));
     }
@@ -82,6 +89,7 @@ export default function Characteristics() {
         id="warscroll-name"
         label="Warscroll Name"
         maxRows={1}
+        value={name}
         inputProps={{
           maxLength: 39,
         }}
@@ -92,6 +100,7 @@ export default function Characteristics() {
         sx={{ m: 1 }}
         id="warscroll-subtype"
         label="Subtype (ie, on horse)"
+        value={subtype}
         maxRows={1}
         inputProps={{
           maxLength: 40,
@@ -103,6 +112,7 @@ export default function Characteristics() {
         sx={{ m: 1 }}
         id="move"
         label="Move"
+        value={move}
         error={errors.move}
         helperText={errors.move ? "Invalid move value" : ""}
         inputProps={{
@@ -115,6 +125,7 @@ export default function Characteristics() {
         sx={{ m: 1 }}
         id="health"
         label="Health"
+        value={health}
         error={errors.health}
         helperText={errors.health ? "Invalid health value" : ""}
         inputProps={{
@@ -133,6 +144,7 @@ export default function Characteristics() {
         sx={{ m: 1 }}
         id="control"
         label="Control"
+        value={control}
         error={errors.control}
         helperText={errors.control ? "Invalid control value" : ""}
         inputProps={{
@@ -151,7 +163,7 @@ export default function Characteristics() {
         onChange={handleSaveChange}
         sx={{ m: 1, width: "10ch" }}
         select
-        value={saveChar}
+        value={save}
         id="save"
         label="Save"
       >

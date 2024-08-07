@@ -9,11 +9,11 @@ export interface CharacteristicState {
 }
 
 const initialState: CharacteristicState = {
-  warscrollName: " ",
-  warscrollSubtype: " ",
-  warscrollMove: " ",
-  warscrollHealth: " ",
-  warscrollControl: " ",
+  warscrollName: "",
+  warscrollSubtype: "",
+  warscrollMove: "",
+  warscrollHealth: "1",
+  warscrollControl: "1",
   warscrollSave: "-",
 };
 
