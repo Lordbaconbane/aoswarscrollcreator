@@ -10,7 +10,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Shield, Home, RestartAlt, Download, GitHub } from "@mui/icons-material";
+import { Shield, Home, RestartAlt, Download, GitHub, CloudDownload, CloudUpload } from "@mui/icons-material";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
@@ -57,7 +57,7 @@ export default function ResponsiveDrawer() {
   };
 
   const drawer = (
-    <div>
+    <Box>
       {/* Top section of list */}
       <Divider />
       <List>
@@ -79,12 +79,11 @@ export default function ResponsiveDrawer() {
       </List>
       <Divider />
 
-      {/* Bottom section of list */}
       <List>
-        {["Reset Warscroll"].map((text, index) => (
+        {["Download Warscroll Data", "Upload Warscroll Data"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
-              <ListItemIcon>{index % 2 === 0 ? <RestartAlt /> : <RestartAlt />}</ListItemIcon>
+              <ListItemIcon>{index % 2 === 0 ? <CloudDownload /> : <CloudUpload />}</ListItemIcon>
               <ListItemText
                 primary={text}
                 primaryTypographyProps={{
@@ -97,7 +96,29 @@ export default function ResponsiveDrawer() {
           </ListItem>
         ))}
       </List>
-    </div>
+      <Divider />
+
+      {/* Bottom section of list */}
+      <List>
+        {["Reset Warscroll"].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <RestartAlt sx={{ color: "red" }} /> : <RestartAlt />}
+              </ListItemIcon>
+              <ListItemText
+                primary={text}
+                primaryTypographyProps={{
+                  sx: {
+                    fontSize: { xs: "0.875rem", sm: "1rem" }, // Smaller font size on mobile
+                  },
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
   );
 
   return (
