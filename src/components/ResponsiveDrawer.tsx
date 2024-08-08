@@ -229,7 +229,6 @@ export default function ResponsiveDrawer() {
         }}
         aria-label="mailbox folders"
       >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           variant="temporary"
           open={mobileOpen}
@@ -246,7 +245,7 @@ export default function ResponsiveDrawer() {
             },
           }}
         >
-          {drawer}
+          {}
         </Drawer>
         <Drawer
           variant="persistent"

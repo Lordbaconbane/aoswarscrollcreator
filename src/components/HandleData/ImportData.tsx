@@ -15,14 +15,13 @@ import { setMeleeWeapons, setRangedWeapons } from "../Weapons/WeaponsSlice";
 export const ImportData = () => {
   const dispatch = useDispatch();
   const fileInputRef = useRef<HTMLInputElement>(null);
-
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
+        console.log("Trying");
         const fileContent = e.target?.result as string;
         const data = JSON.parse(fileContent);
 
@@ -30,11 +29,7 @@ export const ImportData = () => {
           console.error("File content is empty");
           return;
         }
-
         console.log("Parsed Data:", data); // Log the entire parsed object
-
-        // Faction
-        //if(data.fa)
 
         // Characteristics
         if (data.characteristics.warscrollName)
@@ -59,6 +54,10 @@ export const ImportData = () => {
         if (data.keywords.keywordIdentities) dispatch(setKeywordIdentity(data.keywords.keywordIdentities));
         console.log(data.keywords.keywordAbilities);
         console.log(data.keywords.keywordIdentities);
+
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
       } catch (error) {
         console.error("Error parsing JSON:", error);
       }
