@@ -23,6 +23,9 @@ export const loadoutSlice = createSlice({
         state.points[index] = value;
       }
     },
+    setLoadoutPoints: (state, action: PayloadAction<Array<string>>) => {
+      state.points = action.payload;
+    },
     addLoadoutPoint: (state, action: PayloadAction<string>) => {
       state.points.push(action.payload);
     },
@@ -33,6 +36,7 @@ export const loadoutSlice = createSlice({
   // "Create slice will infer the state tupe from the initialState argument"
 });
 
-export const { setLoadoutBody, setLoadoutPoint, addLoadoutPoint, removeLoadoutPoint } = loadoutSlice.actions;
+export const { setLoadoutBody, setLoadoutPoint, addLoadoutPoint, removeLoadoutPoint, setLoadoutPoints } =
+  loadoutSlice.actions;
 
 export default loadoutSlice.reducer;

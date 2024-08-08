@@ -1,12 +1,7 @@
 import { AccordionDetails, TextField, Button, Typography, Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import {
-  addLoadoutPoint,
-  removeLoadoutPoint,
-  setLoadoutBody,
-  setLoadoutPoint,
-} from "./LoadoutSlice";
+import { addLoadoutPoint, removeLoadoutPoint, setLoadoutBody, setLoadoutPoint } from "./LoadoutSlice";
 
 export interface loadoutInfo {
   body: string;
@@ -16,6 +11,7 @@ export interface loadoutInfo {
 export default function Loadout() {
   const dispatch = useDispatch();
 
+  const loadoutBody = useSelector((state: RootState) => state.loadout.body);
   const loadoutPoints = useSelector((state: RootState) => state.loadout.points);
 
   const handleSetLoadoutBody = (value: string) => {
@@ -36,12 +32,11 @@ export default function Loadout() {
   };
 
   return (
-    <AccordionDetails
-      sx={{ display: "flex", flexDirection: "column", flexWrap: "wrap", maxWidth: "100%" }}
-    >
+    <AccordionDetails sx={{ display: "flex", flexDirection: "column", flexWrap: "wrap", maxWidth: "100%" }}>
       <TextField
         label="Loadout information"
         fullWidth
+        value={loadoutBody}
         multiline
         onChange={(e) => handleSetLoadoutBody(e.target.value)}
       ></TextField>
@@ -54,11 +49,11 @@ export default function Loadout() {
       >
         <Typography variant="body1">{"Add new point"}</Typography>
       </Button>
-      {loadoutPoints.map((point, index) => (
+      {loadoutPoints.map((_point, index) => (
         <Box key={index} sx={{ flexWrap: "wrap" }}>
           <TextField
             label="Info point (auto adds bullet point)"
-            value={point}
+            value={loadoutPoints[index]}
             fullWidth
             sx={{ mr: 1 }}
             multiline

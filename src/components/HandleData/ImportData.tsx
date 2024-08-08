@@ -9,7 +9,15 @@ import {
   setWarscrollSave,
   setWarscrollSubtype,
 } from "../Characteristics/CharacteristicsSlice";
-import { setMeleeWeapons, setRangedWeapons } from "../Weapons/WeaponsSlice";
+import { setAllWeaponNames, setMeleeWeapons, setRangedWeapons } from "../Weapons/WeaponsSlice";
+import {
+  setFactionName,
+  setFactionTemplate,
+  setFactionWeaponBanner,
+  setGrandAlliance,
+} from "../GrandAlliances/GrandAlliancsSlice";
+import { setAbilities } from "../Abilities/AbilitiesSlice";
+import { setLoadoutBody, setLoadoutPoints } from "../Loadouts/LoadoutSlice";
 // Import other slice actions as needed
 
 export const ImportData = () => {
@@ -31,6 +39,13 @@ export const ImportData = () => {
         }
         console.log("Parsed Data:", data); // Log the entire parsed object
 
+        // Faction
+        if (data.faction.grandAlliance) dispatch(setGrandAlliance(data.faction.grandAlliance));
+        if (data.faction.factionName) dispatch(setFactionName(data.faction.factionName));
+        if (data.faction.factionTemplate) dispatch(setFactionTemplate(data.faction.factionTemplate));
+        if (data.faction.factionWeaponBanner)
+          dispatch(setFactionWeaponBanner(data.faction.factionWeaponBanner));
+
         // Characteristics
         if (data.characteristics.warscrollName)
           dispatch(setWarscrollName(data.characteristics.warscrollName));
@@ -46,14 +61,22 @@ export const ImportData = () => {
           dispatch(setWarscrollHealth(data.characteristics.warscrollHealth));
 
         // Weapons
-        if (data.MeleeWeaponStats) dispatch(setMeleeWeapons(data.meleeWeaponStats));
-        if (data.RangedWeaponStats) dispatch(setRangedWeapons(data.rangedWeaponStats));
+        if (data.weapons.meleeWeaponStats) dispatch(setMeleeWeapons(data.weapons.meleeWeaponStats));
+        if (data.weapons.rangedWeaponStats) dispatch(setRangedWeapons(data.weapons.rangedWeaponStats));
+
+        // Weapon names
+        if (data.weapons.allWeaponNames) dispatch(setAllWeaponNames(data.weapons.allWeaponNames));
+
+        // Abilities
+        if (data.abilities.abilities) dispatch(setAbilities(data.abilities.abilities));
+
+        // Loadouts
+        if (data.loadout.body) dispatch(setLoadoutBody(data.loadout.body));
+        if (data.loadout.points) dispatch(setLoadoutPoints(data.loadout.points));
 
         // Keywords
         if (data.keywords.keywordAbilities) dispatch(setKeywordAbility(data.keywords.keywordAbilities));
         if (data.keywords.keywordIdentities) dispatch(setKeywordIdentity(data.keywords.keywordIdentities));
-        console.log(data.keywords.keywordAbilities);
-        console.log(data.keywords.keywordIdentities);
 
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
