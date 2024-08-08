@@ -41,6 +41,7 @@ export const characteristicSlice = createSlice({
     setWarscrollSave: (state, action: PayloadAction<string>) => {
       state.warscrollSave = action.payload;
     },
+    resetCharacteristics: () => initialState,
   },
   // "Create slice will infer the state tupe from the initialState argument"
 });
@@ -52,6 +53,7 @@ export const {
   setWarscrollHealth,
   setWarscrollMove,
   setWarscrollSave,
+  resetCharacteristics,
 } = characteristicSlice.actions;
 
 export default characteristicSlice.reducer;

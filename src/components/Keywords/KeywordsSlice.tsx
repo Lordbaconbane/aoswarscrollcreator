@@ -21,10 +21,11 @@ export const keywordsSlice = createSlice({
     setKeywordAbility: (state, action: PayloadAction<Array<string>>) => {
       state.keywordAbilities = action.payload;
     },
+    resetKeywords: () => initialState,
   },
   // "Create slice will infer the state tupe from the initialState argument"
 });
 
-export const { setKeywordIdentity, setKeywordAbility } = keywordsSlice.actions;
+export const { setKeywordIdentity, setKeywordAbility, resetKeywords } = keywordsSlice.actions;
 
 export default keywordsSlice.reducer;

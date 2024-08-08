@@ -1,19 +1,20 @@
-import { store } from "../../store/store"; // Update this path to your actual store path
+import { useDispatch } from "react-redux";
+import { resetAbilities } from "../Abilities/AbilitiesSlice";
+import { resetFaction } from "../GrandAlliances/GrandAlliancsSlice";
+import { resetCharacteristics } from "../Characteristics/CharacteristicsSlice";
+import { resetLoadout } from "../Loadouts/LoadoutSlice";
+import { resetKeywords } from "../Keywords/KeywordsSlice";
+import { resetWeapons } from "../Weapons/WeaponsSlice";
 
 const ResetWarscroll = () => {
+  const dispatch = useDispatch();
   const useResetWarscroll = () => {
-    const state = store.getState();
-    const name = state.characteristics.warscrollName;
-    const dataStr = JSON.stringify(state, null, 2);
-    const blob = new Blob([dataStr], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = name + ".json";
-    a.click();
-
-    URL.revokeObjectURL(url);
+    dispatch(resetAbilities());
+    dispatch(resetCharacteristics());
+    dispatch(resetFaction());
+    dispatch(resetKeywords());
+    dispatch(resetLoadout());
+    dispatch(resetWeapons());
   };
 
   return useResetWarscroll;

@@ -32,11 +32,18 @@ export const loadoutSlice = createSlice({
     removeLoadoutPoint: (state, action: PayloadAction<number>) => {
       state.points.splice(action.payload, 1);
     },
+    resetLoadout: () => initialState,
   },
   // "Create slice will infer the state tupe from the initialState argument"
 });
 
-export const { setLoadoutBody, setLoadoutPoint, addLoadoutPoint, removeLoadoutPoint, setLoadoutPoints } =
-  loadoutSlice.actions;
+export const {
+  setLoadoutBody,
+  setLoadoutPoint,
+  addLoadoutPoint,
+  removeLoadoutPoint,
+  setLoadoutPoints,
+  resetLoadout,
+} = loadoutSlice.actions;
 
 export default loadoutSlice.reducer;

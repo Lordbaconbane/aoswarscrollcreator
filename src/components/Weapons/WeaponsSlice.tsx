@@ -59,11 +59,12 @@ export const weaponsSlice = createSlice({
         });
       });
     },
+    resetWeapons: () => initialState,
   },
   // "Create slice will infer the state tupe from the initialState argument"
 });
 
-export const { setMeleeWeapons, setRangedWeapons, setAllWeaponNames, setBattleDamagedWeapon } =
+export const { setMeleeWeapons, setRangedWeapons, setAllWeaponNames, setBattleDamagedWeapon, resetWeapons } =
   weaponsSlice.actions;
 
 export default weaponsSlice.reducer;

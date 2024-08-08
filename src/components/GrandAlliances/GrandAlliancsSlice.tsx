@@ -32,11 +32,12 @@ export const factionSlice = createSlice({
     setFactionWeaponBanner: (state, action: PayloadAction<string>) => {
       state.factionWeaponBanner = action.payload;
     },
+    resetFaction: () => initialState,
   },
   // "Create slice will infer the state tupe from the initialState argument"
 });
 
-export const { setFactionName, setFactionTemplate, setGrandAlliance, setFactionWeaponBanner } =
+export const { setFactionName, setFactionTemplate, setGrandAlliance, setFactionWeaponBanner, resetFaction } =
   factionSlice.actions;
 
 export default factionSlice.reducer;

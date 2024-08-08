@@ -19,6 +19,7 @@ import { ImportData } from "./HandleData/ImportData";
 
 import { initDownload } from "./WarscrollCard/WarscrollCardSlice";
 import { useDispatch } from "react-redux";
+import ResetWarscroll from "./HandleData/ResetWarscroll";
 
 const drawerWidth = 240;
 
@@ -49,6 +50,11 @@ export default function ResponsiveDrawer() {
     } else if (index == 1) {
       importData(); // Trigger the file input dialog
     }
+  };
+
+  const resetWarscroll = ResetWarscroll();
+  const handleResetClick = () => {
+    resetWarscroll();
   };
 
   //const handleWarscrollReset = () => {};
@@ -117,7 +123,7 @@ export default function ResponsiveDrawer() {
       <List>
         {["Reset Warscroll"].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => handleResetClick()}>
               <ListItemIcon>
                 {index % 2 === 0 ? <RestartAlt sx={{ color: "red" }} /> : <RestartAlt />}
               </ListItemIcon>

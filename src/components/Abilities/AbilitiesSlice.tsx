@@ -17,9 +17,11 @@ export const abilitiesSlice = createSlice({
     setAbilities: (state, action: PayloadAction<Ability[]>) => {
       state.abilities = action.payload;
     },
+
+    resetAbilities: () => initialState,
   },
 });
 
-export const { setAbilities } = abilitiesSlice.actions;
+export const { setAbilities, resetAbilities } = abilitiesSlice.actions;
 
 export default abilitiesSlice.reducer;
