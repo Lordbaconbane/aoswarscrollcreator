@@ -55,10 +55,10 @@ export const ImportData = () => {
         if (data.RangedWeaponStats) dispatch(setRangedWeapons(data.rangedWeaponStats));
 
         // Keywords
-        if (data.keywordAbilities) dispatch(setKeywordAbility(data.keywordAbilities));
-        if (data.keywordIdentities) dispatch(setKeywordIdentity(data.keywordIdentities));
-        console.log(data.keywordAbilities);
-        console.log(data.keywordIdentities);
+        if (data.keywords.keywordAbilities) dispatch(setKeywordAbility(data.keywords.keywordAbilities));
+        if (data.keywords.keywordIdentities) dispatch(setKeywordIdentity(data.keywords.keywordIdentities));
+        console.log(data.keywords.keywordAbilities);
+        console.log(data.keywords.keywordIdentities);
       } catch (error) {
         console.error("Error parsing JSON:", error);
       }

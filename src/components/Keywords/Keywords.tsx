@@ -1,8 +1,9 @@
 import { Autocomplete, TextField, Chip, AccordionDetails } from "@mui/material";
 import { setKeywordAbility, setKeywordIdentity } from "./KeywordsSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
-const keywordAbilities = [
+const keywordAbilitiesOptions = [
   "Hero",
   "Monster",
   "Infantry",
@@ -19,11 +20,13 @@ const keywordAbilities = [
   "Champion",
 ];
 
-const keywordIdentities = [
+const keywordIdentitiesOptions = [
   "Order",
   "Chaos",
   "Death",
   "Destruction",
+  "Beasts of Chaos",
+  "Bonesplittaz",
   "Blades Of Khorne",
   "Cities Of Sigmar",
   "Daughters Of Khaine",
@@ -45,6 +48,7 @@ const keywordIdentities = [
   "Skaven",
   "Slaves To Darkness",
   "Sons Of Behemat",
+  "Sons of Hashut",
   "Soulblight Gravelords",
   "Stormcast Eternals",
   "Sylvaneth",
@@ -53,11 +57,15 @@ const keywordIdentities = [
 export default function Keywords() {
   const dispatch = useDispatch();
 
+  const keywordAbilities = useSelector((state: RootState) => state.keywords.keywordAbilities);
+  const keywordIdentities = useSelector((state: RootState) => state.keywords.keywordIdentities);
+
   return (
     <AccordionDetails sx={{ display: "flex", flexWrap: "wrap", maxWidth: "1.0" }}>
       <Autocomplete
         clearIcon={false}
-        options={keywordAbilities}
+        options={keywordAbilitiesOptions}
+        value={keywordAbilities}
         freeSolo
         fullWidth
         multiple
@@ -79,7 +87,8 @@ export default function Keywords() {
 
       <Autocomplete
         clearIcon={false}
-        options={keywordIdentities}
+        options={keywordIdentitiesOptions}
+        value={keywordIdentities}
         freeSolo
         sx={{ mt: 2 }}
         fullWidth
