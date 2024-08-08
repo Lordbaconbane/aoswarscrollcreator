@@ -23,7 +23,6 @@ import { useDispatch } from "react-redux";
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer() {
-  const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
 
   const dispatch = useDispatch();
@@ -35,15 +34,6 @@ export default function ResponsiveDrawer() {
   const handleToggleDrawer = () => {
     console.log("toggle Drawer Selected");
     setIsClosing((o) => !o);
-  };
-
-  const handleDrawerClose = () => {
-    console.log("Handle Drawer");
-    setMobileOpen(false);
-  };
-
-  const handleDrawerTransitionEnd = () => {
-    setIsClosing(false);
   };
 
   const handleOpenGithub = () => {
@@ -230,27 +220,9 @@ export default function ResponsiveDrawer() {
         aria-label="mailbox folders"
       >
         <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onTransitionEnd={handleDrawerTransitionEnd}
-          onClose={handleDrawerClose}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-        >
-          {}
-        </Drawer>
-        <Drawer
           variant="persistent"
           sx={{
-            display: { xs: "none", sm: "block" },
+            display: { xs: 12, sm: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
