@@ -20,11 +20,12 @@ import { ImportData } from "./HandleData/ImportData";
 import { initDownload } from "./WarscrollCard/WarscrollCardSlice";
 import { useDispatch } from "react-redux";
 import ResetWarscroll from "./HandleData/ResetWarscroll";
+import { Dialog, DialogActions, DialogContent, DialogContentText, Button } from "@mui/material";
 
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer() {
-  const [isClosing, setIsClosing] = React.useState(false);
+  const [isResetPrompt, setIsResetPrompt] = React.useState(false);
 
   const dispatch = useDispatch();
 
@@ -32,8 +33,8 @@ export default function ResponsiveDrawer() {
     dispatch(initDownload()); // Dispatch the downloadImage action
   };
 
+  const [isClosing, setIsClosing] = React.useState(false);
   const handleToggleDrawer = () => {
-    console.log("toggle Drawer Selected");
     setIsClosing((o) => !o);
   };
 
@@ -52,9 +53,14 @@ export default function ResponsiveDrawer() {
     }
   };
 
+  const handleResetDialog = () => {
+    setIsResetPrompt((o) => !o);
+  };
+
   const resetWarscroll = ResetWarscroll();
-  const handleResetClick = () => {
+  const handleResetWarscroll = () => {
     resetWarscroll();
+    handleResetDialog();
   };
 
   //const handleWarscrollReset = () => {};
@@ -123,7 +129,7 @@ export default function ResponsiveDrawer() {
       <List>
         {["Reset Warscroll"].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton onClick={() => handleResetClick()}>
+            <ListItemButton onClick={() => handleResetDialog()}>
               <ListItemIcon>
                 {index % 2 === 0 ? <RestartAlt sx={{ color: "red" }} /> : <RestartAlt />}
               </ListItemIcon>
@@ -139,6 +145,37 @@ export default function ResponsiveDrawer() {
           </ListItem>
         ))}
       </List>
+      <Dialog
+        open={isResetPrompt}
+        onClose={handleResetDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <Typography
+              component="div"
+              sx={{
+                fontSize: { xs: "0.5rem", sm: "1.25rem" }, // Smaller font size on mobile
+              }}
+            >
+              {"Reset this warscroll? This action cannot be undone."}
+            </Typography>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleResetDialog}>
+            <Typography component="div" variant="button">
+              {"No."}
+            </Typography>
+          </Button>
+          <Button onClick={handleResetWarscroll} color="warning">
+            <Typography variant="button" component="div">
+              {"Reset Warscroll."}
+            </Typography>
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 
