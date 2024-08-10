@@ -106,6 +106,7 @@ export const drawLoadoutOnCanvas = (
   ctx.fillStyle = "black";
   ctx.textAlign = "left";
   ctx.font = "bold italic 14px Minion Pro";
+  const doubleLineXOffset = 12;
   if (loadoutBody.length > 0) {
     const lines = loadoutBody.split(" ");
 
@@ -135,7 +136,7 @@ export const drawLoadoutOnCanvas = (
         const wordWidth = ctx.measureText(word).width;
         if (wordWidth + xOffset > maxWidth) {
           yOffset += 15;
-          xOffset = xAnchorL;
+          xOffset = xAnchorL + doubleLineXOffset;
         }
         ctx.fillText(word, xOffset, yOffset);
         xOffset += wordWidth + ctx.measureText(" ").width;
