@@ -3,15 +3,15 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import GrandAlliances from "./GrandAlliances/GrandAlliances";
+import GrandAlliances from "../GrandAlliances/GrandAlliances";
 import { createTheme, ThemeProvider } from "@mui/material";
 import HandshakeIcon from "@mui/icons-material/Handshake";
-import Characteristics from "./Characteristics/Characteristics";
-import Keywords from "./Keywords/Keywords";
-import MeleeWeapons from "./Weapons/MeleeWeapons";
-import RangedWeapons from "./Weapons/RangedWeapons";
-import Abilities from "./Abilities/Abilities";
-import Loadout from "./Loadouts/Loadouts";
+import Characteristics from "../Characteristics/Characteristics";
+import Keywords from "../Keywords/Keywords";
+import MeleeWeapons from "../Weapons/MeleeWeapons";
+import RangedWeapons from "../Weapons/RangedWeapons";
+import Abilities from "../Abilities/Abilities";
+import Loadout from "../Loadouts/Loadouts";
 import Legal from "./Legal";
 const theme = createTheme({
   typography: {

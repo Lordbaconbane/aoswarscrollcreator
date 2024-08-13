@@ -2,7 +2,7 @@ import "./App.css";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import ResponsiveDrawer from "./components/ResponsiveDrawer";
+import ResponsiveDrawer from "./components/Layout/ResponsiveDrawer";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { Box } from "@mui/material";
 
@@ -11,7 +11,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import WarscrollCard from "./components/WarscrollCard/WarscrollCard";
 import { persistor, store } from "./store/store";
 import { Provider } from "react-redux";
-import AccordianLayout from "./components/AccordianLayout";
+import AccordianLayout from "./components/Layout/AccordianLayout";
 
 const darkTheme = createTheme({
   palette: {

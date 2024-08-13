@@ -14,12 +14,12 @@ import { Shield, Home, RestartAlt, Download, GitHub, CloudDownload, CloudUpload 
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
-import ExportData from "./HandleData/ExportData";
-import { ImportData } from "./HandleData/ImportData";
+import ExportData from "../HandleData/ExportData";
+import { ImportData } from "../HandleData/ImportData";
 
-import { initDownload } from "./WarscrollCard/WarscrollCardSlice";
+import { initDownload } from "../WarscrollCard/WarscrollCardSlice";
 import { useDispatch } from "react-redux";
-import ResetWarscroll from "./HandleData/ResetWarscroll";
+import ResetWarscroll from "../HandleData/ResetWarscroll";
 import { Dialog, DialogActions, DialogContent, DialogContentText, Button } from "@mui/material";
 
 const drawerWidth = 240;

@@ -2,6 +2,8 @@ import { WeaponAbilities } from "./WeaponAbilities";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { setAllWeaponNames, setMeleeWeapons } from "./WeaponsSlice";
+import Menu from "@mui/material/Menu";
+import React from "react";
 
 import {
   Accordion,
@@ -14,10 +16,12 @@ import {
   Chip,
   Box,
   AccordionSummary,
+  IconButton,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { validateDiceInput } from "../WarscrollCard/WarscrollUtils";
 import { useState } from "react";
+import { Delete, MoreVert } from "@mui/icons-material";
 
 export interface MeleeWeaponStats {
   name: string;
@@ -86,6 +90,15 @@ export default function MeleeWeapons() {
     }
   };
 
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const moveMenuOpen = Boolean(anchorEl);
+  const handleMoveMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMoveMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <AccordionDetails
       sx={{
@@ -100,8 +113,69 @@ export default function MeleeWeapons() {
       </Button>
       {meleeWeapons.map((weapon, index) => (
         <Accordion key={index} sx={{ mb: 2 }}>
-          <AccordionSummary sx={{ bgcolor: "#3D3D3D", borderRadius: "8px" }} expandIcon={<ExpandMoreIcon />}>
+          <AccordionSummary
+            sx={{
+              bgcolor: "#3D3D3D",
+              borderRadius: "8px",
+              display: "flex", // Use flexbox to position items
+              justifyContent: "space-between", // Space items evenly
+              alignItems: "center", // Align items vertically in the center
+            }}
+            expandIcon={<ExpandMoreIcon sx={{}} />}
+          >
             <Typography>{weapon.name || `Weapons ${index + 1}`}</Typography>
+            <Box
+              sx={{
+                display: "flex", // Use flexbox to position the icon
+                justifyContent: "flex-end", // Align icon to the right
+                alignItems: "center", // Center icon vertically
+                flexGrow: 1,
+              }}
+            >
+              <IconButton sx={{ padding: 0, mr: 1 }}>
+                <Delete
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleRemoveMeleeWeapon(index);
+                  }}
+                />
+              </IconButton>
+              <IconButton
+                sx={{ padding: 0, mr: 1 }}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleMoveMenuClick(event);
+                }}
+              >
+                <MoreVert />
+              </IconButton>
+              <Menu
+                id="vert-menu"
+                anchorEl={anchorEl}
+                open={moveMenuOpen}
+                onClose={handleMoveMenuClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem
+                  onClick={(event) => {
+                    handleMoveMenuClose();
+                    event.stopPropagation();
+                  }}
+                >
+                  <Typography variant="body2">{"Move Up"}</Typography>
+                </MenuItem>
+                <MenuItem
+                  onClick={(event) => {
+                    handleMoveMenuClose();
+                    event.stopPropagation();
+                  }}
+                >
+                  <Typography variant="body2">{"Move down"}</Typography>
+                </MenuItem>
+              </Menu>
+            </Box>
           </AccordionSummary>
           <AccordionDetails>
             <Box
