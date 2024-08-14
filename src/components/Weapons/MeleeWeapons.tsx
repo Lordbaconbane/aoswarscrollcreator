@@ -23,6 +23,7 @@ import { validateDiceInput } from "../WarscrollCard/WarscrollUtils";
 import { useState } from "react";
 import { Delete, MoreVert } from "@mui/icons-material";
 import { moveAccordionUp, moveAccordionDown } from "../Layout/AccordianUtility";
+import { useUndo, InputType } from "../Layout/Undo";
 
 export interface MeleeWeaponStats {
   name: string;
@@ -36,6 +37,8 @@ export interface MeleeWeaponStats {
 }
 
 export default function MeleeWeapons() {
+  const { showUndo, undoBar } = useUndo();
+
   const dispatch = useDispatch();
 
   const meleeWeapons = useSelector((state: RootState) => state.weapons.meleeWeaponStats);
@@ -131,6 +134,7 @@ export default function MeleeWeapons() {
       <Button variant="contained" color="primary" sx={{ mb: 2 }} onClick={handleAddMeleeWeapon}>
         <Typography variant="body1">{"Add Melee Weapon"}</Typography>
       </Button>
+      {undoBar /*Display outside of loop because if there are no elements it won't show.*/}
       {meleeWeapons.map((weapon, index) => (
         <Accordion key={index} sx={{ mb: 2 }}>
           <AccordionSummary
@@ -156,6 +160,7 @@ export default function MeleeWeapons() {
                 sx={{ padding: 0, mr: 1 }}
                 onClick={(event) => {
                   event.stopPropagation();
+                  showUndo(meleeWeapons, InputType.melee);
                   handleRemoveMeleeWeapon(index);
                 }}
               >

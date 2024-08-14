@@ -48,6 +48,7 @@ import { setAllWeaponNames, setBattleDamagedWeapon } from "../Weapons/WeaponsSli
 import { validateNumericInput } from "../WarscrollCard/WarscrollUtils";
 import { Delete, MoreVert } from "@mui/icons-material";
 import { moveAccordionUp, moveAccordionDown } from "../Layout/AccordianUtility";
+import { useUndo, InputType } from "../Layout/Undo";
 
 const abilityTypeIconHeight = 24;
 const abilityTypeIconWidth = 24;
@@ -71,6 +72,7 @@ export interface Ability {
 }
 
 export default function Abilities() {
+  const { showUndo, undoBar } = useUndo();
   const dispatch = useDispatch();
   const abilities = useSelector((state: RootState) => state.abilities.abilities);
   const allWeaponNames = useSelector((state: RootState) => state.weapons.allWeaponNames);
@@ -195,6 +197,7 @@ export default function Abilities() {
       <Button variant="contained" color="primary" sx={{ mb: 2 }} onClick={handleAddAbility}>
         <Typography variant="body1">{"Add Ability"}</Typography>
       </Button>
+      {undoBar /*Display outside of loop because if there are no elements it won't show.*/}
       {abilities.map((ability, index) => (
         <Accordion key={index} sx={{ mb: 2 }}>
           <AccordionSummary
@@ -220,6 +223,7 @@ export default function Abilities() {
                 sx={{ padding: 0, mr: 1 }}
                 onClick={(event) => {
                   event.stopPropagation();
+                  showUndo(abilities, InputType.ability);
                   handleRemoveAbility(index);
                 }}
               >

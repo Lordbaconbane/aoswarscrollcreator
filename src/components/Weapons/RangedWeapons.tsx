@@ -23,6 +23,7 @@ import { validateDiceInput } from "../WarscrollCard/WarscrollUtils";
 import { useState } from "react";
 import { Delete, MoreVert } from "@mui/icons-material";
 import { moveAccordionUp, moveAccordionDown } from "../Layout/AccordianUtility";
+import { useUndo, InputType } from "../Layout/Undo";
 
 export interface RangedWeaponStats {
   name: string;
@@ -37,6 +38,7 @@ export interface RangedWeaponStats {
 }
 
 export default function RangedWeapons() {
+  const { showUndo, undoBar } = useUndo();
   const dispatch = useDispatch();
 
   const [errors, setErrors] = useState({
@@ -134,6 +136,7 @@ export default function RangedWeapons() {
       <Button variant="contained" color="primary" sx={{ mb: 2 }} onClick={handleAddRangedWeapon}>
         <Typography variant="body1">{"Add Ranged Weapon"}</Typography>
       </Button>
+      {undoBar /*Display outside of loop because if there are no elements it won't show.*/}
       {rangedWeapons.map((weapon, index) => (
         <Accordion key={index} sx={{ mb: 2 }}>
           <AccordionSummary
@@ -159,6 +162,7 @@ export default function RangedWeapons() {
                 sx={{ padding: 0, mr: 1 }}
                 onClick={(event) => {
                   event.stopPropagation();
+                  showUndo(rangedWeapons, InputType.ranged);
                   handleRemoveRangedWeapon(index);
                 }}
               >
