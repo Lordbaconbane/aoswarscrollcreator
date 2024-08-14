@@ -307,6 +307,7 @@ export const drawAbilitiesOnCanvas = (
           iconImg.src = iconPath;
 
           iconImg.onload = () => {
+            console.log("drawingAbility");
             ctx.drawImage(iconImg, xCoord - 3, yCoord + 2, 17, 17);
           };
         }
