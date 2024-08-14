@@ -1,21 +1,17 @@
-import { AccordionSummary, IconButton, styled } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { MoreVert } from "@mui/icons-material";
+export function moveAccordionUp<T>(data: T[], index: number) {
+  if (index === 0) return; // Can't move the first item up
+  else {
+    const newData = [...data];
+    [newData[index - 1], newData[index]] = [newData[index], newData[index - 1]];
+    return newData;
+  }
+}
 
-const StyledAccordionSummary = styled(AccordionSummary)(() => ({
-  backgroundColor: "#3D3D3D",
-  borderRadius: "8px",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-}));
-
-export default function CustomAccordionSummary(title:) {
-  return (
-    <StyledAccordionSummary expandIcon={<ExpandMoreIcon />}>
-      <IconButton edge="end" aria-label="favorite">
-        <MoreVert />
-      </IconButton>
-    </StyledAccordionSummary>
-  );
+export function moveAccordionDown<T>(data: T[], index: number) {
+  if (index == data.length - 1) return; // Can't move the last item down
+  else {
+    const newData = [...data];
+    [newData[index], newData[index + 1]] = [newData[index + 1], newData[index]];
+    return newData;
+  }
 }

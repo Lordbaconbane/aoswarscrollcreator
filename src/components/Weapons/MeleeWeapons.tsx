@@ -22,6 +22,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { validateDiceInput } from "../WarscrollCard/WarscrollUtils";
 import { useState } from "react";
 import { Delete, MoreVert } from "@mui/icons-material";
+import { moveAccordionUp, moveAccordionDown } from "../Layout/AccordianUtility";
 
 export interface MeleeWeaponStats {
   name: string;
@@ -99,6 +100,25 @@ export default function MeleeWeapons() {
     setAnchorEl(null);
   };
 
+  const handleMoveAccodionUp = (meleeWeapons: MeleeWeaponStats[], index: number) => {
+    const newMeleeWeapons = moveAccordionUp(meleeWeapons, index);
+    if (newMeleeWeapons) {
+      dispatch(setMeleeWeapons(newMeleeWeapons));
+    }
+  };
+
+  const handleMoveAccodionDown = (meleeWeapons: MeleeWeaponStats[], index: number) => {
+    const newMeleeWeapons = moveAccordionDown(meleeWeapons, index);
+    if (newMeleeWeapons) {
+      dispatch(setMeleeWeapons(newMeleeWeapons));
+    }
+  };
+
+  const [capturedIndex, setCapturedIndex] = useState(0);
+  const captureIndex = (index: number) => {
+    setCapturedIndex(index);
+  };
+
   return (
     <AccordionDetails
       sx={{
@@ -121,7 +141,7 @@ export default function MeleeWeapons() {
               justifyContent: "space-between", // Space items evenly
               alignItems: "center", // Align items vertically in the center
             }}
-            expandIcon={<ExpandMoreIcon sx={{}} />}
+            expandIcon={<ExpandMoreIcon />}
           >
             <Typography>{weapon.name || `Weapons ${index + 1}`}</Typography>
             <Box
@@ -132,18 +152,20 @@ export default function MeleeWeapons() {
                 flexGrow: 1,
               }}
             >
-              <IconButton sx={{ padding: 0, mr: 1 }}>
-                <Delete
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    handleRemoveMeleeWeapon(index);
-                  }}
-                />
+              <IconButton
+                sx={{ padding: 0, mr: 1 }}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleRemoveMeleeWeapon(index);
+                }}
+              >
+                <Delete />
               </IconButton>
               <IconButton
                 sx={{ padding: 0, mr: 1 }}
                 onClick={(event) => {
                   event.stopPropagation();
+                  captureIndex(index);
                   handleMoveMenuClick(event);
                 }}
               >
@@ -160,19 +182,21 @@ export default function MeleeWeapons() {
               >
                 <MenuItem
                   onClick={(event) => {
-                    handleMoveMenuClose();
                     event.stopPropagation();
+                    handleMoveAccodionUp(meleeWeapons, capturedIndex);
+                    handleMoveMenuClose();
                   }}
                 >
                   <Typography variant="body2">{"Move Up"}</Typography>
                 </MenuItem>
                 <MenuItem
                   onClick={(event) => {
-                    handleMoveMenuClose();
                     event.stopPropagation();
+                    handleMoveAccodionDown(meleeWeapons, capturedIndex);
+                    handleMoveMenuClose();
                   }}
                 >
-                  <Typography variant="body2">{"Move down"}</Typography>
+                  <Typography variant="body2">{"Move Down"}</Typography>
                 </MenuItem>
               </Menu>
             </Box>
@@ -263,14 +287,6 @@ export default function MeleeWeapons() {
                   <TextField {...params} label="Ability" sx={{ mb: 1, mr: 1, mt: 1 }} />
                 )}
               />
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => handleRemoveMeleeWeapon(index)}
-                sx={{ mr: 1, mt: 1 }}
-              >
-                <Typography variant="body1">{"Remove Melee Weapon: " + meleeWeapons[index].name}</Typography>
-              </Button>
             </Box>
           </AccordionDetails>
         </Accordion>

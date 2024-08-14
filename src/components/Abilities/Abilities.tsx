@@ -5,6 +5,7 @@ import {
   TextField,
   Typography,
   Autocomplete,
+  MenuItem,
   Chip,
   FormControl,
   FormLabel,
@@ -14,6 +15,7 @@ import {
   Divider,
   Accordion,
   AccordionSummary,
+  IconButton,
 } from "@mui/material";
 import {
   AbilityIcon,
@@ -30,6 +32,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { setAbilities } from "./AbilitiesSlice";
 import { useState } from "react";
+import Menu from "@mui/material/Menu";
+import React from "react";
 
 import BattleIcon from "../../../public/Icons/BattleDamaged_AbilityIcon.png";
 import ControlIcon from "../../../public/Icons/Controlicon.png";
@@ -42,6 +46,8 @@ import SpecialIcon from "../../../public/Icons/SpecialIcon.png";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { setAllWeaponNames, setBattleDamagedWeapon } from "../Weapons/WeaponsSlice";
 import { validateNumericInput } from "../WarscrollCard/WarscrollUtils";
+import { Delete, MoreVert } from "@mui/icons-material";
+import { moveAccordionUp, moveAccordionDown } from "../Layout/AccordianUtility";
 
 const abilityTypeIconHeight = 24;
 const abilityTypeIconWidth = 24;
@@ -149,6 +155,34 @@ export default function Abilities() {
     dispatch(setAbilities(newAbilities));
   };
 
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const moveMenuOpen = Boolean(anchorEl);
+  const handleMoveMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMoveMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleMoveAccodionUp = (abilities: Ability[], index: number) => {
+    const newabilities = moveAccordionUp(abilities, index);
+    if (newabilities) {
+      dispatch(setAbilities(newabilities));
+    }
+  };
+
+  const handleMoveAccodionDown = (abilities: Ability[], index: number) => {
+    const newabilities = moveAccordionDown(abilities, index);
+    if (newabilities) {
+      dispatch(setAbilities(newabilities));
+    }
+  };
+
+  const [capturedIndex, setCapturedIndex] = useState(0);
+  const captureIndex = (index: number) => {
+    setCapturedIndex(index);
+  };
+
   return (
     <AccordionDetails
       sx={{
@@ -163,8 +197,73 @@ export default function Abilities() {
       </Button>
       {abilities.map((ability, index) => (
         <Accordion key={index} sx={{ mb: 2 }}>
-          <AccordionSummary sx={{ bgcolor: "#3D3D3D", borderRadius: "8px" }} expandIcon={<ExpandMoreIcon />}>
+          <AccordionSummary
+            sx={{
+              bgcolor: "#3D3D3D",
+              borderRadius: "8px",
+              display: "flex", // Use flexbox to position items
+              justifyContent: "space-between", // Space items evenly
+              alignItems: "center", // Align items vertically in the center
+            }}
+            expandIcon={<ExpandMoreIcon />}
+          >
             <Typography>{ability.name || `Ability ${index + 1}`}</Typography>
+            <Box
+              sx={{
+                display: "flex", // Use flexbox to position the icon
+                justifyContent: "flex-end", // Align icon to the right
+                alignItems: "center", // Center icon vertically
+                flexGrow: 1,
+              }}
+            >
+              <IconButton
+                sx={{ padding: 0, mr: 1 }}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleRemoveAbility(index);
+                }}
+              >
+                <Delete />
+              </IconButton>
+              <IconButton
+                sx={{ padding: 0, mr: 1 }}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  captureIndex(index);
+                  handleMoveMenuClick(event);
+                }}
+              >
+                <MoreVert />
+              </IconButton>
+              <Menu
+                id="vert-menu"
+                anchorEl={anchorEl}
+                open={moveMenuOpen}
+                onClose={handleMoveMenuClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleMoveAccodionUp(abilities, capturedIndex);
+                    handleMoveMenuClose();
+                  }}
+                >
+                  <Typography variant="body2">{"Move Up"}</Typography>
+                </MenuItem>
+                <MenuItem
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleMoveAccodionDown(abilities, capturedIndex);
+                    handleMoveMenuClose();
+                  }}
+                >
+                  <Typography variant="body2">{"Move Down"}</Typography>
+                </MenuItem>
+              </Menu>
+            </Box>
           </AccordionSummary>
           <AccordionDetails>
             <Box key={index} sx={{ mb: "16", display: "flex", flexWrap: "wrap" }}>
@@ -853,14 +952,6 @@ export default function Abilities() {
                   />
                 )}
               />
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => handleRemoveAbility(index)}
-                sx={{ mr: 1, mt: 1, mb: 3 }}
-              >
-                <Typography variant="body1">{"Remove Ability: " + abilities[index].name}</Typography>
-              </Button>
               <Divider />
             </Box>
           </AccordionDetails>

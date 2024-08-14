@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { setAllWeaponNames, setRangedWeapons } from "./WeaponsSlice";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Menu from "@mui/material/Menu";
+import React from "react";
 
 import {
   Accordion,
-  AccordionSummary,
   AccordionDetails,
   Button,
   Typography,
@@ -15,9 +16,13 @@ import {
   Autocomplete,
   Chip,
   Box,
+  AccordionSummary,
+  IconButton,
 } from "@mui/material";
 import { validateDiceInput } from "../WarscrollCard/WarscrollUtils";
 import { useState } from "react";
+import { Delete, MoreVert } from "@mui/icons-material";
+import { moveAccordionUp, moveAccordionDown } from "../Layout/AccordianUtility";
 
 export interface RangedWeaponStats {
   name: string;
@@ -89,6 +94,34 @@ export default function RangedWeapons() {
     }
   };
 
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const moveMenuOpen = Boolean(anchorEl);
+  const handleMoveMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMoveMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleMoveAccodionUp = (rangedWeapons: RangedWeaponStats[], index: number) => {
+    const newRangedWeapons = moveAccordionUp(rangedWeapons, index);
+    if (newRangedWeapons) {
+      dispatch(setRangedWeapons(newRangedWeapons));
+    }
+  };
+
+  const handleMoveAccodionDown = (rangedWeapons: RangedWeaponStats[], index: number) => {
+    const newRangedWeapons = moveAccordionDown(rangedWeapons, index);
+    if (newRangedWeapons) {
+      dispatch(setRangedWeapons(newRangedWeapons));
+    }
+  };
+
+  const [capturedIndex, setCapturedIndex] = useState(0);
+  const captureIndex = (index: number) => {
+    setCapturedIndex(index);
+  };
+
   return (
     <AccordionDetails
       sx={{
@@ -103,8 +136,73 @@ export default function RangedWeapons() {
       </Button>
       {rangedWeapons.map((weapon, index) => (
         <Accordion key={index} sx={{ mb: 2 }}>
-          <AccordionSummary sx={{ bgcolor: "#3D3D3D", borderRadius: "8px" }} expandIcon={<ExpandMoreIcon />}>
+          <AccordionSummary
+            sx={{
+              bgcolor: "#3D3D3D",
+              borderRadius: "8px",
+              display: "flex", // Use flexbox to position items
+              justifyContent: "space-between", // Space items evenly
+              alignItems: "center", // Align items vertically in the center
+            }}
+            expandIcon={<ExpandMoreIcon sx={{}} />}
+          >
             <Typography>{weapon.name || `Weapons ${index + 1}`}</Typography>
+            <Box
+              sx={{
+                display: "flex", // Use flexbox to position the icon
+                justifyContent: "flex-end", // Align icon to the right
+                alignItems: "center", // Center icon vertically
+                flexGrow: 1,
+              }}
+            >
+              <IconButton
+                sx={{ padding: 0, mr: 1 }}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleRemoveRangedWeapon(index);
+                }}
+              >
+                <Delete />
+              </IconButton>
+              <IconButton
+                sx={{ padding: 0, mr: 1 }}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  captureIndex(index);
+                  handleMoveMenuClick(event);
+                }}
+              >
+                <MoreVert />
+              </IconButton>
+              <Menu
+                id="vert-menu"
+                anchorEl={anchorEl}
+                open={moveMenuOpen}
+                onClose={handleMoveMenuClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleMoveAccodionUp(rangedWeapons, capturedIndex);
+                    handleMoveMenuClose();
+                  }}
+                >
+                  <Typography variant="body2">{"Move Up"}</Typography>
+                </MenuItem>
+                <MenuItem
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleMoveAccodionDown(rangedWeapons, capturedIndex);
+                    handleMoveMenuClose();
+                  }}
+                >
+                  <Typography variant="body2">{"Move Down"}</Typography>
+                </MenuItem>
+              </Menu>
+            </Box>
           </AccordionSummary>
           <AccordionDetails>
             <Box
@@ -200,16 +298,6 @@ export default function RangedWeapons() {
                   <TextField {...params} label="Ability" sx={{ mb: 1, mr: 1, mt: 1 }} />
                 )}
               />
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => handleRemoveRangedWeapon(index)}
-                sx={{ mr: 1, mt: 1 }}
-              >
-                <Typography variant="body1">
-                  {"Remove Ranged Weapon: " + rangedWeapons[index].name}
-                </Typography>
-              </Button>
             </Box>
           </AccordionDetails>
         </Accordion>
