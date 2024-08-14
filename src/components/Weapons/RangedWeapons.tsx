@@ -222,7 +222,7 @@ export default function RangedWeapons() {
                 fullWidth
                 value={weapon.name}
                 onChange={(e) => handleInputRangedChange(index, "name", e.target.value)}
-                sx={{ mb: 1 }}
+                sx={{ mb: 1, mt: 1 }}
               />
               <TextField
                 label="Range"
@@ -298,9 +298,7 @@ export default function RangedWeapons() {
                 renderTags={(value, props) =>
                   value.map((option, index) => <Chip label={option} {...props({ index })} />)
                 }
-                renderInput={(params) => (
-                  <TextField {...params} label="Ability" sx={{ mb: 1, mr: 1, mt: 1 }} />
-                )}
+                renderInput={(params) => <TextField {...params} label="Ability" sx={{ mr: 1, mt: 1 }} />}
               />
             </Box>
           </AccordionDetails>

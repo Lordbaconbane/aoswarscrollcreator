@@ -220,7 +220,7 @@ export default function MeleeWeapons() {
                 fullWidth
                 value={weapon.name}
                 onChange={(e) => handleInputMeleeChange(index, "name", e.target.value)}
-                sx={{ mb: 1 }}
+                sx={{ mb: 1, mt: 1 }}
               />
               <TextField
                 label="Attacks"
@@ -288,9 +288,7 @@ export default function MeleeWeapons() {
                 renderTags={(value, props) =>
                   value.map((option, index) => <Chip label={option} {...props({ index })} />)
                 }
-                renderInput={(params) => (
-                  <TextField {...params} label="Ability" sx={{ mb: 1, mr: 1, mt: 1 }} />
-                )}
+                renderInput={(params) => <TextField {...params} label="Ability" sx={{ mr: 1, mt: 1 }} />}
               />
             </Box>
           </AccordionDetails>

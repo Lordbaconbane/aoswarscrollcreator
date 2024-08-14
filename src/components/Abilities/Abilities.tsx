@@ -277,7 +277,7 @@ export default function Abilities() {
                 fullWidth
                 value={ability.name}
                 onChange={(e) => handleInputAbilityChange(index, "name", e.target.value)}
-                sx={{ mb: 1 }}
+                sx={{ mb: 1, mt: 1 }}
               ></TextField>
               <TextField
                 label="Ability Description"
