@@ -20,7 +20,7 @@ const abilityTypeFontSize = 16;
 const wpnBannerPosX = 10;
 const wpnBannerPosY = 200;
 const wpnHeaderYPos = 215;
-const textPosY = 232;
+const textPosY = 230;
 const defaultYPos = 242;
 
 // Box visuals
@@ -307,7 +307,6 @@ export const drawAbilitiesOnCanvas = (
           iconImg.src = iconPath;
 
           iconImg.onload = () => {
-            console.log("drawingAbility");
             ctx.drawImage(iconImg, xCoord - 3, yCoord + 2, 17, 17);
           };
         }
@@ -502,6 +501,14 @@ const drawBattleDamagedWeaponIcon = (
   };
 };
 
+const checkLineCount = (currentLineCount: number, tempLineCount: number) => {
+  if (tempLineCount > currentLineCount) {
+    return tempLineCount;
+  } else {
+    return currentLineCount;
+  }
+};
+
 export const drawWeaponsOnCanvas = (
   ctx: CanvasRenderingContext2D,
   image: HTMLImageElement,
@@ -509,12 +516,14 @@ export const drawWeaponsOnCanvas = (
   meleeWeapons: MeleeWeaponStats[]
 ) => {
   const width = 640;
-  let height = 20;
+  const height = 18;
   ctx.globalAlpha = 1;
   let textOffset = 1;
-  let imageOffset = 20;
+  let imageOffset = 18;
   let mWpnBannerYPos = wpnBannerPosY;
   let lineCount = 1;
+  let tempLineCount = 0;
+  let currentWpnLineCount = 1;
   let yAnchor = defaultYPos;
 
   /* Draw out ranged weapon text */
@@ -535,19 +544,16 @@ export const drawWeaponsOnCanvas = (
       drawText(ctx, "Ability", 550, wpnHeaderYPos, wpnBannerFontSize, "center", "white");
 
       for (let i = 0; i < rangedWeapons.length; i++) {
-        let isDoubleSpaced = false;
-        // Check if the Name is long enough to be double spaced/
         if (rangedWeapons[i].name.length > weaponCharPerLine) {
-          isDoubleSpaced = true;
-          height += 20;
           const lines = splitTextToLines(weaponCharPerLine, rangedWeapons[i].name);
-          // If they are, draw them double spaced.
           let tempOffset = textOffset;
           for (let i = 0; i < lines.length; i++) {
             drawText(ctx, lines[i], 120, textPosY + tempOffset, wpnFont, "center", "black");
-            tempOffset += 18;
+            tempOffset += 17;
+            tempLineCount += 1;
           }
-          //
+          currentWpnLineCount = checkLineCount(currentWpnLineCount, tempLineCount);
+          tempLineCount = 0;
         } else {
           drawText(ctx, rangedWeapons[i].name, 120, textPosY + textOffset, wpnFont, "center", "black");
         }
@@ -560,24 +566,21 @@ export const drawWeaponsOnCanvas = (
 
         // Check if the Abilities are double long enough to be double spaced/
         if (rangedWeapons[i].ability.length > weaponCharPerLine) {
-          // Check if we're already double spaced. If we are, we don't need to change the offset.
-          if (!isDoubleSpaced) {
-            isDoubleSpaced = true;
-            height += 20;
-          }
-
           const lines = splitTextToLines(weaponCharPerLine, rangedWeapons[i].ability);
           let tempOffset = textOffset;
           // If they are, draw them double spaced. .
           for (let i = 0; i < lines.length; i++) {
             drawText(ctx, lines[i], 550, textPosY + tempOffset, wpnFont, "center", "black");
-            tempOffset += 18;
+            tempOffset += 17;
+            tempLineCount += 1;
           }
-          //
+          currentWpnLineCount = checkLineCount(currentWpnLineCount, tempLineCount);
+          tempLineCount = 0;
         } else {
           drawText(ctx, rangedWeapons[i].ability, 550, textPosY + textOffset, wpnFont, "center", "black");
         }
 
+        // If the ranged weapon ability is empty, draw a '-'
         if (rangedWeapons[i].ability.length === 0) {
           drawText(ctx, "-", 550, textPosY + textOffset, wpnFont, "center", "black");
         }
@@ -589,7 +592,7 @@ export const drawWeaponsOnCanvas = (
         }
 
         // Finally, draw our image
-        ctx.drawImage(image, wpnBannerPosX, wpnBannerPosY + imageOffset, width, height);
+        ctx.drawImage(image, wpnBannerPosX, wpnBannerPosY + imageOffset, width, height * currentWpnLineCount);
 
         // If we have a battle damaged weapon, add battle damage icon
         if (rangedWeapons[i].isBattleDamaged) {
@@ -600,19 +603,12 @@ export const drawWeaponsOnCanvas = (
             wpnBannerPosY + imageOffset
           );
         }
-
-        /* If we're double spacd, add extra offset, but reduce the height as the next 
-        line is assumed to be single space. */
-        if (isDoubleSpaced) {
-          height -= 20;
-          textOffset += 20;
-          imageOffset += 20;
-          lineCount += 1;
-        }
-        textOffset += 20;
-        imageOffset += 20;
-        lineCount += 1;
+        textOffset += 18 * currentWpnLineCount;
+        imageOffset = imageOffset + 18 * currentWpnLineCount;
         yAnchor += textOffset;
+        lineCount += currentWpnLineCount;
+        tempLineCount = 0;
+        currentWpnLineCount = 1;
       }
     }
     // If we have melee weapons
@@ -620,14 +616,15 @@ export const drawWeaponsOnCanvas = (
       let mBannerTextPos = wpnHeaderYPos;
       let mTextPos = wpnHeaderYPos;
       textOffset = 0;
+
       // If we have ranged weapon, increment the text by the current line count.
       if (rangedWeapons.length > 0) {
-        mWpnBannerYPos += 20 * lineCount;
-        mBannerTextPos += 20 * lineCount;
-        mTextPos += 20 * lineCount;
-        imageOffset += 20;
+        mWpnBannerYPos += 18 * lineCount;
+        mBannerTextPos += 18 * lineCount;
+        mTextPos += 18 * lineCount;
+        imageOffset += 18;
       }
-      mTextPos += 20;
+      mTextPos += 18;
       ctx.globalAlpha = 1;
       ctx.drawImage(image, wpnBannerPosX, mWpnBannerYPos, width, height);
 
@@ -641,19 +638,17 @@ export const drawWeaponsOnCanvas = (
       drawText(ctx, "Ability", 550, mBannerTextPos, wpnBannerFontSize, "center", "white");
 
       for (let i = 0; i < meleeWeapons.length; i++) {
-        let isDoubleSpaced = false;
-        // Check if the Name is long enough to be double spaced/
+        // Draw weapon name
         if (meleeWeapons[i].name.length > weaponCharPerLine) {
-          isDoubleSpaced = true;
-          height += 20;
           const lines = splitTextToLines(weaponCharPerLine, meleeWeapons[i].name);
-          // If they are, draw them double spaced.
           let tempOffset = textOffset;
           for (let i = 0; i < lines.length; i++) {
-            drawText(ctx, lines[i], 111, mTextPos + (i + 2) + tempOffset, wpnFont, "center", "black");
+            drawText(ctx, lines[i], 120, mTextPos + tempOffset, wpnFont, "center", "black");
             tempOffset += 18;
+            tempLineCount += 1;
           }
-          //
+          currentWpnLineCount = checkLineCount(currentWpnLineCount, tempLineCount);
+          tempLineCount = 0;
         } else {
           drawText(ctx, meleeWeapons[i].name, 111, mTextPos + textOffset, wpnFont, "center", "black");
         }
@@ -663,24 +658,22 @@ export const drawWeaponsOnCanvas = (
         drawText(ctx, meleeWeapons[i].rend, 400, mTextPos + textOffset, wpnFont, "center", "black");
         drawText(ctx, meleeWeapons[i].damage, 440, mTextPos + textOffset, wpnFont, "center", "black");
 
-        // Check if the Abilities are double long enough to be double spaced/
+        // Draw weapon abilities
         if (meleeWeapons[i].ability.length > weaponCharPerLine) {
-          // Check if we're already double spaced. If we are, we don't need to change the offset.
-          if (!isDoubleSpaced) {
-            isDoubleSpaced = true;
-            height += 20;
-          }
-          let tempOffset = textOffset;
           const lines = splitTextToLines(weaponCharPerLine, meleeWeapons[i].ability);
-          // If they are, draw them double spaced. .
+          let tempOffset = textOffset;
           for (let i = 0; i < lines.length; i++) {
-            drawText(ctx, lines[i], 550, mTextPos + (i + 1) + tempOffset, wpnFont, "center", "black");
-            tempOffset += 18;
+            drawText(ctx, lines[i], 550, mTextPos + tempOffset, wpnFont, "center", "black");
+            tempOffset += 17;
+            tempLineCount += 1;
           }
+          currentWpnLineCount = checkLineCount(currentWpnLineCount, tempLineCount);
+          tempLineCount = 0;
         } else {
           drawText(ctx, meleeWeapons[i].ability, 550, mTextPos + textOffset, wpnFont, "center", "black");
         }
 
+        // If there is no ability, draw a '-'
         if (meleeWeapons[i].ability.length === 0) {
           drawText(ctx, "-", 550, textPosY + textOffset, wpnFont, "center", "black");
         }
@@ -691,8 +684,9 @@ export const drawWeaponsOnCanvas = (
         } else {
           ctx.globalAlpha = 0.3;
         }
+
         // Finally, draw our image
-        ctx.drawImage(image, wpnBannerPosX, wpnBannerPosY + imageOffset, width, height);
+        ctx.drawImage(image, wpnBannerPosX, wpnBannerPosY + imageOffset, width, height * currentWpnLineCount);
 
         // If we have a battle damaged weapon, add battle damage icon
         if (meleeWeapons[i].isBattleDamaged) {
@@ -704,17 +698,12 @@ export const drawWeaponsOnCanvas = (
           );
         }
 
-        /* If we're double spacd, add extra offset, but reduce the height as the next 
-        line is assumed to be single space. */
-        if (isDoubleSpaced) {
-          height -= 20;
-          textOffset += 20;
-          imageOffset += 20;
-          lineCount += 1;
-        }
-        textOffset += 20;
-        imageOffset += 20;
-        lineCount += 1;
+        textOffset += 18 * currentWpnLineCount;
+        imageOffset = imageOffset + 18 * currentWpnLineCount;
+        yAnchor += textOffset;
+        lineCount += currentWpnLineCount;
+        tempLineCount = 0;
+        currentWpnLineCount = 1;
       }
     }
     yAnchor = imageOffset + wpnBannerPosY;
