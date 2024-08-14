@@ -33,8 +33,10 @@ export function useUndo() {
   }, []);
 
   const hideUndo = useCallback((_event?: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
-    if (reason === "clickaway") return;
-    setOpen(false);
+    if (reason === "clickaway" || reason === "escapeKeyDown") {
+      setOpen(false);
+      return;
+    }
   }, []);
 
   const undo = () => {
