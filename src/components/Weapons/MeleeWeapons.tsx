@@ -17,6 +17,10 @@ import {
   Box,
   AccordionSummary,
   IconButton,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+  Slider,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { validateDiceInput } from "../WarscrollCard/WarscrollUtils";
@@ -24,6 +28,14 @@ import { useState } from "react";
 import { Delete, MoreVert } from "@mui/icons-material";
 import { moveAccordionUp, moveAccordionDown } from "../Layout/AccordianUtility";
 import { useUndo, InputType } from "../Layout/Undo";
+
+export interface MeleeWeaponOverrideStats {
+  atk: boolean;
+  toHit: boolean;
+  toWound: boolean;
+  rend: boolean;
+  damage: boolean;
+}
 
 export interface MeleeWeaponStats {
   name: string;
@@ -34,13 +46,12 @@ export interface MeleeWeaponStats {
   damage: string;
   ability: string;
   isBattleDamaged: boolean;
+  override: MeleeWeaponOverrideStats[];
 }
 
 export default function MeleeWeapons() {
   const { showUndo, undoBar } = useUndo();
-
   const dispatch = useDispatch();
-
   const meleeWeapons = useSelector((state: RootState) => state.weapons.meleeWeaponStats);
 
   const [errors, setErrors] = useState({
@@ -72,6 +83,7 @@ export default function MeleeWeapons() {
             damage: "",
             ability: "-",
             isBattleDamaged: false,
+            override: [],
           },
         ])
       );
@@ -120,6 +132,58 @@ export default function MeleeWeapons() {
   const [capturedIndex, setCapturedIndex] = useState(0);
   const captureIndex = (index: number) => {
     setCapturedIndex(index);
+  };
+
+  const marks = [
+    { value: 0, label: "Atk" },
+    { value: 25, label: "Hit" },
+    { value: 50, label: "Wnd" },
+    { value: 75, label: "Rnd" },
+    { value: 100, label: "Dmg" },
+  ];
+
+  const [rangeValue, setRangeValue] = useState<number[]>([50, 100]);
+
+  const handleSliderChange = (
+    _event: Event,
+    newValue: number | number[],
+    meleeWeapons: MeleeWeaponStats[],
+    index: number
+  ) => {
+    const [minValue, maxValue] = newValue as number[];
+    setRangeValue([minValue, maxValue]);
+
+    const updatedStats: MeleeWeaponOverrideStats = {
+      atk: minValue <= 0,
+      toHit: minValue <= 25 && maxValue >= 25,
+      toWound: minValue <= 50 && maxValue >= 50,
+      rend: minValue <= 75 && maxValue >= 75,
+      damage: maxValue >= 100,
+    };
+    // Create a deep copy of the specific weapon at index
+    const newMeleeWeapon = {
+      ...meleeWeapons[index],
+      override: [updatedStats], // Directly setting the override field
+    };
+
+    // Create a shallow copy of the meleeWeapons array
+    const newMeleeWeapons = [...meleeWeapons];
+
+    // Replace the specific weapon with the updated one
+    newMeleeWeapons[index] = newMeleeWeapon;
+
+    // Dispatch the updated array
+    dispatch(setMeleeWeapons(newMeleeWeapons));
+    console.log("Atk: " + newMeleeWeapons[index].override[index].atk);
+    console.log("Hit: " + newMeleeWeapons[index].override[index].toHit);
+    console.log("Wnd: " + newMeleeWeapons[index].override[index].toWound);
+    console.log("Rnd: " + newMeleeWeapons[index].override[index].rend);
+    console.log("Dmg: " + newMeleeWeapons[index].override[index].damage);
+  };
+
+  const [seeBelowOverride, setSeeBelowOverride] = useState(false);
+  const handleSeeBelowClick = () => {
+    setSeeBelowOverride((o) => !o);
   };
 
   return (
@@ -288,8 +352,30 @@ export default function MeleeWeapons() {
                 renderTags={(value, props) =>
                   value.map((option, index) => <Chip label={option} {...props({ index })} />)
                 }
-                renderInput={(params) => <TextField {...params} label="Ability" sx={{ mr: 1, mt: 1 }} />}
+                renderInput={(params) => (
+                  <TextField {...params} label="Ability" sx={{ mb: 1, mr: 1, mt: 1 }} />
+                )}
               />
+              <FormGroup sx={{ mb: -5 }}>
+                <FormControlLabel
+                  control={<Checkbox onClick={handleSeeBelowClick} />}
+                  label="See Below Override?"
+                />
+              </FormGroup>
+              {seeBelowOverride && (
+                <>
+                  <Slider
+                    sx={{ mt: 5 }}
+                    value={rangeValue}
+                    onChange={(event, newValue) => handleSliderChange(event, newValue, meleeWeapons, index)}
+                    valueLabelDisplay="auto"
+                    marks={marks}
+                    min={0}
+                    max={100}
+                    step={null} // Restrict movement to defined marks
+                  />
+                </>
+              )}
             </Box>
           </AccordionDetails>
         </Accordion>
