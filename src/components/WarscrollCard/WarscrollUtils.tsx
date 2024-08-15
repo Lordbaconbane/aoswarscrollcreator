@@ -5,14 +5,13 @@ import { Coordinate } from "./WarscrollCard";
 import { AbilityIconPath, AbilityTypeIcon, defaultAbilityIconWidthHeight } from "../Abilities/AbilitiesInfo";
 
 // Character limits
-const warscrollTitleCharPerLine = 20;
 const weaponCharPerLine = 27;
 
 // Font sizes
 const wpnBannerFontSize = 13;
 const wpnFont = 14;
 const factionTitleFontSize = 12;
-const warscrollNameFontSize = 30;
+const warscrollNameFontSize = 28;
 const abilitiesFont = 12;
 const abilityTypeFontSize = 16;
 
@@ -718,25 +717,72 @@ export const drawWarscrollTitleTextOnCanvas = (
   subtitle: string,
   y: number
 ) => {
+  const maxTitleLength = 415;
   const offset = 75;
   const x = ctx.canvas.width / 2 + offset;
   ctx.textAlign = "center";
   ctx.globalAlpha = 1;
   ctx.font = warscrollNameFontSize.toString() + "px Minion Pro";
   ctx.fillStyle = "white";
+  const doubleSpaceOffset = +10;
 
-  if (warscrollName.length >= warscrollTitleCharPerLine) {
-    const lines = splitTextToLines(warscrollTitleCharPerLine, warscrollName);
-    // Draw each line of warscrollName
-    for (let i = 0; i < lines.length; i++) {
-      ctx.fillText(lines[i], x, y - 10 + i * warscrollNameFontSize);
+  const lineLength = ctx.measureText(warscrollName).width;
+
+  if (lineLength >= maxTitleLength) {
+    const words = warscrollName.split(" ");
+    let line = "";
+
+    // Check if the first word is greater then the max line limit.
+    if (ctx.measureText(words[0]).width >= maxTitleLength) {
+      const word = words[0];
+      let line = "";
+
+      // Check the biggest size word we can use
+      for (let q = word.length; q > 0; q--) {
+        line = word.slice(0, q);
+        if (ctx.measureText(line).width <= maxTitleLength) {
+          ctx.fillText(line, x, y - doubleSpaceOffset);
+          break;
+        }
+      }
+      // Handle the remaining part of the word
+      line = word.slice(line.length) + " ";
+      ctx.font = warscrollNameFontSize.toString() + "px Minion Pro";
+      // Handle the remaining words
+      for (let k = 1; k < words.length; k++) {
+        // Determine the most words we can fit on a line without exceeding max, and draw that line.
+        if (ctx.measureText(line + words[k]).width <= maxTitleLength) {
+          line += words[k] + " ";
+        } else {
+          line = words[k] + " ";
+          break;
+        }
+      }
+      ctx.fillText(line, x, y + 20);
+      ctx.font = factionTitleFontSize.toString() + "px Minion Pro Bold";
+      ctx.fillText(factionText, x, y - 35 - doubleSpaceOffset);
+      ctx.font = factionTitleFontSize.toString() + "px Minion Pro Bold";
+      ctx.fillText(subtitle, x, y + 30 + doubleSpaceOffset);
+    } else {
+      // Essentially if someone is using the app normally, do this.
+      for (let i = 0; i < words.length; i++) {
+        // Determine the most words we can fit on a line without exceeding max, and draw that line.
+        if (ctx.measureText(line + words[i]).width <= maxTitleLength) {
+          line += words[i] + " ";
+        } else {
+          ctx.fillText(line, x, y - doubleSpaceOffset);
+          ctx.font = factionTitleFontSize.toString() + "px Minion Pro Bold";
+          ctx.fillText(factionText, x, y - 35 - doubleSpaceOffset);
+          line = words[i] + " ";
+        }
+      }
+      // Now that we've drawn the first line, draw the entirety of the second
+      ctx.font = warscrollNameFontSize.toString() + "px Minion Pro";
+      ctx.fillText(line, x, y + 20);
+      ctx.font = factionTitleFontSize.toString() + "px Minion Pro Bold";
+      ctx.fillText(subtitle, x, y + 30 + doubleSpaceOffset);
     }
-    ctx.font = factionTitleFontSize.toString() + "px Minion Pro Bold";
-    ctx.fillText(subtitle, x, y + 40);
-    ctx.fillText(factionText, x, y - 45);
-  }
-  // If there is only one line, default to this.
-  else {
+  } else {
     ctx.fillText(warscrollName, x, y);
     ctx.font = factionTitleFontSize.toString() + "px Minion Pro Bold";
     ctx.fillText(subtitle, x, y + 20);
