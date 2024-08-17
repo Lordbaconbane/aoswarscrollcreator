@@ -17,9 +17,10 @@ export default function Legal() {
             or approved by Games Workshop. All content on 
             this site is intended for non-commercial, 
             no-charge digital distribution only.
-            
           `}
-            <br />
+            <Typography variant="body2" component="div" bgcolor={"#201c1c"} fontFamily={"Minion Pro"}>
+              {"Special Thanks to Vallis and firefox1642 for assistance with testing and feedback!"}
+            </Typography>
             <Link
               href="https://readymag.website/u4146278660/portfolio/"
               target="_blank"
