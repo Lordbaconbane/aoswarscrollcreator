@@ -37,6 +37,11 @@ export interface MeleeWeaponOverrideStats {
   damage: boolean;
 }
 
+export interface OverrideRangeValue {
+  minValue: number;
+  maxValue: number;
+}
+
 export interface MeleeWeaponStats {
   name: string;
   atk: string;
@@ -46,7 +51,9 @@ export interface MeleeWeaponStats {
   damage: string;
   ability: string;
   isBattleDamaged: boolean;
+  isOverride: boolean;
   override: MeleeWeaponOverrideStats[];
+  rangeValue: OverrideRangeValue[];
 }
 
 export default function MeleeWeapons() {
@@ -83,7 +90,9 @@ export default function MeleeWeapons() {
             damage: "",
             ability: "-",
             isBattleDamaged: false,
+            isOverride: false,
             override: [],
+            rangeValue: [],
           },
         ])
       );
@@ -95,12 +104,19 @@ export default function MeleeWeapons() {
     dispatch(setMeleeWeapons(meleeWeapons.filter((_MeleeWaponStats, i) => i !== index)));
   };
 
-  const handleInputMeleeChange = (index: number, field: keyof (typeof meleeWeapons)[0], value: string) => {
+  const handleInputMeleeChange = (
+    index: number,
+    field: keyof (typeof meleeWeapons)[0],
+    value: string | boolean | number[]
+  ) => {
+    console.log("Hel;");
     // Create a copy of the array and the object at the specific index
     const newMeleeWeapons = meleeWeapons.map((weapon, i) =>
       i === index ? { ...weapon, [field]: value } : weapon
     );
-    dispatch(setMeleeWeapons(newMeleeWeapons));
+    if (field === "isOverride") {
+      handleSliderChange([0, 100] as number[], newMeleeWeapons, index);
+    } else dispatch(setMeleeWeapons(newMeleeWeapons));
     if (field === "name") {
       dispatch(setAllWeaponNames());
     }
@@ -142,16 +158,12 @@ export default function MeleeWeapons() {
     { value: 100, label: "Dmg" },
   ];
 
-  const [rangeValue, setRangeValue] = useState<number[]>([50, 100]);
-
   const handleSliderChange = (
-    _event: Event,
     newValue: number | number[],
     meleeWeapons: MeleeWeaponStats[],
     index: number
   ) => {
     const [minValue, maxValue] = newValue as number[];
-    setRangeValue([minValue, maxValue]);
 
     const updatedStats: MeleeWeaponOverrideStats = {
       atk: minValue <= 0,
@@ -160,30 +172,21 @@ export default function MeleeWeapons() {
       rend: minValue <= 75 && maxValue >= 75,
       damage: maxValue >= 100,
     };
-    // Create a deep copy of the specific weapon at index
+
+    const updatedRangeValue: OverrideRangeValue[] = [{ minValue, maxValue }];
+
+    // Ensure the override array is initialized and update it
     const newMeleeWeapon = {
       ...meleeWeapons[index],
-      override: [updatedStats], // Directly setting the override field
+      override: [updatedStats], // Replace or add the override at the correct index
+      rangeValue: updatedRangeValue,
     };
 
-    // Create a shallow copy of the meleeWeapons array
+    // Make a copy of melee weapons and assign the new melee weapon copy to the index
     const newMeleeWeapons = [...meleeWeapons];
-
-    // Replace the specific weapon with the updated one
     newMeleeWeapons[index] = newMeleeWeapon;
 
-    // Dispatch the updated array
     dispatch(setMeleeWeapons(newMeleeWeapons));
-    console.log("Atk: " + newMeleeWeapons[index].override[index].atk);
-    console.log("Hit: " + newMeleeWeapons[index].override[index].toHit);
-    console.log("Wnd: " + newMeleeWeapons[index].override[index].toWound);
-    console.log("Rnd: " + newMeleeWeapons[index].override[index].rend);
-    console.log("Dmg: " + newMeleeWeapons[index].override[index].damage);
-  };
-
-  const [seeBelowOverride, setSeeBelowOverride] = useState(false);
-  const handleSeeBelowClick = () => {
-    setSeeBelowOverride((o) => !o);
   };
 
   return (
@@ -358,23 +361,32 @@ export default function MeleeWeapons() {
               />
               <FormGroup sx={{ mb: -5 }}>
                 <FormControlLabel
-                  control={<Checkbox onClick={handleSeeBelowClick} />}
+                  control={
+                    <Checkbox
+                      checked={weapon.isOverride}
+                      onChange={(event) => {
+                        handleInputMeleeChange(index, "isOverride", event.target.checked);
+                      }}
+                    />
+                  }
                   label="See Below Override?"
                 />
               </FormGroup>
-              {seeBelowOverride && (
-                <>
-                  <Slider
-                    sx={{ mt: 5 }}
-                    value={rangeValue}
-                    onChange={(event, newValue) => handleSliderChange(event, newValue, meleeWeapons, index)}
-                    valueLabelDisplay="auto"
-                    marks={marks}
-                    min={0}
-                    max={100}
-                    step={null} // Restrict movement to defined marks
-                  />
-                </>
+              {meleeWeapons[index].isOverride && (
+                <Slider
+                  sx={{ mt: 5 }}
+                  value={
+                    weapon.rangeValue && weapon.rangeValue.length > 0
+                      ? [weapon.rangeValue[0].minValue, weapon.rangeValue[0].maxValue]
+                      : [0, 100]
+                  }
+                  onChange={(event, newValue) => handleSliderChange(newValue, meleeWeapons, index)}
+                  valueLabelDisplay="auto"
+                  marks={marks}
+                  min={0}
+                  max={100}
+                  step={null} // Restrict movement to defined marks
+                />
               )}
             </Box>
           </AccordionDetails>

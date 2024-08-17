@@ -1,5 +1,5 @@
 import { RangedWeaponStats } from "../Weapons/RangedWeapons";
-import { MeleeWeaponStats } from "../Weapons/MeleeWeapons";
+import { MeleeWeaponOverrideStats, MeleeWeaponStats } from "../Weapons/MeleeWeapons";
 import { Ability } from "../Abilities/Abilities";
 import { Coordinate } from "./WarscrollCard";
 import { AbilityIconPath, AbilityTypeIcon, defaultAbilityIconWidthHeight } from "../Abilities/AbilitiesInfo";
@@ -21,6 +21,14 @@ const wpnBannerPosY = 200;
 const wpnHeaderYPos = 215;
 const textPosY = 230;
 const defaultYPos = 242;
+
+// Weapon Text Draw positions
+const rng = 240;
+const atk = 280;
+const hit = 320;
+const wnd = 360;
+const rnd = 400;
+const dmg = 440;
 
 // Box visuals
 const rectTransparency = 0.5;
@@ -508,6 +516,20 @@ const checkLineCount = (currentLineCount: number, tempLineCount: number) => {
   }
 };
 
+const drawLine = (
+  ctx: CanvasRenderingContext2D,
+  xStartPoint: number,
+  yStartPoint: number,
+  xEndPoint: number,
+  yEndPoint: number
+) => {
+  ctx.strokeStyle = "black";
+  ctx.beginPath();
+  ctx.moveTo(xStartPoint, yStartPoint);
+  ctx.lineTo(xEndPoint, yEndPoint);
+  ctx.stroke();
+};
+
 export const drawWeaponsOnCanvas = (
   ctx: CanvasRenderingContext2D,
   image: HTMLImageElement,
@@ -651,11 +673,125 @@ export const drawWeaponsOnCanvas = (
         } else {
           drawText(ctx, meleeWeapons[i].name, 111, mTextPos + textOffset, wpnFont, "center", "black");
         }
-        drawText(ctx, meleeWeapons[i].atk, 280, mTextPos + textOffset, wpnFont, "center", "black");
-        drawText(ctx, meleeWeapons[i].toHit, 320, mTextPos + textOffset, wpnFont, "center", "black");
-        drawText(ctx, meleeWeapons[i].toWound, 360, mTextPos + textOffset, wpnFont, "center", "black");
-        drawText(ctx, meleeWeapons[i].rend, 400, mTextPos + textOffset, wpnFont, "center", "black");
-        drawText(ctx, meleeWeapons[i].damage, 440, mTextPos + textOffset, wpnFont, "center", "black");
+
+        // Draw weapon Override if there is one
+        if (meleeWeapons[i].isOverride && meleeWeapons[i].override?.length) {
+          const override = meleeWeapons[i].override[0];
+
+          if (override != null) {
+            const keys = Object.keys(override) as Array<keyof MeleeWeaponOverrideStats>;
+            let firstTrueKey: keyof MeleeWeaponOverrideStats | null = null;
+            let lastTrueKey: keyof MeleeWeaponOverrideStats | null = null;
+            for (const key of keys) {
+              if (override[key] === true) {
+                if (firstTrueKey === null) {
+                  firstTrueKey = key; // Found the first true value
+                }
+                lastTrueKey = key; // Update last true value
+              }
+            }
+
+            let drawTextLeft = 0;
+            let drawTextCenter = 0;
+            let drawTextRight = 0;
+
+            if (firstTrueKey !== null && lastTrueKey !== null) {
+              // Define the order of keys and their corresponding values
+              const keyOrder: Array<keyof MeleeWeaponOverrideStats> = [
+                "atk",
+                "toHit",
+                "toWound",
+                "rend",
+                "damage",
+              ];
+              const valueMap: Record<keyof MeleeWeaponOverrideStats, number> = {
+                atk,
+                toHit: hit,
+                toWound: wnd,
+                rend: rnd,
+                damage: dmg,
+              };
+
+              // Find the indexes of the first and last true keys
+              const firstIndex = keyOrder.indexOf(firstTrueKey);
+              const lastIndex = keyOrder.indexOf(lastTrueKey);
+
+              // Loop through the keys and decide whether to draw text
+              for (let j = 0; j <= keyOrder.length; j++) {
+                const key = keyOrder[j];
+                const value = valueMap[key];
+
+                if (j < firstIndex || j > lastIndex) {
+                  drawText(
+                    ctx,
+                    meleeWeapons[i][key],
+                    value,
+                    mTextPos + textOffset,
+                    wpnFont,
+                    "center",
+                    "black"
+                  );
+                }
+
+                // Set the positions for the center and right text
+                if (j === firstIndex) {
+                  drawTextLeft = value;
+                  drawTextCenter = drawTextLeft;
+                } else if (j === lastIndex) {
+                  drawTextRight = value;
+                  drawTextCenter = (drawTextLeft + drawTextRight) / 2;
+                }
+              }
+              //console.log(lastIndex - firstIndex);
+              if (firstIndex === lastIndex) {
+                // If there is only one value
+                drawText(ctx, "*", drawTextCenter, mTextPos + textOffset, wpnFont, "center", "black");
+              } else if (lastIndex - firstIndex === 1) {
+                // If there are only two true values.
+                drawText(ctx, "See Below", drawTextCenter, mTextPos + textOffset, wpnFont, "center", "black");
+              } else {
+                // Draw left path
+                drawLine(
+                  ctx,
+                  drawTextCenter - 35,
+                  mTextPos + textOffset - 5,
+                  drawTextLeft - 10,
+                  mTextPos + textOffset - 5
+                );
+                drawLine(
+                  ctx,
+                  drawTextLeft - 10,
+                  mTextPos + textOffset - 8,
+                  drawTextLeft - 10,
+                  mTextPos + textOffset - 2
+                );
+                drawText(ctx, "See Below", drawTextCenter, mTextPos + textOffset, wpnFont, "center", "black");
+                // Draw right path
+                drawLine(
+                  ctx,
+                  drawTextCenter + 35,
+                  mTextPos + textOffset - 5,
+                  drawTextRight + 10,
+                  mTextPos + textOffset - 5
+                );
+                drawLine(
+                  ctx,
+                  drawTextRight + 10,
+                  mTextPos + textOffset - 8,
+                  drawTextRight + 10,
+                  mTextPos + textOffset - 2
+                );
+              }
+            }
+          }
+        } else {
+          // If not override, draw weapons normally.
+          drawText(ctx, meleeWeapons[i].atk, atk, mTextPos + textOffset, wpnFont, "center", "black");
+          drawText(ctx, meleeWeapons[i].toHit, hit, mTextPos + textOffset, wpnFont, "center", "black");
+          drawText(ctx, meleeWeapons[i].toWound, wnd, mTextPos + textOffset, wpnFont, "center", "black");
+          drawText(ctx, meleeWeapons[i].rend, rnd, mTextPos + textOffset, wpnFont, "center", "black");
+          drawText(ctx, meleeWeapons[i].damage, dmg, mTextPos + textOffset, wpnFont, "center", "black");
+        }
 
         // Draw weapon abilities
         if (meleeWeapons[i].ability.length > weaponCharPerLine) {
