@@ -79,7 +79,7 @@ export default function ResponsiveDrawer() {
       {/* Top section of list */}
       <Divider />
       <List>
-        {["Warscroll Designer", "Spearhead"].map((text, index) => (
+        {["Warscroll Designer" /*"Spearhead"*/].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>{index % 2 === 0 ? <Home /> : <Shield />}</ListItemIcon>

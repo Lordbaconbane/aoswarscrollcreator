@@ -624,7 +624,6 @@ export const drawWeaponsOnCanvas = (
               for (let j = 0; j <= keyOrder.length; j++) {
                 const key = keyOrder[j];
                 const value = valueMap[key];
-                console.log(key);
                 if (j < firstIndex || j > lastIndex) {
                   drawText(
                     ctx,
