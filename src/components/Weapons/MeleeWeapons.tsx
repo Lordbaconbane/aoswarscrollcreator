@@ -109,7 +109,6 @@ export default function MeleeWeapons() {
     field: keyof (typeof meleeWeapons)[0],
     value: string | boolean | number[]
   ) => {
-    console.log("Hel;");
     // Create a copy of the array and the object at the specific index
     const newMeleeWeapons = meleeWeapons.map((weapon, i) =>
       i === index ? { ...weapon, [field]: value } : weapon
@@ -380,7 +379,7 @@ export default function MeleeWeapons() {
                       ? [weapon.rangeValue[0].minValue, weapon.rangeValue[0].maxValue]
                       : [0, 100]
                   }
-                  onChange={(event, newValue) => handleSliderChange(newValue, meleeWeapons, index)}
+                  onChange={(_event, newValue) => handleSliderChange(newValue, meleeWeapons, index)}
                   valueLabelDisplay="auto"
                   marks={marks}
                   min={0}

@@ -18,12 +18,30 @@ import {
   Box,
   AccordionSummary,
   IconButton,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+  Slider,
 } from "@mui/material";
 import { validateDiceInput } from "../WarscrollCard/WarscrollUtils";
 import { useState } from "react";
 import { Delete, MoreVert } from "@mui/icons-material";
 import { moveAccordionUp, moveAccordionDown } from "../Layout/AccordianUtility";
 import { useUndo, InputType } from "../Layout/Undo";
+
+export interface RangedWeaponOverrideStats {
+  range: boolean;
+  atk: boolean;
+  toHit: boolean;
+  toWound: boolean;
+  rend: boolean;
+  damage: boolean;
+}
+
+export interface OverrideRangeValue {
+  minValue: number;
+  maxValue: number;
+}
 
 export interface RangedWeaponStats {
   name: string;
@@ -35,6 +53,9 @@ export interface RangedWeaponStats {
   damage: string;
   ability: string;
   isBattleDamaged: boolean;
+  isOverride: boolean;
+  override: RangedWeaponOverrideStats[];
+  rangeValue: OverrideRangeValue[];
 }
 
 export default function RangedWeapons() {
@@ -64,6 +85,9 @@ export default function RangedWeapons() {
             damage: "",
             ability: "-",
             isBattleDamaged: false,
+            isOverride: false,
+            override: [],
+            rangeValue: [],
           },
         ])
       );
@@ -85,12 +109,18 @@ export default function RangedWeapons() {
     dispatch(setRangedWeapons(rangedWeapons.filter((_RangedWaponStats, i) => i !== index)));
   };
 
-  const handleInputRangedChange = (index: number, field: keyof (typeof rangedWeapons)[0], value: string) => {
+  const handleInputRangedChange = (
+    index: number,
+    field: keyof (typeof rangedWeapons)[0],
+    value: string | boolean
+  ) => {
     // Create a copy of the array and the object at the specific index
     const newRangedWeapons = rangedWeapons.map((weapon, i) =>
       i === index ? { ...weapon, [field]: value } : weapon
     );
-    dispatch(setRangedWeapons(newRangedWeapons));
+    if (field === "isOverride") {
+      handleSliderChange([0, 100] as number[], newRangedWeapons, index);
+    } else dispatch(setRangedWeapons(newRangedWeapons));
     if (field === "name") {
       dispatch(setAllWeaponNames());
     }
@@ -122,6 +152,47 @@ export default function RangedWeapons() {
   const [capturedIndex, setCapturedIndex] = useState(0);
   const captureIndex = (index: number) => {
     setCapturedIndex(index);
+  };
+
+  const marks = [
+    { value: 0, label: "Range" },
+    { value: 20, label: "Atk" },
+    { value: 40, label: "Hit" },
+    { value: 60, label: "Wnd" },
+    { value: 80, label: "Rnd" },
+    { value: 100, label: "Dmg" },
+  ];
+
+  const handleSliderChange = (
+    newValue: number | number[],
+    rangedWeapons: RangedWeaponStats[],
+    index: number
+  ) => {
+    const [minValue, maxValue] = newValue as number[];
+
+    const updatedStats: RangedWeaponOverrideStats = {
+      range: minValue <= 0,
+      atk: minValue <= 20 && maxValue >= 20,
+      toHit: minValue <= 40 && maxValue >= 40,
+      toWound: minValue <= 60 && maxValue >= 60,
+      rend: minValue <= 80 && maxValue >= 80,
+      damage: maxValue >= 100,
+    };
+
+    const updatedRangeValue: OverrideRangeValue[] = [{ minValue, maxValue }];
+
+    // Ensure the override array is initialized and update it
+    const newRangedWeapon = {
+      ...rangedWeapons[index],
+      override: [updatedStats], // Replace or add the override at the correct index
+      rangeValue: updatedRangeValue,
+    };
+
+    // Make a copy of ranged weapons and assign the new melee weapon copy to the index
+    const newRangedWeapons = [...rangedWeapons];
+    newRangedWeapons[index] = newRangedWeapon;
+
+    dispatch(setRangedWeapons(newRangedWeapons));
   };
 
   return (
@@ -300,6 +371,35 @@ export default function RangedWeapons() {
                 }
                 renderInput={(params) => <TextField {...params} label="Ability" sx={{ mr: 1, mt: 1 }} />}
               />
+              <FormGroup sx={{ mb: -5 }}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={weapon.isOverride}
+                      onChange={(event) => {
+                        handleInputRangedChange(index, "isOverride", event.target.checked);
+                      }}
+                    />
+                  }
+                  label="See Below Override?"
+                />
+              </FormGroup>
+              {rangedWeapons[index].isOverride && (
+                <Slider
+                  sx={{ mt: 5 }}
+                  value={
+                    weapon.rangeValue && weapon.rangeValue.length > 0
+                      ? [weapon.rangeValue[0].minValue, weapon.rangeValue[0].maxValue]
+                      : [0, 100]
+                  }
+                  onChange={(_event, newValue) => handleSliderChange(newValue, rangedWeapons, index)}
+                  valueLabelDisplay="auto"
+                  marks={marks}
+                  min={0}
+                  max={100}
+                  step={null} // Restrict movement to defined marks
+                />
+              )}
             </Box>
           </AccordionDetails>
         </Accordion>
