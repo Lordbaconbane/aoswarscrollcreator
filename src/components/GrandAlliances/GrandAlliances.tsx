@@ -1,6 +1,11 @@
 import { useState } from "react";
-import { AccordionDetails, Button, ButtonGroup, Typography } from "@mui/material";
-import { setFactionName, setFactionTemplate, setFactionWeaponBanner } from "./GrandAlliancsSlice";
+import { AccordionDetails, Button, ButtonGroup, TextField, Typography } from "@mui/material";
+import {
+  setFactionName,
+  setFactionTemplate,
+  setFactionWeaponBanner,
+  setCustomFactionName,
+} from "./GrandAlliancsSlice";
 import { useDispatch } from "react-redux";
 import { FactionBanners, FactionNames, FactionTemplates } from "./FactionTemplateLinks";
 
@@ -378,6 +383,13 @@ export default function GrandAlliances() {
           </Typography>
         </Button>
       </ButtonGroup>
+      <TextField
+        label="Enter custom faction name (Leave blank to use default faction name)"
+        fullWidth
+        inputProps={{ maxLength: 45 }}
+        onChange={(e) => dispatch(setCustomFactionName(e.target.value))}
+        sx={{ mt: 1 }}
+      ></TextField>
       {renderAllianceButtons()}
     </AccordionDetails>
   );

@@ -3,6 +3,7 @@ import { FactionBanners, FactionNames, FactionTemplates } from "./FactionTemplat
 export interface FactionState {
   grandAlliance: string;
   factionName: string;
+  customFactionName: string;
   factionTemplate: string;
   factionWeaponBanner: string;
 }
@@ -10,6 +11,7 @@ export interface FactionState {
 const initialState: FactionState = {
   grandAlliance: "",
   factionName: FactionNames.StormcastEternals,
+  customFactionName: "",
   factionTemplate: FactionTemplates.StormcastEternals,
   factionWeaponBanner: FactionBanners.StormcastEternals,
 };
@@ -26,6 +28,10 @@ export const factionSlice = createSlice({
     setFactionName: (state, action: PayloadAction<string>) => {
       state.factionName = action.payload;
     },
+    setCustomFactionName: (state, action: PayloadAction<string>) => {
+      console.log(action.payload);
+      state.customFactionName = action.payload;
+    },
     setFactionTemplate: (state, action: PayloadAction<string>) => {
       state.factionTemplate = action.payload;
     },
@@ -37,7 +43,13 @@ export const factionSlice = createSlice({
   // "Create slice will infer the state tupe from the initialState argument"
 });
 
-export const { setFactionName, setFactionTemplate, setGrandAlliance, setFactionWeaponBanner, resetFaction } =
-  factionSlice.actions;
+export const {
+  setFactionName,
+  setCustomFactionName,
+  setFactionTemplate,
+  setGrandAlliance,
+  setFactionWeaponBanner,
+  resetFaction,
+} = factionSlice.actions;
 
 export default factionSlice.reducer;

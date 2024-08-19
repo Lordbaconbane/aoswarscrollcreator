@@ -34,6 +34,7 @@ const WarscrollCard: React.FC = () => {
   const factionTemplate = useSelector((state: RootState) => state.faction.factionTemplate);
   const factionWeaponBanner = useSelector((state: RootState) => state.faction.factionWeaponBanner);
   const factionName = useSelector((state: RootState) => state.faction.factionName);
+  const customFactionName = useSelector((state: RootState) => state.faction.customFactionName);
 
   const warscrollName = useSelector((state: RootState) => state.characteristics.warscrollName);
   const warscrollSubtype = useSelector((state: RootState) => state.characteristics.warscrollSubtype);
@@ -109,10 +110,14 @@ const WarscrollCard: React.FC = () => {
     if (characteristicsCtx && characteristicsCanvas) {
       characteristicsCtx.clearRect(0, 0, characteristicsCanvas.width, characteristicsCanvas.height);
 
+      let factionTitle = factionName;
+      if (customFactionName.length > 0) {
+        factionTitle = customFactionName;
+      }
       // Draw title
       drawWarscrollTitleTextOnCanvas(
         characteristicsCtx,
-        "• " + factionName.toUpperCase() + " WARSCROLL •",
+        "• " + factionTitle.toUpperCase() + " WARSCROLL •",
         warscrollName.toUpperCase(),
         warscrollSubtype.toUpperCase(),
         115
@@ -151,6 +156,7 @@ const WarscrollCard: React.FC = () => {
       characteristicsCtx.save();
     }
   }, [
+    customFactionName,
     factionName,
     warscrollName,
     warscrollSubtype,
