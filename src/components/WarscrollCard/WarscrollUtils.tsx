@@ -182,6 +182,7 @@ const getTextHeight = (
   ctx.fillStyle = fontColor;
   ctx.textAlign = alignment;
 
+  let numLines = 0;
   lines.forEach((line, lineIndex) => {
     // Split each line into words
     const words = line.split(" ");
@@ -204,6 +205,7 @@ const getTextHeight = (
         yOffset += fontSize;
         xOffset = x;
         heightOffset += fontSize;
+        numLines++;
       }
 
       if (drawText) {
@@ -227,7 +229,8 @@ export const drawAbilitiesOnCanvas = (
   canvas: HTMLCanvasElement,
   abilities: Ability[],
   coords: Coordinate[],
-  isLoadout: boolean
+  isLoadout: boolean,
+  numOfLoadoutPoints: number
 ) => {
   const xAnchorR = canvas.width / 2 + 10;
   const xAnchorL = 20;
@@ -238,13 +241,17 @@ export const drawAbilitiesOnCanvas = (
   let yOffset = 20;
 
   if (isLoadout) {
-    coords[1].x = xAnchorR;
-    coords[1].y += yOffset;
-    loadoutOffset += 1;
+    coords[0].x = xAnchorL;
+    loadoutOffset = coords[0].y;
+    coords[0].y += yOffset + 120;
+    if (numOfLoadoutPoints > 0) {
+      for (let q = 0; q < numOfLoadoutPoints; q++) {
+        loadoutOffset -= 15;
+      }
+    }
   } else {
     coords[0].x = xAnchorL;
     coords[0].y += yOffset;
-    loadoutOffset += 0;
   }
 
   const loadImages = abilities.map((ability) => {
@@ -263,7 +270,7 @@ export const drawAbilitiesOnCanvas = (
       img.src = abilities[i].ability_banner;
 
       img.onload = () => {
-        const k = i + loadoutOffset;
+        const k = i;
         const xCoord = coords[k]?.x;
         const yCoord = coords[k]?.y;
         const abilityTitle = abilities[i].ability_restriction + abilities[i].ability_timing;
@@ -328,7 +335,11 @@ export const drawAbilitiesOnCanvas = (
             xCoord + 2,
             yCoord + yOffset,
             false,
-            abilities[i].name + ": "
+            abilities[i].name + ": ",
+            14,
+            "left",
+            "black",
+            "italic"
           );
           boxHeight += offset;
         }
@@ -443,17 +454,18 @@ export const drawAbilitiesOnCanvas = (
         }
 
         if (hasKeywords) {
-          ctx.strokeRect(xCoord - lPadding, yCoord + yOffset + bPadding, boxWidth + rPadding, 19);
+          boxHeight += 20;
+          ctx.strokeRect(xCoord - lPadding, yCoord + boxHeight + bPadding, boxWidth + rPadding, 19);
           ctx.globalAlpha = rectTransparency;
           ctx.fillStyle = "white";
-          ctx.fillRect(xCoord - lPadding, yCoord + yOffset + bPadding, boxWidth + rPadding, 19);
+          ctx.fillRect(xCoord - lPadding, yCoord + boxHeight + bPadding, boxWidth + rPadding, 19);
           ctx.globalAlpha = 1.0;
-          ctx.drawImage(img, xCoord - 1 - lPadding, yCoord + yOffset - 1 + bPadding, 80, 21);
+          ctx.drawImage(img, xCoord - 1 - lPadding, yCoord + boxHeight - 1 + bPadding, 80, 21);
           drawText(
             ctx,
             "KEYWORDS",
             xCoord + 5 - lPadding,
-            yCoord + yOffset + 14 + bPadding,
+            yCoord + boxHeight + 14 + bPadding,
             abilitiesFont,
             "left",
             "white"
@@ -462,23 +474,25 @@ export const drawAbilitiesOnCanvas = (
             ctx,
             abilities[i].keywords,
             xCoord + 81 - lPadding,
-            yCoord + yOffset + 14 + bPadding,
+            yCoord + boxHeight + 14 + bPadding,
             abilitiesFont,
             "left",
             "black"
           );
-          boxHeight += 20;
         }
 
         ctx.save();
 
-        boxHeightArr[i] = boxHeight + 60;
+        boxHeightArr[i] = boxHeight + 40;
         if (i + 1 < abilities.length) {
           const newCoordinate: Coordinate = { x: 0, y: coords[0].y };
           coords.push(newCoordinate);
           if (xCoord === xAnchorL) {
             if (i === 0) {
               coords[k + 1].x = xAnchorR;
+              if (isLoadout) {
+                coords[k + 1].y = loadoutOffset + 110;
+              } else coords[k + 1].y = coords[k]?.y;
             } else {
               coords[k + 1].x = xAnchorR;
               coords[k + 1].y = coords[k - 1]?.y + boxHeightArr[k - 1];

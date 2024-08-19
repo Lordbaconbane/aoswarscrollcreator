@@ -69,6 +69,7 @@ export interface Ability {
   ability_type_value: string;
   ability_icon_type_path: string;
   ability_restriction: string;
+  isBattleDamaged: boolean;
 }
 
 export default function Abilities() {
@@ -77,8 +78,6 @@ export default function Abilities() {
   const abilities = useSelector((state: RootState) => state.abilities.abilities);
   const allWeaponNames = useSelector((state: RootState) => state.weapons.allWeaponNames);
   const [isNonStandardAbility, setNonStandardAbility] = useState(false);
-
-  const [isBattleDamaged, setBattleDamaged] = useState(false);
 
   const [errors, setErrors] = useState({
     value: false,
@@ -126,6 +125,7 @@ export default function Abilities() {
           ability_type_value: "",
           ability_icon_type_path: "",
           ability_restriction: "",
+          isBattleDamaged: false,
         },
       ])
     );
@@ -137,18 +137,26 @@ export default function Abilities() {
 
   const handleInputAbilityChange = (
     index: number,
-    field: keyof (typeof abilities)[0],
+    field: keyof Ability,
     value: string,
-    secondField?: keyof (typeof abilities)[0],
-    secondValue?: string
+    secondField?: keyof Ability,
+    secondValue?: string,
+    isBattleDamagedValue?: boolean
   ) => {
     // Create a copy of the array and the object at the specific index
     const newAbilities = abilities.map((ability, i) => {
       if (i === index) {
         const updatedAbility = { ...ability, [field]: value };
-        if (secondField && secondValue) {
-          updatedAbility[secondField] = secondValue;
+        if (typeof secondValue === "string" && secondField != "isBattleDamaged") {
+          if (secondField && secondValue) {
+            updatedAbility[secondField] = secondValue;
+          }
         }
+
+        if (isBattleDamagedValue !== undefined) {
+          updatedAbility.isBattleDamaged = isBattleDamagedValue;
+        }
+
         return updatedAbility;
       }
       return ability;
@@ -466,9 +474,9 @@ export default function Abilities() {
                               "ability_icon",
                               AbilityIcon.battleDamaged,
                               "ability_icon_path",
-                              AbilityIconPath.battleDamagedAbilityPath
+                              AbilityIconPath.battleDamagedAbilityPath,
+                              true
                             );
-                            setBattleDamaged(true);
                             handleSetWeaponNames();
                           }}
                         />
@@ -502,7 +510,6 @@ export default function Abilities() {
                               "ability_icon_path",
                               AbilityIconPath.controlIconPath
                             );
-                            setBattleDamaged(false);
                             dispatch(setBattleDamagedWeapon([""]));
                           }}
                         />
@@ -534,9 +541,9 @@ export default function Abilities() {
                               "ability_icon",
                               AbilityIcon.defensive,
                               "ability_icon_path",
-                              AbilityIconPath.defensiveIconPath
+                              AbilityIconPath.defensiveIconPath,
+                              false
                             );
-                            setBattleDamaged(false);
                             dispatch(setBattleDamagedWeapon([""]));
                           }}
                         />
@@ -568,9 +575,9 @@ export default function Abilities() {
                               "ability_icon",
                               AbilityIcon.move,
                               "ability_icon_path",
-                              AbilityIconPath.movementIconPath
+                              AbilityIconPath.movementIconPath,
+                              false
                             );
-                            setBattleDamaged(false);
                             dispatch(setBattleDamagedWeapon([""]));
                           }}
                         />
@@ -602,9 +609,9 @@ export default function Abilities() {
                               "ability_icon",
                               AbilityIcon.offensive,
                               "ability_icon_path",
-                              AbilityIconPath.OffensiveIconPath
+                              AbilityIconPath.OffensiveIconPath,
+                              false
                             );
-                            setBattleDamaged(false);
                             dispatch(setBattleDamagedWeapon([""]));
                           }}
                         />
@@ -636,9 +643,9 @@ export default function Abilities() {
                               "ability_icon",
                               AbilityIcon.rally,
                               "ability_icon_path",
-                              AbilityIconPath.rallyingIconPath
+                              AbilityIconPath.rallyingIconPath,
+                              false
                             );
-                            setBattleDamaged(false);
                             dispatch(setBattleDamagedWeapon([""]));
                           }}
                         />
@@ -670,9 +677,9 @@ export default function Abilities() {
                               "ability_icon",
                               AbilityIcon.shoot,
                               "ability_icon_path",
-                              AbilityIconPath.shootingIconPath
+                              AbilityIconPath.shootingIconPath,
+                              false
                             );
-                            setBattleDamaged(false);
                             dispatch(setBattleDamagedWeapon([""]));
                           }}
                         />
@@ -704,9 +711,9 @@ export default function Abilities() {
                               "ability_icon",
                               AbilityIcon.special,
                               "ability_icon_path",
-                              AbilityIconPath.specialIconPath
+                              AbilityIconPath.specialIconPath,
+                              false
                             );
-                            setBattleDamaged(false);
                             dispatch(setBattleDamagedWeapon([""]));
                           }}
                         />
@@ -732,7 +739,7 @@ export default function Abilities() {
                 </FormLabel>
               </FormControl>
               {/*Specifically for battle damaged*/}
-              {isBattleDamaged && (
+              {ability.isBattleDamaged && (
                 <Autocomplete
                   clearIcon={false}
                   options={allWeaponNames}

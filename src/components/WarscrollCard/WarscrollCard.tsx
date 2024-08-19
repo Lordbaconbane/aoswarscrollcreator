@@ -195,7 +195,7 @@ const WarscrollCard: React.FC = () => {
           bodyCtx.save();
         }
 
-        drawAbilitiesOnCanvas(bodyCtx, bodyCanvas, abilities, coords, hasLoadout);
+        drawAbilitiesOnCanvas(bodyCtx, bodyCanvas, abilities, coords, hasLoadout, loadoutPoints.length);
         bodyCtx.save();
       }
     };
