@@ -111,8 +111,8 @@ const WarscrollCard: React.FC = () => {
       characteristicsCtx.clearRect(0, 0, characteristicsCanvas.width, characteristicsCanvas.height);
 
       let factionTitle = factionName;
-      if (customFactionName.length > 0) {
-        factionTitle = customFactionName;
+      if (customFactionName != null) {
+        if (customFactionName.length > 0) factionTitle = customFactionName;
       }
       // Draw title
       drawWarscrollTitleTextOnCanvas(
