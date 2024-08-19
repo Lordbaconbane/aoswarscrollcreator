@@ -288,7 +288,9 @@ export const drawAbilitiesOnCanvas = (
           ctx.textAlign = "left";
           titleLines.forEach((word) => {
             const wordWidth = ctx.measureText(word).width;
-            if (xOffset + wordWidth > width) {
+            console.log(xOffset + wordWidth);
+            console.log(width - 50);
+            if (xOffset + wordWidth > width - 50) {
               bannerHeight += 20;
               xOffset = coords[k].x;
               isDoubleBanner = true;
@@ -301,7 +303,8 @@ export const drawAbilitiesOnCanvas = (
           yTempOffset = -5;
           titleLines.forEach((word) => {
             const wordWidth = ctx.measureText(word).width;
-            if (xOffset + wordWidth > width) {
+
+            if (xOffset + wordWidth > width - abilityIconOffset) {
               yTempOffset += 15;
               xOffset = coords[k].x;
               abilityIconOffset = 0;
