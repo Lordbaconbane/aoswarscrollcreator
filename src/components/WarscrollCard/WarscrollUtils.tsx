@@ -182,7 +182,6 @@ const getTextHeight = (
   ctx.fillStyle = fontColor;
   ctx.textAlign = alignment;
 
-  let numLines = 0;
   lines.forEach((line, lineIndex) => {
     // Split each line into words
     const words = line.split(" ");
@@ -205,7 +204,6 @@ const getTextHeight = (
         yOffset += fontSize;
         xOffset = x;
         heightOffset += fontSize;
-        numLines++;
       }
 
       if (drawText) {
@@ -288,8 +286,6 @@ export const drawAbilitiesOnCanvas = (
           ctx.textAlign = "left";
           titleLines.forEach((word) => {
             const wordWidth = ctx.measureText(word).width;
-            console.log(xOffset + wordWidth);
-            console.log(width - 50);
             if (xOffset + wordWidth > width - 50) {
               bannerHeight += 20;
               xOffset = coords[k].x;
