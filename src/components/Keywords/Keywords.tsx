@@ -129,6 +129,7 @@ const keywordIdentitiesOptions = [
   "Skink",
   "Skryre",
   "Skyfarer",
+  "Slann",
   "Slaves To Darkness",
   "Sons Of Behemat",
   "Sons of Hashut",
