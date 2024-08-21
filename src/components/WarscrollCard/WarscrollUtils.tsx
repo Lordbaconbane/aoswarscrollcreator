@@ -795,7 +795,7 @@ export const drawWeaponsOnCanvas = (
           currentWpnLineCount = checkLineCount(currentWpnLineCount, tempLineCount);
           tempLineCount = 0;
         } else {
-          drawText(ctx, meleeWeapons[i].name, 111, mTextPos + textOffset, wpnFont, "center", "black");
+          drawText(ctx, meleeWeapons[i].name, 120, mTextPos + textOffset, wpnFont, "center", "black");
         }
 
         // Draw weapon Override if there is one
