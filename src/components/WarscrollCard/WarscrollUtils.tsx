@@ -4,8 +4,9 @@ import { Ability } from "../Abilities/Abilities";
 import { Coordinate } from "./WarscrollCard";
 import { AbilityIconPath, AbilityTypeIcon, defaultAbilityIconWidthHeight } from "../Abilities/AbilitiesInfo";
 
-// Character limits
+// Character limits and offeets
 const weaponCharPerLine = 27;
+const abilityIconOffset = 17;
 
 // Font sizes
 const wpnBannerFontSize = 13;
@@ -169,7 +170,7 @@ const getTextHeight = (
 ) => {
   let xOffset = x;
   let yOffset = y;
-  let heightOffset = 10;
+  let heightOffset = 7;
   width += x;
 
   // Split the string into lines based on newline characters
@@ -197,7 +198,6 @@ const getTextHeight = (
       }
 
       const wordWidth = ctx.measureText(word).width;
-
       // Check if the x position exceeds the maximum value
       if (xOffset + wordWidth > width) {
         // Move to the next line and reset x position
@@ -218,7 +218,7 @@ const getTextHeight = (
     xOffset = x;
     heightOffset += fontSize;
   });
-
+  console.log("Height offset: " + heightOffset);
   return heightOffset;
 };
 
@@ -268,13 +268,12 @@ export const drawAbilitiesOnCanvas = (
       img.src = abilities[i].ability_banner;
 
       img.onload = () => {
-        const k = i;
-        const xCoord = coords[k]?.x;
-        const yCoord = coords[k]?.y;
+        const xCoord = coords[i]?.x;
+        const yCoord = coords[i]?.y;
         const abilityTitle = abilities[i].ability_restriction + abilities[i].ability_timing;
 
         let bannerHeight = 20;
-        let abilityIconOffset = 17;
+        let tempAbilityIconOffset = abilityIconOffset;
         if (abilityTitle.length > 0) {
           const titleLines = abilityTitle.split(" ");
           const width = boxWidth + xCoord;
@@ -286,33 +285,34 @@ export const drawAbilitiesOnCanvas = (
           ctx.textAlign = "left";
           titleLines.forEach((word) => {
             const wordWidth = ctx.measureText(word).width;
-            if (xOffset + wordWidth > width - 50) {
-              bannerHeight += 20;
-              xOffset = coords[k].x;
+            if (xOffset + wordWidth > width - tempAbilityIconOffset) {
+              bannerHeight += 16;
+              xOffset = xCoord;
               isDoubleBanner = true;
+              tempAbilityIconOffset = 0;
             }
-            xOffset += wordWidth + ctx.measureText("").width;
+            xOffset += wordWidth + ctx.measureText(" ").width;
           });
           ctx.drawImage(img, xCoord - 8, yCoord, boxWidth + 15, bannerHeight);
 
           xOffset = xCoord;
           yTempOffset = -5;
+          tempAbilityIconOffset = abilityIconOffset;
           titleLines.forEach((word) => {
             const wordWidth = ctx.measureText(word).width;
-
-            if (xOffset + wordWidth > width - abilityIconOffset) {
+            if (xOffset + wordWidth > width - tempAbilityIconOffset) {
               yTempOffset += 15;
-              xOffset = coords[k].x;
-              abilityIconOffset = 0;
+              xOffset = coords[i].x;
+              tempAbilityIconOffset = 0;
             }
             if (isDoubleBanner) {
-              ctx.fillText(word, xOffset + abilityIconOffset, yCoord + bannerHeight + yTempOffset - 17);
+              ctx.fillText(word, xOffset + tempAbilityIconOffset, yCoord + 40 + yTempOffset - 17);
             } else {
-              ctx.fillText(word, xOffset + abilityIconOffset, yCoord + bannerHeight + yTempOffset);
+              ctx.fillText(word, xOffset + tempAbilityIconOffset, yCoord + 15);
             }
             xOffset += wordWidth + ctx.measureText(" ").width;
           });
-          yOffset += isDoubleBanner ? 40 : 20;
+          yOffset += bannerHeight;
 
           // Now draw the ability icon
           const iconPath = abilities[i].ability_icon_path;
@@ -327,6 +327,7 @@ export const drawAbilitiesOnCanvas = (
         let boxHeight = 0;
         const nameDescCombined = abilities[i]?.name.toUpperCase() + abilities[i]?.name_desc;
         if (nameDescCombined.length > 0) {
+          console.log("Hellwofowfwe");
           const offset = getTextHeight(
             ctx,
             abilities[i].name_desc,
@@ -334,12 +335,13 @@ export const drawAbilitiesOnCanvas = (
             xCoord + 2,
             yCoord + yOffset,
             false,
-            abilities[i].name + ": ",
+            abilities[i].name.toUpperCase() + ": ",
             14,
             "left",
             "black",
             "italic"
           );
+          console.log("Offset: " + offset);
           boxHeight += offset;
         }
         if (abilities[i]?.declare_desc.length > 0) {
@@ -402,7 +404,7 @@ export const drawAbilitiesOnCanvas = (
             abilities[i]?.declare_desc,
             boxWidth,
             xCoord + 2,
-            yCoord + yOffset,
+            yCoord + yOffset - 3,
             true,
             "Declare: "
           );
@@ -414,7 +416,7 @@ export const drawAbilitiesOnCanvas = (
             abilities[i]?.effect_desc,
             boxWidth,
             xCoord + 2,
-            yCoord + yOffset,
+            yCoord + yOffset - 3,
             true,
             "Effect: "
           );
@@ -453,7 +455,7 @@ export const drawAbilitiesOnCanvas = (
         }
 
         if (hasKeywords) {
-          boxHeight += 20;
+          boxHeight += bannerHeight;
           ctx.strokeRect(xCoord - lPadding, yCoord + boxHeight + bPadding, boxWidth + rPadding, 19);
           ctx.globalAlpha = rectTransparency;
           ctx.fillStyle = "white";
@@ -482,23 +484,23 @@ export const drawAbilitiesOnCanvas = (
 
         ctx.save();
 
-        boxHeightArr[i] = boxHeight + 40;
+        boxHeightArr[i] = boxHeight + 35;
         if (i + 1 < abilities.length) {
           const newCoordinate: Coordinate = { x: 0, y: coords[0].y };
           coords.push(newCoordinate);
           if (xCoord === xAnchorL) {
             if (i === 0) {
-              coords[k + 1].x = xAnchorR;
+              coords[i + 1].x = xAnchorR;
               if (isLoadout) {
-                coords[k + 1].y = loadoutOffset + 110;
-              } else coords[k + 1].y = coords[k]?.y;
+                coords[i + 1].y = loadoutOffset + 110;
+              } else coords[i + 1].y = coords[i]?.y;
             } else {
-              coords[k + 1].x = xAnchorR;
-              coords[k + 1].y = coords[k - 1]?.y + boxHeightArr[k - 1];
+              coords[i + 1].x = xAnchorR;
+              coords[i + 1].y = coords[i - 1]?.y + boxHeightArr[i - 1];
             }
           } else if (xCoord === xAnchorR) {
-            coords[k + 1].x = xAnchorL;
-            coords[k + 1].y = coords[k - 1]?.y + boxHeightArr[k - 1];
+            coords[i + 1].x = xAnchorL;
+            coords[i + 1].y = coords[i - 1]?.y + boxHeightArr[i - 1];
           }
           yOffset = 20;
         }
