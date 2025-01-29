@@ -274,12 +274,15 @@ export const drawAbilitiesOnCanvas = (
 
         let bannerHeight = 20;
         let tempAbilityIconOffset = abilityIconOffset;
+        let boxHeight = 0;
+        let isDoubleBanner = false;
+
         if (abilityTitle.length > 0) {
           const titleLines = abilityTitle.split(" ");
           const width = boxWidth + xCoord;
           let xOffset = xCoord;
           let yTempOffset = 0;
-          let isDoubleBanner = false;
+
           ctx.font = "14px Minion Pro";
           ctx.fillStyle = "white";
           ctx.textAlign = "left";
@@ -324,7 +327,6 @@ export const drawAbilitiesOnCanvas = (
           };
         }
 
-        let boxHeight = 0;
         const nameDescCombined = abilities[i]?.name.toUpperCase() + abilities[i]?.name_desc;
         if (nameDescCombined.length > 0) {
           console.log("Hellwofowfwe");
@@ -484,7 +486,12 @@ export const drawAbilitiesOnCanvas = (
 
         ctx.save();
 
-        boxHeightArr[i] = boxHeight + 35;
+        if (isDoubleBanner) {
+          boxHeightArr[i] = boxHeight + 55;
+        } else {
+          boxHeightArr[i] = boxHeight + 35;
+        }
+
         if (i + 1 < abilities.length) {
           const newCoordinate: Coordinate = { x: 0, y: coords[0].y };
           coords.push(newCoordinate);

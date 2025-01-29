@@ -36,7 +36,7 @@ import Menu from "@mui/material/Menu";
 import React from "react";
 
 import BattleIcon from "../../../public/Icons/BattleDamaged_AbilityIcon.png";
-import ControlIcon from "../../../public/Icons/Controlicon.png";
+import ControlIcon from "../../../public/Icons/ControlIcon.png";
 import DefensiveIcon from "../../../public/Icons/DefensiveIcon.png";
 import MovementIcon from "../../../public/Icons/MovementIcon.png";
 import OffensiveIcon from "../../../public/Icons/OffensiveIcon.png";
