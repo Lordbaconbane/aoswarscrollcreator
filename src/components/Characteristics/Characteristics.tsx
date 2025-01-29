@@ -117,7 +117,7 @@ export default function Characteristics() {
         helperText={errors.move ? "Invalid move value" : ""}
         inputProps={{
           maxLength: 6,
-          inputMode: "numeric",
+          inputMode: "text",
         }}
         onChange={handleMoveChange}
       ></TextField>
