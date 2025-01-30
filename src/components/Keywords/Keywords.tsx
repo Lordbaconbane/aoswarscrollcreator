@@ -25,6 +25,7 @@ const keywordAbilitiesOptions = [
   "Musician (1/4)",
   "Musician (1/5)",
   "Musician (1/6)",
+  "Reinforcements",
   "Standard bearer (1/10)",
   "Standard bearer (1/20)",
   "Standard bearer (1/3)",
