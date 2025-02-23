@@ -26,7 +26,7 @@ function App() {
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <ResponsiveDrawer />
-            <Box sx={{ flexGrow: 1, width: "100%" }}>
+            <Box sx={{ flexGrow: 1, width: "90%" }}>
               <Grid container spacing={1}>
                 <Grid xs={12} md={6}>
                   <AccordianLayout />

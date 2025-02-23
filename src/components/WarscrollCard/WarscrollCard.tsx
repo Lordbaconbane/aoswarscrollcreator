@@ -202,15 +202,7 @@ const WarscrollCard: React.FC = () => {
   }, [factionWeaponBanner, rangedWeapons, meleeWeapons, loadoutBody, loadoutPoints, abilities]);
 
   return (
-    <Box
-      component="main"
-      className="sticky-canvas"
-      sx={{
-        flexGrow: 2,
-        width: 1,
-        marginTop: 8,
-      }}
-    >
+    <Box component="main" className="sticky-canvas">
       <Container style={{ overflowY: "auto", display: "flex" }}>
         <Box style={{ position: "relative", width: "658px", height: "995px" }}>
           <canvas
