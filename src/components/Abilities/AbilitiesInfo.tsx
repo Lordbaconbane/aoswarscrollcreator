@@ -71,6 +71,7 @@ export const AbilityPhase = [
 ];
 
 export const AbilityUsageRestrictions = [
+  "Once Per Turn",
   "Once Per Turn (Army), ",
   "Once Per Battle (Army), ",
   "Once Per Battle, ",
