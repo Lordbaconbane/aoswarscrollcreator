@@ -323,7 +323,7 @@ export default function Abilities() {
                           }
                         />
                       }
-                      label="Start of Turn/Deployment"
+                      label="Start of Turn/Deployment (Black)"
                     />
                     <FormControlLabel
                       value={AbilityBanner.hero}
@@ -340,7 +340,7 @@ export default function Abilities() {
                           }
                         />
                       }
-                      label="Hero"
+                      label="Hero (Yellow)"
                     />
                     <FormControlLabel
                       value={AbilityBanner.move}
@@ -357,7 +357,7 @@ export default function Abilities() {
                           }
                         />
                       }
-                      label="Movement"
+                      label="Movement (Grey)"
                     />
                     <FormControlLabel
                       value={AbilityBanner.shoot}
@@ -374,7 +374,7 @@ export default function Abilities() {
                           }
                         />
                       }
-                      label="Shooting"
+                      label="Shooting (Blue)"
                     />
                     <FormControlLabel
                       value={AbilityBanner.charge}
@@ -391,7 +391,7 @@ export default function Abilities() {
                           }
                         />
                       }
-                      label="Charge"
+                      label="Charge (Orange)"
                     />
                     <FormControlLabel
                       value={AbilityBanner.combat}
@@ -408,7 +408,7 @@ export default function Abilities() {
                           }
                         />
                       }
-                      label="Combat"
+                      label="Combat (Red)"
                     />
                     <FormControlLabel
                       value={AbilityBanner.end}
@@ -425,7 +425,7 @@ export default function Abilities() {
                           }
                         />
                       }
-                      label="End of Turn"
+                      label="End of Turn (Purple)"
                     />
                     <FormControlLabel
                       value={AbilityBanner.defensive}
@@ -442,7 +442,7 @@ export default function Abilities() {
                           }
                         />
                       }
-                      label="Defensive"
+                      label="Defensive (Green)"
                     />
                   </RadioGroup>
                 </FormLabel>
