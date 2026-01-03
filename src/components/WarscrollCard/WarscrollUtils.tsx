@@ -643,13 +643,20 @@ export const drawWeaponsOnCanvas = (
               const lastIndex = keyOrder.indexOf(lastTrueKey);
 
               // Loop through the keys and decide whether to draw text
-              for (let j = 0; j <= keyOrder.length; j++) {
-                const key = keyOrder[j];
+              for (let statIndex = 0; statIndex <= keyOrder.length; statIndex++) {
+                const key = keyOrder[statIndex];
                 const value = valueMap[key];
-                if (j < firstIndex || j > lastIndex) {
+                if (statIndex < firstIndex || statIndex > lastIndex) {
+
+                  // add the inches quote mark to attack range
+                  let rangedWeaponStatValue = rangedWeapons[i][key]
+                  if (statIndex === 0) {
+                    rangedWeaponStatValue = rangedWeaponStatValue + '"'
+                  } 
+
                   drawText(
                     ctx,
-                    rangedWeapons[i][key],
+                    rangedWeaponStatValue,
                     value,
                     textPosY + textOffset,
                     wpnFont,
@@ -659,10 +666,10 @@ export const drawWeaponsOnCanvas = (
                 }
 
                 // Set the positions for the center and right text
-                if (j === firstIndex) {
+                if (statIndex === firstIndex) {
                   drawTextLeft = value;
                   drawTextCenter = drawTextLeft;
-                } else if (j === lastIndex) {
+                } else if (statIndex === lastIndex) {
                   drawTextRight = value;
                   drawTextCenter = (drawTextLeft + drawTextRight) / 2;
                 }
